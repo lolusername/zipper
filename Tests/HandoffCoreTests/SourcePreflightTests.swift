@@ -132,6 +132,18 @@ final class SourcePreflightTests: XCTestCase {
         }
     }
 
+    func testUnrelatedZIPBlocksBeforePackagingWhileUnreservedTextIsAllowed() throws {
+        let f = try Fixture(); try f.clip()
+        try Data("delivery instructions".utf8).write(to: f.destination.appendingPathComponent("README.txt"))
+        XCTAssertTrue(try Preflight.analyze(f.config()).canCreate)
+        try Data("unrelated archive".utf8).write(to: f.destination.appendingPathComponent("OTHER_CLIENT.ZIP"))
+        let before = try f.snapshot(f.destination)
+        let report = try Preflight.analyze(f.config())
+        XCTAssertFalse(report.canCreate)
+        XCTAssertTrue(report.issues.contains { $0.contains("Unrelated ZIP") && $0.contains("OTHER_CLIENT.ZIP") })
+        XCTAssertEqual(try f.snapshot(f.destination), before)
+    }
+
     func testMaximumIsExactZIPCeilingAndOversizedNeedsAcknowledgment() throws {
         let f = try Fixture(); try f.clip("A001", size: 1000); try f.clip("A002", size: 1000)
         let initial = try Preflight.analyze(f.config())
@@ -246,6 +258,26 @@ final class SourcePreflightTests: XCTestCase {
         Darwin.close(replacement)
         try destination.renameExclusive(from: ".A.zip.partial", to: "A.zip", expectedIdentity: actual)
         XCTAssertEqual(try Data(contentsOf: f.destination.appendingPathComponent("A.zip")), Data([1, 2, 3]))
+    }
+
+    func testDestinationIdentityRecordsPromotionAndRejectsUnsafeNames() throws {
+        let f = try Fixture()
+        let destination = try Destination(url: f.destination)
+        try destination.writeAtomic(Data([1, 2, 3]), name: ".A.zip.partial", replace: false)
+        let partial = try destination.identityOf(".A.zip.partial")
+        try destination.renameExclusive(from: ".A.zip.partial", to: "A.zip", expectedIdentity: partial)
+        let promoted = try destination.identityOf("A.zip")
+        XCTAssertTrue(sameObject(partial, promoted))
+        XCTAssertEqual(promoted.size, partial.size)
+        XCTAssertEqual(promoted, try destination.identityOf("A.zip"))
+        try destination.writeAtomic(Data([1, 2, 3]), name: "A.zip", replace: true)
+        XCTAssertNotEqual(promoted, try destination.identityOf("A.zip"))
+        XCTAssertThrowsError(try destination.identityOf(".A.zip.partial"))
+        XCTAssertThrowsError(try destination.identityOf("../source"))
+        try FileManager.default.createSymbolicLink(at: f.destination.appendingPathComponent("linked.zip"), withDestinationURL: f.destination.appendingPathComponent("A.zip"))
+        XCTAssertThrowsError(try destination.identityOf("linked.zip"))
+        try FileManager.default.createDirectory(at: f.destination.appendingPathComponent("directory.zip"), withIntermediateDirectories: false)
+        XCTAssertThrowsError(try destination.identityOf("directory.zip"))
     }
 
     func testFilesystemLimitsAndUnsafePrefix() throws {

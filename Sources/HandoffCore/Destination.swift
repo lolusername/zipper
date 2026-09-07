@@ -86,6 +86,22 @@ public final class Destination: @unchecked Sendable {
         } catch { Darwin.close(descriptor); throw error }
     }
 
+    /// Obtain the identity of the actual readable object and confirm the anchored name still
+    /// denotes it. Used to retain and revalidate post-promotion evidence before job success.
+    public func identityOf(_ name: String) throws -> FileIdentity {
+        let descriptor = try openRead(name)
+        defer { Darwin.close(descriptor) }
+        let opened = fileIdentity(try descriptorStatus(descriptor, context: name))
+        let named = try entryStatus(directoryDescriptor, name: name)
+        guard named.st_mode & S_IFMT == S_IFREG, named.st_nlink == 1,
+              fileIdentity(named) == opened,
+              fileIdentity(try descriptorStatus(descriptor, context: name)) == opened else {
+            throw HandoffError.integrity("Destination output changed while checking its identity: \(name).")
+        }
+        try validateIdentity()
+        return opened
+    }
+
     public func renameExclusive(from: String, to: String, expectedIdentity: FileIdentity? = nil) throws {
         try validateIdentity()
         try validateLeafName(from)

@@ -66,11 +66,16 @@ public enum Preflight {
 
         packages.sort { $0.basename.utf8.lexicographicallyPrecedes($1.basename.utf8) }
         let archives = plan(packages, configuration: configuration, issues: &issues)
-        let existing = Set(try destination.names().map(collisionKey))
+        let destinationNames = try destination.names()
+        let existing = Set(destinationNames.map(collisionKey))
         let outputs = archives.flatMap { [$0.name, ".\($0.name).partial"] } + deliveryNames
         let candidates = outputs + deliveryNames.map { ".\($0).pending" }
         for name in candidates where existing.contains(collisionKey(name)) {
             issues.append("Output collision: \(name) already exists. Choose another destination/prefix, or resume the existing job. Existing delivery files will not be overwritten.")
+        }
+        let plannedNames = Set(archives.map { collisionKey($0.name) })
+        for name in destinationNames where collisionKey(name).hasSuffix(".zip") && !plannedNames.contains(collisionKey(name)) {
+            issues.append("Unrelated ZIP already exists: \(name). Choose a dedicated empty delivery folder so every ZIP belongs to this verified handoff.")
         }
         if !destination.info.writable { issues.append("Destination is not writable. Choose a writable destination volume.") }
         if source.identity.device == destination.info.identity.device {
