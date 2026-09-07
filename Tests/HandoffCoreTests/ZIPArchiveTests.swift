@@ -77,6 +77,18 @@ final class ZIPArchiveTests: XCTestCase {
         XCTAssertTrue(report.contains("No errors detected"), report)
     }
 
+    func testWriterReportsSourceBytesSeparatelyFromZIPOverhead() throws {
+        let fixture = try Fixture(payload: Data(repeating: 7, count: 2_100_000))
+        var sourceBytes: UInt64 = 0
+        var outputBytes: UInt64 = 0
+        _ = try ZIPArchive.write(plan: fixture.plan, source: fixture.source, destination: fixture.destination,
+                             partialName: ".FOOTAGE_001.zip.partial", cancellation: CancellationToken(),
+                             sourceProgress: { _, bytes in sourceBytes += bytes }) { _, bytes in outputBytes += bytes }
+        XCTAssertEqual(sourceBytes, fixture.plan.files.reduce(0) { $0 + $1.size })
+        XCTAssertEqual(outputBytes, fixture.plan.predictedBytes)
+        XCTAssertGreaterThan(outputBytes, sourceBytes)
+    }
+
     func testEmptyMediaAndChunkBoundaryPayloads() throws {
         for size in [0, 1, 1_048_576, 4_194_303, 4_194_304, 4_194_305] {
             let fixture = try Fixture(payload: Data(repeating: 0xAE, count: size), basename: "A001")

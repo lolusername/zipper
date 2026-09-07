@@ -23,6 +23,7 @@ public enum ZIPArchive {
 
     public static func write(plan: ArchivePlan, source: ReadOnlySource, destination: Destination,
                              partialName: String, cancellation: CancellationToken,
+                             sourceProgress: (String, UInt64) throws -> Void = { _, _ in },
                              progress: (String, UInt64) throws -> Void) throws -> UInt64 {
         let files = plan.files
         try validateFiles(files)
@@ -79,6 +80,7 @@ public enum ZIPArchive {
                 digest.update(data: data)
                 crc = data.withUnsafeBytes { raw in crc32(crc, raw.bindMemory(to: Bytef.self).baseAddress, uInt(raw.count)) }
                 consumed += UInt64(data.count)
+                try sourceProgress(file.relativePath, UInt64(data.count))
                 try append(data, member: file.relativePath)
             }
             guard consumed == file.size, hex(digest.finalize()) == file.sha256 else {
