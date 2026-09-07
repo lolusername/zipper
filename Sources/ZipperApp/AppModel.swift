@@ -190,12 +190,16 @@ final class AppModel: ObservableObject {
         }
         else { return }
         let panel=NSSavePanel(); panel.title="Export Delivery Report"; panel.nameFieldStringValue="Zipper-Verification-Report.txt"
+        panel.directoryURL=verificationDestination ?? job.map { URL(fileURLWithPath:$0.preflight.destination.canonicalPath) }
         guard panel.runModal() == .OK, let url=panel.url else { return }
         do {
-            // Export is also constrained by the source/destination separation gate.
-            let source = sourcePath.isEmpty ? nil : try ReadOnlySource(url:URL(fileURLWithPath:sourcePath))
-            let destination = try Destination(url:url.deletingLastPathComponent(),source:source)
-            try destination.writeAtomic(Data(text.utf8),name:url.lastPathComponent,replace:false)
+            let protectedPaths=[sourcePath, verification?.sourcePath ?? "", job?.preflight.configuration.sourcePath ?? ""]
+            var sourceIdentities: [String: FileIdentity]=[:]
+            if let path=verification?.sourcePath, let identity=verification?.sourceIdentity { sourceIdentities[path]=identity }
+            if let job { sourceIdentities[job.preflight.configuration.sourcePath]=job.preflight.sourceIdentity }
+            try ReportExporter.write(Data(text.utf8),to:url,protectedSourcePaths:protectedPaths,
+                                     expectedSourceIdentities:sourceIdentities)
+            self.error=nil
         } catch { self.error=error.localizedDescription }
     }
     func reset() {

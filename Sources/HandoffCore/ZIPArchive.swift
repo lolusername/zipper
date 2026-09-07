@@ -113,7 +113,7 @@ public enum ZIPArchive {
                               cancellation: CancellationToken, progress: (String, UInt64) throws -> Void) throws -> FileIdentity {
         try validateFiles(files)
         try cancellation.check()
-        try destination.validateIdentity()
+        try destination.validateIntegrityReadSafety()
         let fd = try destination.openRead(name)
         defer { Darwin.close(fd) }
         let before = try identity(fd, name: name)
@@ -161,14 +161,14 @@ public enum ZIPArchive {
         guard seen.count == files.count else { throw HandoffError.integrity("ZIP \(name) is missing expected members.") }
         guard archive_read_close(reader) == ARCHIVE_OK else { throw archiveError(reader, context: "ZIP reader close failed for \(name)") }
         try unchanged(fd, before: before, name: name, destination: destination)
-        try destination.validateIdentity()
+        try destination.validateIntegrityReadSafety()
         return fileIdentity(before)
     }
 
     public static func hash(name: String, destination: Destination, cancellation: CancellationToken,
                             progress: (UInt64) throws -> Void) throws -> (sha256: String, bytes: UInt64, identity: FileIdentity) {
         try cancellation.check()
-        try destination.validateIdentity()
+        try destination.validateIntegrityReadSafety()
         let fd = try destination.openRead(name)
         defer { Darwin.close(fd) }
         let before = try identity(fd, name: name)
@@ -186,7 +186,7 @@ public enum ZIPArchive {
         }
         guard bytes == UInt64(before.st_size) else { throw HandoffError.integrity("Archive changed size while hashing: \(name).") }
         try unchanged(fd, before: before, name: name, destination: destination)
-        try destination.validateIdentity()
+        try destination.validateIntegrityReadSafety()
         return (hex(digest.finalize()), bytes, fileIdentity(before))
     }
 

@@ -81,6 +81,40 @@ final class CameraTripletTests: XCTestCase {
         XCTAssertEqual(try f.destinationNames(), [])
     }
 
+    func testPastedCardListingContains281FilesAcross95MixedPackages() throws {
+        let f = try Fixture(clips: 0)
+        for number in 24...118 {
+            try f.triplet(String(format: "DISCLOSURE_DAY%04d", number), seed: number,
+                          includeBIM: !(57...60).contains(number))
+        }
+        let before = try f.snapshot()
+        let report = try f.plan(.archiveCount(8))
+        XCTAssertTrue(report.canCreate, report.issues.joined(separator: "\n"))
+        XCTAssertEqual(report.files.count, 281)
+        XCTAssertEqual(report.packages.count, 95)
+        XCTAssertEqual(report.files.filter { $0.kind == .media }.count, 95)
+        XCTAssertEqual(report.files.filter { $0.kind == .xml }.count, 95)
+        XCTAssertEqual(report.files.filter { $0.kind == .bim }.count, 91)
+        XCTAssertTrue(report.warnings.contains { $0.contains("4 MXF clips have no BIM sidecar") && $0.contains("DISCLOSURE_DAY0057") && $0.contains("DISCLOSURE_DAY0060") })
+        XCTAssertTrue(report.warnings.contains { $0.contains("Camera clip files only") && $0.contains("outside this handoff") })
+        XCTAssertEqual(Set(report.packages.filter { $0.auxiliaryFiles.isEmpty }.map(\.basename)),
+                       Set((57...60).map { String(format: "DISCLOSURE_DAY%04d", $0) }))
+        XCTAssertEqual(try f.destinationNames(), [])
+        let job = try JobEngine().create(preflight: report)
+        XCTAssertEqual(job.status, .completed)
+        XCTAssertEqual(job.deliveryStatistics?.sourceFileCount, 281)
+        XCTAssertEqual(Set(job.archives.flatMap { $0.plan.files }.map(\.relativePath)), Set(before.keys))
+        XCTAssertEqual(job.archives.flatMap { $0.plan.files }.count, 281)
+        for package in job.preflight.packages {
+            XCTAssertEqual(job.archives.filter { $0.plan.packages.contains(package) }.count, 1)
+        }
+        let checked = try HandoffVerifier.verify(destinationURL: f.destination)
+        XCTAssertTrue(checked.passed, checked.issues.joined(separator: "\n"))
+        XCTAssertEqual(checked.checkedArchives, 8)
+        XCTAssertEqual(checked.checkedFiles, 281)
+        XCTAssertEqual(try f.snapshot(), before)
+    }
+
     func testArchiveCountOneTwoAndThreeKeepsEachTripletIndivisible() throws {
         let f = try Fixture()
         for count in 1...3 {

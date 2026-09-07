@@ -53,9 +53,50 @@ final class RecoveryAuditTests: XCTestCase {
             XCTAssertFalse(human.contains("Verification: PASS"),
                            "A failed publication must not leave a human report claiming overall handoff PASS while its JSON commit is incomplete.")
             XCTAssertTrue(human.contains("this text is not a completion marker"))
+            XCTAssertFalse(human.contains("\nCompleted:"))
         }
         XCTAssertEqual(try f.sourceHashes(), before)
         XCTAssertEqual(try JobEngine().resume(destinationURL: f.destination).status, .completed)
+        XCTAssertTrue(try HandoffVerifier.verify(destinationURL: f.destination).passed)
+    }
+
+    func testPublishedLogDescribesCheckEvidenceWithoutClaimingPrematureCommit() throws {
+        let f = try Fixture()
+        let job = try JobEngine().create(preflight: f.plan())
+        XCTAssertEqual(job.status, .completed)
+        let log = try String(contentsOf: f.destination.appendingPathComponent("HANDOFF_LOG.txt"), encoding: .utf8)
+        XCTAssertFalse(log.contains("Verified handoff ready."), "This log is written before the public commit and must not claim that the commit already happened.")
+        XCTAssertTrue(log.contains("Delivery completion requires the committed HANDOFF_MANIFEST.json"))
+        XCTAssertTrue(try HandoffVerifier.verify(destinationURL: f.destination).passed)
+    }
+
+    func testReportDatesRemainIdenticalAfterJSONRoundTripAtSecondBoundaries() throws {
+        let f = try Fixture()
+        var job = try JobEngine().create(preflight: f.plan())
+        for fraction in [0.0, 0.1, 0.5, 0.99, 0.999, 0.9999, 0.99999, 0.999999] {
+            let date = Date(timeIntervalSince1970: 1_788_776_000 + fraction)
+            job.createdAt = date; job.completedAt = date
+            for i in job.events.indices { job.events[i].timestamp = date }
+            let decoded = try JobEngine.decoder().decode(JobRecord.self, from: JobEngine.encoder().encode(job))
+            XCTAssertEqual(JobEngine.humanReport(job), JobEngine.humanReport(decoded), "Fraction: \(fraction)")
+            XCTAssertEqual(JobEngine.logReport(job), JobEngine.logReport(decoded), "Fraction: \(fraction)")
+        }
+    }
+
+    func testUnfinishedLegacyJobUsesCurrentReportSafetyOnResume() throws {
+        let f = try Fixture()
+        let token = CancellationToken()
+        XCTAssertThrowsError(try JobEngine().create(preflight: f.plan(), cancellation: token) { progress in
+            if progress.verifiedArchives == 1 { token.cancel() }
+        })
+        var old = try JobEngine.loadState(destinationURL: f.destination)
+        old.applicationVersion = "1.0.1"
+        try JobEngine.encoder().encode(old).write(to: f.destination.appendingPathComponent(JobEngine.stateName))
+        let resumed = try JobEngine().resume(destinationURL: f.destination)
+        XCTAssertEqual(resumed.applicationVersion, JobRecord.currentApplicationVersion)
+        let human = try String(contentsOf: f.destination.appendingPathComponent("HANDOFF_MANIFEST.txt"), encoding: .utf8)
+        XCTAssertFalse(human.contains("Verification: PASS"))
+        XCTAssertTrue(human.contains("this text is not a completion marker"))
         XCTAssertTrue(try HandoffVerifier.verify(destinationURL: f.destination).passed)
     }
 

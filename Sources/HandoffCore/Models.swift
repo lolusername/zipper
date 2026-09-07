@@ -175,9 +175,10 @@ public struct DeliveryStatistics: Codable, Equatable, Sendable {
     }
 }
 public struct JobRecord: Codable, Identifiable, Sendable {
+    public static let currentApplicationVersion = "1.0.2"
     public var id: UUID
     public var application = "Zipper"
-    public var applicationVersion = "1.0.2"
+    public var applicationVersion = JobRecord.currentApplicationVersion
     public var schemaVersion = 1
     public var createdAt = Date()
     public var completedAt: Date?
@@ -222,6 +223,7 @@ public struct VerificationReport: Sendable {
     public var checkedAt = Date()
     public var deep: Bool
     public var sourcePath: String?
+    public var sourceIdentity: FileIdentity?
     public var destination: DestinationInfo?
-    public init(passed: Bool, checkedArchives: Int, checkedFiles: Int, issues: [String], deep: Bool, sourcePath: String? = nil, destination: DestinationInfo? = nil) { self.passed=passed; self.checkedArchives=checkedArchives; self.checkedFiles=checkedFiles; self.issues=issues; self.deep=deep; self.sourcePath=sourcePath; self.destination=destination }
+    public init(passed: Bool, checkedArchives: Int, checkedFiles: Int, issues: [String], deep: Bool, sourcePath: String? = nil, sourceIdentity: FileIdentity? = nil, destination: DestinationInfo? = nil) { self.passed=passed; self.checkedArchives=checkedArchives; self.checkedFiles=checkedFiles; self.issues=issues; self.deep=deep; self.sourcePath=sourcePath; self.sourceIdentity=sourceIdentity; self.destination=destination }
 }

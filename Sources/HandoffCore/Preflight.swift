@@ -46,6 +46,16 @@ public enum Preflight {
         let grouping = ClipGrouping.group(files)
         let packages = grouping.packages
         issues += grouping.issues
+        let mxfPackages = packages.filter { ($0.media.relativePath as NSString).pathExtension.lowercased() == "mxf" }
+        if mxfPackages.contains(where: { $0.xml.basename.utf8.count == $0.basename.utf8.count + 3 }) {
+            warnings.append("Camera clip files only: this job includes the selected flat folder. Parent and sibling folders, including XDROOT metadata, proxies, and take or clip-list references, are outside this handoff. Retain the complete original card folder tree separately.")
+        }
+        let withoutBIM = mxfPackages.filter { $0.auxiliaryFiles.isEmpty }
+        if mxfPackages.contains(where: { !$0.auxiliaryFiles.isEmpty }), !withoutBIM.isEmpty {
+            let examples = withoutBIM.prefix(12).map(\.basename).joined(separator: ", ")
+            let suffix = withoutBIM.count > 12 ? " (and \(withoutBIM.count - 12) more)" : ""
+            warnings.append("\(withoutBIM.count) MXF clips have no BIM sidecar: \(examples)\(suffix). BIM is optional for packaging; every BIM present is included. If these absences are unexpected, compare with the original card or offload manifest.")
+        }
         let archives = plan(packages, configuration: configuration, issues: &issues)
         let destinationNames = try destination.names()
         let existing = Set(destinationNames.map(collisionKey))
@@ -59,6 +69,8 @@ public enum Preflight {
             issues.append("Unrelated ZIP already exists: \(name). Choose a dedicated empty delivery folder so every ZIP belongs to this verified handoff.")
         }
         if !destination.info.writable { issues.append("Destination is not writable. Choose a writable destination volume.") }
+        do { try destination.validateWriteSafety() }
+        catch { issues.append(error.localizedDescription) }
         if source.identity.device == destination.info.identity.device {
             warnings.append("Source and destination are on the same filesystem/device. A device failure could affect both copies; this handoff is not a separate-device backup.")
         } else {
@@ -66,13 +78,10 @@ public enum Preflight {
         }
         if let limit = destination.info.maxFileBytes {
             for archive in archives where archive.predictedBytes > limit {
-                issues.append("\(destination.info.filesystem.uppercased()) cannot hold \(archive.name) (\(formatBytes(archive.predictedBytes))). Its file limit is \(formatBytes(limit)); choose APFS or exFAT storage.")
+                issues.append("\(destination.info.filesystem.uppercased()) cannot hold \(archive.name) (\(formatBytes(archive.predictedBytes))). Its file limit is \(formatBytes(limit)); choose a writable APFS destination.")
             }
         } else if !["apfs", "hfs", "exfat", "nfs", "smbfs", "webdav", "ufs"].contains(destination.info.filesystem.lowercased()) {
-            issues.append("Destination filesystem \(destination.info.filesystem) has an unverified maximum file size. Choose a supported APFS, HFS+, exFAT, SMB, or NFS destination.")
-        }
-        if ["nfs", "smbfs", "webdav"].contains(destination.info.filesystem.lowercased()) {
-            warnings.append("Network destination durability and maximum file size depend on the server. A flush or exclusive rename failure stops the job safely.")
+            issues.append("Destination filesystem \(destination.info.filesystem) has an unverified maximum file size. Choose a writable APFS destination.")
         }
         let archiveBytes = archives.reduce(UInt64(0)) { saturatingAdd($0, $1.predictedBytes) }
         // The partial is promoted in place, so no second archive-sized temporary copy is needed.

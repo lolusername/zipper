@@ -13,17 +13,21 @@ public final class ReadOnlySource: @unchecked Sendable {
         let descriptor = Darwin.open(path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard descriptor >= 0 else { throw fileSystemError("Cannot open SOURCE — READ ONLY", path) }
         do {
+            // Keep descriptor ownership local through every throwing check. Once all stored
+            // properties are initialized, Swift runs deinit when init throws.
             let status = try descriptorStatus(descriptor, context: path)
+            let openedIdentity = fileIdentity(status)
+            try Self.validateRoot(descriptor: descriptor, canonicalPath: path, identity: openedIdentity)
             self.canonicalPath = path
-            self.identity = fileIdentity(status)
+            self.identity = openedIdentity
             self.directoryDescriptor = descriptor
-            try validateRoot()
         } catch { Darwin.close(descriptor); throw error }
     }
 
     deinit { Darwin.close(directoryDescriptor) }
 
     public func scan() throws -> [SourceFile] {
+        try requireStableSourceFilesystem(directoryDescriptor)
         try validateRoot()
         let names = try directoryNames(directoryDescriptor)
         let result = try names.map { name -> SourceFile in
@@ -46,6 +50,7 @@ public final class ReadOnlySource: @unchecked Sendable {
     }
 
     public func validate(_ file: SourceFile) throws {
+        try requireStableSourceFilesystem(directoryDescriptor)
         try validateRoot()
         try validateLeafName(file.relativePath)
         let status = try entryStatus(directoryDescriptor, name: file.relativePath)
@@ -60,6 +65,7 @@ public final class ReadOnlySource: @unchecked Sendable {
     public func stream(_ file: SourceFile, cancellation: CancellationToken,
                        consume: (Data) throws -> Void) throws {
         try cancellation.check()
+        try requireStableSourceFilesystem(directoryDescriptor)
         try validateRoot()
         let descriptor = try openSource(file)
         defer { Darwin.close(descriptor) }
@@ -108,7 +114,11 @@ public final class ReadOnlySource: @unchecked Sendable {
     }
 
     internal func validateRoot() throws {
-        let opened = try descriptorStatus(directoryDescriptor, context: canonicalPath)
+        try Self.validateRoot(descriptor: directoryDescriptor, canonicalPath: canonicalPath, identity: identity)
+    }
+
+    private static func validateRoot(descriptor: Int32, canonicalPath: String, identity: FileIdentity) throws {
+        let opened = try descriptorStatus(descriptor, context: canonicalPath)
         var resolved = stat()
         guard lstat(canonicalPath, &resolved) == 0 else { throw fileSystemError("Source is unavailable", canonicalPath) }
         guard opened.st_mode & S_IFMT == S_IFDIR, resolved.st_mode & S_IFMT == S_IFDIR,
@@ -170,6 +180,54 @@ public final class ReadOnlySource: @unchecked Sendable {
 public enum SupportedMedia {
     /// Flat file camera originals supported by v1. Folder-based camera formats are blocked.
     public static let extensions: Set<String> = ["mov", "mxf", "mp4", "r3d", "braw", "ari", "arx", "crm", "cine", "mts", "m2ts", "avi", "dng"]
+}
+
+/// APFS provides change metadata used by the final stability guards. FAT/exFAT/HFS+
+/// cannot reliably distinguish same-size rewrites with preserved modification times.
+/// A read-only descriptor alone cannot stop another process from changing those files.
+internal enum SourceFilesystemPolicy {
+    static func validate(filesystem: String, isReadOnly: Bool) throws {
+        try FilesystemStabilityPolicy.validateReading(filesystem: filesystem, isReadOnly: isReadOnly, role: "source")
+    }
+}
+
+/// Integrity readers retain identity/metadata evidence across multiple files. Filesystems
+/// whose timestamps cannot represent intervening rewrites require a read-only mount.
+internal enum FilesystemStabilityPolicy {
+    static func validateReading(filesystem: String, isReadOnly: Bool, role: String) throws {
+        let kind = filesystem.lowercased()
+        if kind == "apfs" { return }
+        if ["hfs", "msdos", "msdosfs", "fat", "fat32", "vfat", "exfat"].contains(kind) {
+            guard isReadOnly else {
+                throw HandoffError.blocked("The \(filesystem.uppercased()) \(role) must be mounted read-only before integrity analysis or verification. Its timestamps cannot reliably reveal same-size changes made by another process. Mount this volume read-only in macOS, then choose it again. Changing file permissions with chmod is not sufficient.")
+            }
+            return
+        }
+        if ["nfs", "smbfs", "webdav", "afpfs"].contains(kind) {
+            throw HandoffError.blocked("Network \(role) filesystem \(filesystem.uppercased()) is not supported for verified handoffs: a client read-only mount cannot prevent remote changes. Select local APFS or a read-only mounted local FAT, exFAT, or HFS+ volume.")
+        }
+        throw HandoffError.blocked("The \(role) filesystem \(filesystem) has not been qualified for change detection. Select local APFS, or a read-only mounted local FAT, exFAT, or HFS+ volume.")
+    }
+
+    static func validateWriting(filesystem: String, isReadOnly: Bool) throws {
+        guard filesystem.lowercased() == "apfs", !isReadOnly else {
+            throw HandoffError.blocked("Creating a verified handoff requires a writable local APFS destination. \(filesystem.uppercased()) cannot provide the required writable-output stability guarantee. Choose a writable APFS destination; existing deliveries on local FAT, exFAT, or HFS+ can be verified when mounted read-only.")
+        }
+    }
+}
+
+private func requireStableSourceFilesystem(_ descriptor: Int32) throws {
+    let volume = try filesystemState(descriptor, role: "source")
+    try SourceFilesystemPolicy.validate(filesystem: volume.name, isReadOnly: volume.readOnly)
+}
+
+internal func filesystemState(_ descriptor: Int32, role: String) throws -> (name: String, readOnly: Bool) {
+    var volume = statfs()
+    guard fstatfs(descriptor, &volume) == 0 else { throw fileSystemError("Cannot inspect \(role) filesystem stability", "\(role) volume") }
+    let filesystem = withUnsafePointer(to: &volume.f_fstypename) { tuple in
+        tuple.withMemoryRebound(to: CChar.self, capacity: 16) { String(cString: $0) }
+    }
+    return (filesystem, volume.f_flags & UInt32(MNT_RDONLY) != 0)
 }
 
 internal func fileIdentity(_ status: stat) -> FileIdentity {

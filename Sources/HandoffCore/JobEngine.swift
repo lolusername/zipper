@@ -57,11 +57,16 @@ public final class JobEngine {
             return job
         }
         try source.validateSnapshot(job.preflight.files)
+        let previousVersion = job.applicationVersion
+        job.applicationVersion = JobRecord.currentApplicationVersion
         job.status = .running
         job.failure = nil
         job.finalSourceVerified = false
         job.completedAt = nil
         job.events.append(AuditEvent("Resume started. Revalidating original directory identities, source hashes, and every existing archive hash."))
+        if previousVersion != job.applicationVersion {
+            job.events.append(AuditEvent("Recovery upgraded report generation from Zipper \(previousVersion) to \(job.applicationVersion)."))
+        }
         try save(job, destination: destination)
         return try execute(job: &job, source: source, destination: destination, cancellation: cancellation, progress: progress, resuming: true)
     }
@@ -273,7 +278,7 @@ public final class JobEngine {
             completed.status = .completed
             completed.completedAt = Date()
             completed.failure = nil
-            completed.events.append(AuditEvent("Verified handoff ready. All source files and independent archives verified."))
+            completed.events.append(AuditEvent("Source and archive checks completed. Delivery completion requires the committed HANDOFF_MANIFEST.json and a passing delivery check."))
             try publishReports(completed, destination: destination, resuming: resuming)
             try cancellation.check()
             try source.validateSnapshot(job.preflight.files)
@@ -511,6 +516,11 @@ public final class JobEngine {
         let iso = ISO8601DateFormatter()
         let files = job.preflight.files
         let legacy = ["1.0.0", "1.0.1"].contains(job.applicationVersion)
+        func timestamp(_ date: Date) -> String {
+            // JSON's ISO-8601 encoder records whole seconds. Normalize before formatting
+            // so a date near the next second cannot round differently in the text report.
+            iso.string(from: legacy ? date : Date(timeIntervalSince1970: floor(date.timeIntervalSince1970)))
+        }
         let matching = job.status == .completed && job.finalSourceVerified
         let title = legacy ? "ZIPPER — VERIFIED MEDIA HANDOFF" : "ZIPPER — MEDIA HANDOFF EVIDENCE"
         let verification = legacy
@@ -524,7 +534,8 @@ public final class JobEngine {
             case .archiveCount(let count): batching = "Exactly \(count) archives"
             }
         }
-        var lines = [title, "Application: \(job.application) \(job.applicationVersion)", "Job UUID: \(job.id.uuidString)", "Created: \(iso.string(from: job.createdAt))", "Completed: \(job.completedAt.map(iso.string) ?? "Not completed")", verification]
+        let completionLabel = legacy ? "Completed" : "Final checks recorded"
+        var lines = [title, "Application: \(job.application) \(job.applicationVersion)", "Job UUID: \(job.id.uuidString)", "Created: \(timestamp(job.createdAt))", "\(completionLabel): \(job.completedAt.map(timestamp) ?? "Not completed")", verification]
         if !legacy {
             // Text can appear before the atomic JSON commit, or survive interrupted
             // publication. It records checks without claiming standalone job success.
@@ -546,7 +557,11 @@ public final class JobEngine {
 
     public static func logReport(_ job: JobRecord) -> String {
         let formatter = ISO8601DateFormatter()
-        return job.events.map { "\(formatter.string(from: $0.timestamp))  \($0.message)" }.joined(separator: "\n") + "\n"
+        let legacy = ["1.0.0", "1.0.1"].contains(job.applicationVersion)
+        return job.events.map {
+            let date = legacy ? $0.timestamp : Date(timeIntervalSince1970: floor($0.timestamp.timeIntervalSince1970))
+            return "\(formatter.string(from: date))  \($0.message)"
+        }.joined(separator: "\n") + "\n"
     }
 }
 

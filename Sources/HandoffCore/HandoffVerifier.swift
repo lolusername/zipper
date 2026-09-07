@@ -5,6 +5,7 @@ import Darwin
 public enum HandoffVerifier {
     public static func verify(destinationURL: URL, deep: Bool = true, cancellation: CancellationToken = CancellationToken(), progress: (JobProgress) -> Void = { _ in }) throws -> VerificationReport {
         let destination = try Destination(url: destinationURL)
+        try destination.validateIntegrityReadSafety()
         let manifest = try readStableReport(JobEngine.manifestName, destination: destination, cancellation: cancellation)
         let job: JobRecord
         do { job = try JobEngine.decoder().decode(JobRecord.self, from: manifest.data) }
@@ -58,6 +59,7 @@ public enum HandoffVerifier {
         }
         for archive in job.archives {
             try cancellation.check()
+            try destination.validateIntegrityReadSafety()
             guard actualNames.contains(Data(archive.plan.name.utf8)) else { p.archiveStates[archive.plan.name] = .failed; continue }
             p.currentArchive = archive.plan.name
             p.currentFile = archive.plan.name
@@ -107,13 +109,14 @@ public enum HandoffVerifier {
             }
         }
         try cancellation.check()
+        try destination.validateIntegrityReadSafety()
         p.operation = issues.isEmpty ? "Delivery verification passed" : "Delivery verification failed"
         p.currentFile = ""
         p.elapsed = Date().timeIntervalSince(started)
         p.fraction = issues.isEmpty ? 1 : min(0.995,p.fraction)
         progress(p)
         return VerificationReport(passed: issues.isEmpty, checkedArchives: p.verifiedArchives, checkedFiles: checkedFiles, issues: issues, deep: deep,
-                                  sourcePath: job.preflight.configuration.sourcePath, destination: destination.info)
+                                  sourcePath: job.preflight.configuration.sourcePath, sourceIdentity: job.preflight.sourceIdentity, destination: destination.info)
     }
 
     private static func namedIdentity(_ name: String, destination: Destination) throws -> FileIdentity {

@@ -5,15 +5,18 @@ import Darwin
 public final class Destination: @unchecked Sendable {
     public let info: DestinationInfo
     private let directoryDescriptor: Int32
-    private let source: ReadOnlySource?
+    private let sources: [ReadOnlySource]
 
-    public init(url: URL, source: ReadOnlySource? = nil) throws {
+    public init(url: URL, source: ReadOnlySource? = nil, additionalSources: [ReadOnlySource] = []) throws {
+        let protectedSources = (source.map { [$0] } ?? []) + additionalSources
         let path = try canonicalDirectory(url)
         let descriptor = Darwin.open(path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard descriptor >= 0 else { throw fileSystemError("Cannot open destination", path) }
         do {
-            if let source, try source.overlaps(directory: descriptor) {
-                throw HandoffError.blocked("Source and destination overlap. Choose separate directories; neither may contain the other.")
+            for source in protectedSources {
+                if try source.overlaps(directory: descriptor) {
+                    throw HandoffError.blocked("Source and destination overlap. Choose separate directories; neither may contain the other.")
+                }
             }
             let identity = fileIdentity(try descriptorStatus(descriptor, context: path))
             var volume = statfs()
@@ -25,11 +28,14 @@ public final class Destination: @unchecked Sendable {
             let writable = !readOnly && faccessat(descriptor, ".", W_OK | X_OK, AT_EACCESS) == 0
             let limit = Self.maximumFileBytes(filesystem: filesystem)
             let free = UInt64(volume.f_bavail).multipliedReportingOverflow(by: UInt64(volume.f_bsize))
-            self.info = DestinationInfo(canonicalPath: path, identity: identity, filesystem: filesystem,
-                                        availableBytes: free.overflow ? UInt64.max : free.partialValue, maxFileBytes: limit, writable: writable)
+            let inspected = DestinationInfo(canonicalPath: path, identity: identity, filesystem: filesystem,
+                                            availableBytes: free.overflow ? UInt64.max : free.partialValue, maxFileBytes: limit, writable: writable)
+            // Finish throwing checks before transferring descriptor ownership to self, so a
+            // failing initializer cannot close it once here and again from deinit.
+            try Self.validateIdentity(descriptor: descriptor, info: inspected, sources: protectedSources)
+            self.info = inspected
             self.directoryDescriptor = descriptor
-            self.source = source
-            try validateIdentity()
+            self.sources = protectedSources
         } catch { Darwin.close(descriptor); throw error }
     }
 
@@ -40,16 +46,36 @@ public final class Destination: @unchecked Sendable {
     }
 
     public func validateIdentity() throws {
-        let opened = try descriptorStatus(directoryDescriptor, context: info.canonicalPath)
+        try Self.validateIdentity(descriptor: directoryDescriptor, info: info, sources: sources)
+    }
+
+    private static func validateIdentity(descriptor: Int32, info: DestinationInfo, sources: [ReadOnlySource]) throws {
+        let opened = try descriptorStatus(descriptor, context: info.canonicalPath)
         var path = stat()
         guard lstat(info.canonicalPath, &path) == 0 else { throw fileSystemError("Destination is unavailable", info.canonicalPath) }
         guard opened.st_mode & S_IFMT == S_IFDIR, path.st_mode & S_IFMT == S_IFDIR,
               sameObject(fileIdentity(opened), info.identity), sameObject(fileIdentity(path), info.identity) else {
             throw HandoffError.integrity("Destination identity changed. Reconnected drives must be revalidated before continuing.")
         }
-        if let source, try source.overlaps(directory: directoryDescriptor) {
-            throw HandoffError.blocked("Destination now overlaps source. Output has stopped.")
+        for source in sources {
+            if try source.overlaps(directory: descriptor) {
+                throw HandoffError.blocked("Destination now overlaps source. Output has stopped.")
+            }
         }
+    }
+
+    /// Integrity claims require stable source metadata even when no writes are requested.
+    /// Repeated calls also detect a formerly read-only non-APFS volume being remounted writable.
+    public func validateIntegrityReadSafety() throws {
+        try validateIdentity()
+        let volume = try filesystemState(directoryDescriptor, role: "destination")
+        try FilesystemStabilityPolicy.validateReading(filesystem: volume.name, isReadOnly: volume.readOnly, role: "delivery")
+    }
+
+    public func validateWriteSafety() throws {
+        try validateIdentity()
+        let volume = try filesystemState(directoryDescriptor, role: "destination")
+        try FilesystemStabilityPolicy.validateWriting(filesystem: volume.name, isReadOnly: volume.readOnly)
     }
 
     public func availableBytes() throws -> UInt64 {
@@ -64,7 +90,7 @@ public final class Destination: @unchecked Sendable {
     public func names() throws -> [String] { try validateIdentity(); return try directoryNames(directoryDescriptor) }
 
     public func createExclusive(_ name: String) throws -> Int32 {
-        try validateIdentity()
+        try validateWriteSafety()
         try validateLeafName(name)
         let descriptor = openat(directoryDescriptor, name, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, mode_t(0o600))
         guard descriptor >= 0 else { throw fileSystemError("Cannot create exclusive destination output", name) }
@@ -103,7 +129,7 @@ public final class Destination: @unchecked Sendable {
     }
 
     public func renameExclusive(from: String, to: String, expectedIdentity: FileIdentity? = nil) throws {
-        try validateIdentity()
+        try validateWriteSafety()
         try validateLeafName(from)
         try validateLeafName(to)
         let current = try entryStatus(directoryDescriptor, name: from)
@@ -129,7 +155,7 @@ public final class Destination: @unchecked Sendable {
     }
 
     public func writeAtomic(_ data: Data, name: String, replace: Bool) throws {
-        try validateIdentity()
+        try validateWriteSafety()
         try validateLeafName(name)
         let temporary = ".\(name).pending"
         try validateLeafName(temporary)
@@ -180,7 +206,7 @@ public final class Destination: @unchecked Sendable {
     }
 
     public func sync() throws {
-        try validateIdentity()
+        try validateWriteSafety()
         guard fsync(directoryDescriptor) == 0 else { throw fileSystemError("Cannot synchronize destination directory", info.canonicalPath) }
     }
 }

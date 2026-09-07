@@ -138,6 +138,9 @@ struct CompletionPanel: View {
                 }
                 Spacer()
             }
+            if let warning = job.completionWarning {
+                Notice(title: "RECOVERY STATE NEEDS ATTENTION", text: warning, color: Studio.amber)
+            }
             HStack(alignment: .top, spacing: 18) {
                 Metric(label: "ARCHIVES VERIFIED", value: "\(job.archives.count) / \(job.archives.count)", tint: Studio.teal)
                 Metric(label: "SOURCE FILES VERIFIED", value: "\(job.preflight.files.count) / \(job.preflight.files.count)", detail: sourceSummary, tint: Studio.teal)
