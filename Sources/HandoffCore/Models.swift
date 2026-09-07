@@ -187,6 +187,7 @@ public struct JobRecord: Codable, Identifiable, Sendable {
     public var events: [AuditEvent] = []
     public var failure: String?
     public var finalSourceVerified = false
+    public var completionWarning: String?
     public var deliveryStatistics: DeliveryStatistics?
     public init(preflight: PreflightReport, id: UUID = UUID()) { self.id=id; self.preflight=preflight; self.archives=preflight.archives.map(ArchiveRecord.init); self.deliveryStatistics=DeliveryStatistics(preflight:preflight) }
 }

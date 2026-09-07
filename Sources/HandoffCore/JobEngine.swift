@@ -7,6 +7,7 @@ public final class JobEngine {
     public static let lockName = ".zipper-job.lock"
     public static let manifestName = "HANDOFF_MANIFEST.json"
     public static let reportNames = [manifestName, "HANDOFF_MANIFEST.txt", "SHA256SUMS.txt", "HANDOFF_LOG.txt"]
+    public static let maximumReportBytes = 64 * 1_024 * 1_024
     public typealias ProgressHandler = (JobProgress) -> Void
     public init() {}
 
@@ -282,7 +283,7 @@ public final class JobEngine {
             guard Set(try destination.names().filter { $0.lowercased().hasSuffix(".zip") }) == expectedZIPs else { throw HandoffError.integrity("Archive directory changed during report publication.") }
             // This atomic completed manifest is the public delivery commit marker.
             // Before it appears, every partial report set remains explicitly non-complete.
-            try destination.writeAtomic(try Self.encoder().encode(completed), name: Self.manifestName, replace: true)
+            try destination.writeAtomic(try Self.encodedReport(completed), name: Self.manifestName, replace: true)
             // The public commit is already durable. A later recovery-bookkeeping failure
             // must not report the opposite outcome or rewrite this committed job as failed.
             job = completed
@@ -290,6 +291,7 @@ public final class JobEngine {
             do { try save(completed, destination: destination) }
             catch {
                 p.operation = "Verified handoff ready · recovery state update failed; use Verify Existing Handoff"
+                job.completionWarning = "The verified delivery and completed manifest were saved, but the recovery state could not be updated. Use Verify Existing Handoff to confirm the saved delivery. \(error.localizedDescription)"
             }
             p.currentFile = ""
             p.elapsed = Date().timeIntervalSince(started)
@@ -321,7 +323,25 @@ public final class JobEngine {
     }
     public static func safetyMargin(_ bytes: UInt64) -> UInt64 { max(64 * 1_024 * 1_024, bytes / 20) }
     private func save(_ job: JobRecord, destination: Destination, replace: Bool = true) throws {
-        try destination.writeAtomic(try Self.encoder().encode(job), name: Self.stateName, replace: replace)
+        try destination.writeAtomic(try Self.encodedReport(job), name: Self.stateName, replace: replace)
+    }
+    /// Reserve room for every later source hash, routine per-archive audit events, and
+    /// recovery history before any archive is written. Actual writes share the read cap.
+    static func estimatedReportBytes(_ preflight: PreflightReport) throws -> UInt64 {
+        let initial = UInt64(try encoder().encode(JobRecord(preflight: preflight)).count)
+        let hashes = saturatingMultiply(UInt64(preflight.files.count), 512)
+        let events = saturatingMultiply(UInt64(preflight.archives.count), 8 * 1_024)
+        return saturatingAdd(saturatingAdd(initial, hashes), saturatingAdd(events, 1_024 * 1_024))
+    }
+    static func encodedReport(_ job: JobRecord) throws -> Data {
+        let data = try encoder().encode(job)
+        try validateReportBytes(data, name: "Job manifest/state")
+        return data
+    }
+    private static func validateReportBytes(_ data: Data, name: String) throws {
+        guard !data.isEmpty, data.count <= maximumReportBytes else {
+            throw HandoffError.blocked("\(name) exceeds the supported 64 MiB report limit. Existing verified outputs and the previous recoverable state are preserved.")
+        }
     }
     private static func applyHashes(_ hashes: [String: String], to job: inout JobRecord) {
         func hashed(_ file: SourceFile) -> SourceFile { var result=file; result.sha256=hashes[file.relativePath] ?? file.sha256; return result }
@@ -363,7 +383,7 @@ public final class JobEngine {
         let fd = try destination.openRead(name)
         defer { Darwin.close(fd) }
         var info = stat()
-        guard fstat(fd, &info) == 0, info.st_size > 0, info.st_size <= 64 * 1_024 * 1_024 else { throw HandoffError.integrity("Job manifest is empty, unreadable, or exceeds the 64 MiB safety limit.") }
+        guard fstat(fd, &info) == 0, info.st_size > 0, info.st_size <= Self.maximumReportBytes else { throw HandoffError.integrity("Job manifest is empty, unreadable, or exceeds the 64 MiB safety limit.") }
         var data = Data()
         var buffer = [UInt8](repeating: 0, count: 64 * 1_024)
         while true {
@@ -371,7 +391,7 @@ public final class JobEngine {
             if count == 0 { break }
             if count < 0 { if errno == EINTR { continue }; throw HandoffError.io("Cannot read \(name): \(String(cString: strerror(errno))).") }
             data.append(contentsOf: buffer.prefix(count))
-            guard data.count <= 64 * 1_024 * 1_024 else { throw HandoffError.integrity("Manifest grew beyond the safety limit while being read.") }
+            guard data.count <= Self.maximumReportBytes else { throw HandoffError.integrity("Manifest grew beyond the safety limit while being read.") }
         }
         guard data.count == info.st_size else { throw HandoffError.integrity("Manifest changed size while being read: \(name).") }
         var after = stat()
@@ -474,13 +494,16 @@ public final class JobEngine {
         var provisional = job
         provisional.status = .running
         provisional.finalSourceVerified = false
-        let manifest = try Self.encoder().encode(provisional)
+        let manifest = try Self.encodedReport(provisional)
         let human = Self.humanReport(job)
         let sums = job.archives.map { "\($0.sha256!)  \($0.plan.name)" }.joined(separator: "\n") + "\n"
         let log = Self.logReport(job)
+        let reports = [(Self.manifestName, manifest), ("HANDOFF_MANIFEST.txt", Data(human.utf8)),
+                       ("SHA256SUMS.txt", Data(sums.utf8)), ("HANDOFF_LOG.txt", Data(log.utf8))]
+        for (name, data) in reports { try Self.validateReportBytes(data, name: name) }
         // Provisional JSON establishes durable ownership but cannot pass delivery verification.
         // Completed JSON is published by execute only after all reports and final guards succeed.
-        for (name, data) in [(Self.manifestName,manifest),("HANDOFF_MANIFEST.txt",Data(human.utf8)),("SHA256SUMS.txt",Data(sums.utf8)),("HANDOFF_LOG.txt",Data(log.utf8))] {
+        for (name, data) in reports {
             try destination.writeAtomic(data, name: name, replace: replacingOwned && existing.contains(name))
         }
     }

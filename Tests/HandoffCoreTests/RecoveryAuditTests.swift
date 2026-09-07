@@ -52,6 +52,7 @@ final class RecoveryAuditTests: XCTestCase {
             let human = try String(contentsOf: humanURL, encoding: .utf8)
             XCTAssertFalse(human.contains("Verification: PASS"),
                            "A failed publication must not leave a human report claiming overall handoff PASS while its JSON commit is incomplete.")
+            XCTAssertTrue(human.contains("this text is not a completion marker"))
         }
         XCTAssertEqual(try f.sourceHashes(), before)
         XCTAssertEqual(try JobEngine().resume(destinationURL: f.destination).status, .completed)
@@ -80,6 +81,8 @@ final class RecoveryAuditTests: XCTestCase {
         } else {
             XCTAssertEqual(returned?.status, .completed)
             XCTAssertEqual(delivery?.passed, true)
+            XCTAssertNotNil(returned?.completionWarning, "The completed result must visibly disclose its stale recovery state.")
+            XCTAssertTrue(returned?.completionWarning?.contains("completed manifest were saved") == true)
         }
         XCTAssertEqual(try f.sourceHashes(), before)
         // The injected interrupted state file is retained and a retry recovers the result.

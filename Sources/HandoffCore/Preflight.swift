@@ -92,9 +92,16 @@ public enum Preflight {
         let rescan = try source.scan()
         guard rescan == files else { throw HandoffError.integrity("Source changed during preflight. Start a new analysis.") }
         try destination.validateIdentity()
-        return PreflightReport(configuration: configuration, sourceIdentity: source.identity, destination: destination.info,
+        var report = PreflightReport(configuration: configuration, sourceIdentity: source.identity, destination: destination.info,
                                files: files, packages: packages, archives: archives, issues: issues, warnings: warnings,
                                requiredBytes: required)
+        if let issue = try reportCapacityIssue(report) { report.issues.append(issue) }
+        return report
+    }
+
+    static func reportCapacityIssue(_ report: PreflightReport) throws -> String? {
+        guard try JobEngine.estimatedReportBytes(report) > UInt64(JobEngine.maximumReportBytes) else { return nil }
+        return "This source inventory would exceed the supported 64 MiB manifest/state limit after verification evidence is recorded. Use smaller existing clip folders as separate jobs; no files have been written."
     }
 
     private static func plan(_ packages: [ClipPackage], configuration: JobConfiguration,

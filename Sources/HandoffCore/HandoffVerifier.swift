@@ -126,7 +126,7 @@ public enum HandoffVerifier {
         let fd = try destination.openRead(name)
         defer { Darwin.close(fd) }
         let before = fileIdentity(try descriptorStatus(fd, context: name))
-        let limit = 64 * 1_024 * 1_024
+        let limit = JobEngine.maximumReportBytes
         guard before.size > 0, before.size <= UInt64(limit) else {
             throw HandoffError.integrity("Delivery report is empty or exceeds the 64 MiB safety limit: \(name).")
         }
