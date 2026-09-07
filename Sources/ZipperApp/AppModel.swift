@@ -41,7 +41,7 @@ final class AppModel: ObservableObject {
     }
     var canAnalyze: Bool { !isBusy && !sourcePath.isEmpty && !destinationPath.isEmpty }
     var canStart: Bool {
-        guard !isBusy, job == nil, var report=preflight, report.issues.isEmpty, let configuration=try? configuration() else { return false }
+        guard !isBusy, error == nil, job == nil, var report=preflight, report.issues.isEmpty, let configuration=try? configuration() else { return false }
         report.configuration.acknowledgedOversized = acknowledgedOversized
         var approved = report.configuration
         approved.acknowledgedOversized = configuration.acknowledgedOversized
@@ -53,7 +53,7 @@ final class AppModel: ObservableObject {
         acknowledgedOversized=false
     }
     func chooseSource() {
-        if let url=chooseDirectory(title: "Choose camera originals", message: "SOURCE — READ ONLY. Select a flat folder of media and matching XML sidecars.") {
+        if let url=chooseDirectory(title: "Choose camera originals", message: "SOURCE — READ ONLY. Select a flat folder of media and XML/BIM sidecars. MXF + M01.XML + R01.BIM groups are supported.") {
             invalidatePreflight(); sourcePath=url.path
             UserDefaults.standard.set(url.path,forKey:"Zipper.lastSource")
             rememberAccess(url,bookmarkKey:"Zipper.sourceBookmark",readOnly:true)

@@ -319,7 +319,7 @@ public final class JobEngine {
     }
     private static func applyHashes(_ hashes: [String: String], to job: inout JobRecord) {
         func hashed(_ file: SourceFile) -> SourceFile { var result=file; result.sha256=hashes[file.relativePath] ?? file.sha256; return result }
-        func package(_ p: ClipPackage) -> ClipPackage { ClipPackage(basename: p.basename, media: hashed(p.media), xml: hashed(p.xml)) }
+        func package(_ p: ClipPackage) -> ClipPackage { ClipPackage(basename: p.basename, media: hashed(p.media), xml: hashed(p.xml), auxiliaryFiles: p.auxiliaryFiles.map(hashed)) }
         job.preflight.files = job.preflight.files.map(hashed)
         job.preflight.packages = job.preflight.packages.map(package)
         for index in job.archives.indices {
@@ -400,7 +400,7 @@ public final class JobEngine {
                   let basename = (file.relativePath as NSString).deletingPathExtension
                   return validLeaf(file.relativePath) && !file.basename.isEmpty &&
                       Array(file.basename.utf8) == Array(basename.utf8) &&
-                      ((file.kind == .media && SupportedMedia.extensions.contains(ext)) || (file.kind == .xml && ext == "xml")) &&
+                      ((file.kind == .media && SupportedMedia.extensions.contains(ext)) || (file.kind == .xml && ext == "xml") || (file.kind == .bim && ext == "bim")) &&
                       (file.sha256 == nil || isSHA256(file.sha256))
               }) else { throw HandoffError.integrity("Manifest contains duplicate, unsafe, or unsupported member paths or inconsistent basenames.") }
         let allMembers = job.archives.flatMap { $0.plan.files }
@@ -414,16 +414,16 @@ public final class JobEngine {
               ordered(job.preflight.packages) == ordered(packages) else {
             throw HandoffError.integrity("Preflight package inventory conflicts with the actual archive partition.")
         }
+        let regrouped=ClipGrouping.group(files)
+        guard regrouped.issues.isEmpty, ordered(regrouped.packages) == ordered(packages) else {
+            throw HandoffError.integrity("Manifest clip sidecars do not match the source inventory unambiguously.")
+        }
         if let statistics = job.deliveryStatistics, statistics != DeliveryStatistics(preflight: job.preflight) {
             throw HandoffError.integrity("Manifest delivery counts disagree with its source inventory and archive partition.")
         }
         for archive in job.archives {
             guard !archive.plan.packages.isEmpty,
-                  archive.plan.packages.allSatisfy({ package in
-                      package.media.kind == .media && package.xml.kind == .xml &&
-                          Array(package.media.basename.utf8) == Array(package.basename.utf8) &&
-                          Array(package.xml.basename.utf8) == Array(package.basename.utf8)
-                  }),
+                  archive.plan.packages.allSatisfy(ClipGrouping.isValid),
                   archive.plan.predictedBytes == ZIPArchive.predictedSize(files: archive.plan.files),
                   archive.sha256 == nil || isSHA256(archive.sha256),
                   archive.actualBytes == nil || archive.actualBytes == archive.plan.predictedBytes else {
@@ -482,7 +482,7 @@ public final class JobEngine {
     public static func humanReport(_ job: JobRecord) -> String {
         let iso = ISO8601DateFormatter()
         let files = job.preflight.files
-        var lines = ["ZIPPER — VERIFIED MEDIA HANDOFF", "Application: \(job.application) \(job.applicationVersion)", "Job UUID: \(job.id.uuidString)", "Created: \(iso.string(from: job.createdAt))", "Completed: \(job.completedAt.map(iso.string) ?? "Not completed")", "Verification: \(job.status == .completed && job.finalSourceVerified ? "PASS — final source SHA-256 and every archived member match" : "NOT COMPLETE")", "Source: \(job.preflight.configuration.sourcePath)", "Destination: \(job.preflight.destination.canonicalPath)", "Source files: \(files.count)", "Media: \(files.filter { $0.kind == .media }.count)", "XML: \(files.filter { $0.kind == .xml }.count)", "Unexpected files: \(files.filter { $0.kind != .media && $0.kind != .xml }.count)", "Clip packages: \(job.preflight.packages.count)", "Total source bytes: \(job.preflight.totalBytes)", "Batching: \(job.preflight.configuration.mode.description)", "Archives: \(job.archives.count)", "Format: Independent ZIP64 / STORE", "", "SHA256SUMS.txt: shasum -a 256 -c SHA256SUMS.txt", "Hashes establish byte agreement with this manifest; they are not a digital signature.", ""]
+        var lines = ["ZIPPER — VERIFIED MEDIA HANDOFF", "Application: \(job.application) \(job.applicationVersion)", "Job UUID: \(job.id.uuidString)", "Created: \(iso.string(from: job.createdAt))", "Completed: \(job.completedAt.map(iso.string) ?? "Not completed")", "Verification: \(job.status == .completed && job.finalSourceVerified ? "PASS — final source SHA-256 and every archived member match" : "NOT COMPLETE")", "Source: \(job.preflight.configuration.sourcePath)", "Destination: \(job.preflight.destination.canonicalPath)", "Source files: \(files.count)", "Media: \(files.filter { $0.kind == .media }.count)", "XML: \(files.filter { $0.kind == .xml }.count)", "BIM: \(files.filter { $0.kind == .bim }.count)", "Unexpected files: \(files.filter { $0.kind != .media && $0.kind != .xml && $0.kind != .bim }.count)", "Clip packages: \(job.preflight.packages.count)", "Total source bytes: \(job.preflight.totalBytes)", "Batching: \(job.preflight.configuration.mode.description)", "Archives: \(job.archives.count)", "Format: Independent ZIP64 / STORE", "", "SHA256SUMS.txt: shasum -a 256 -c SHA256SUMS.txt", "Hashes establish byte agreement with this manifest; they are not a digital signature.", ""]
         for archive in job.archives {
             lines.append("\(archive.plan.name) | \(archive.actualBytes ?? 0) bytes | \(archive.state.rawValue)")
             lines.append("SHA-256: \(archive.sha256 ?? "not verified")")

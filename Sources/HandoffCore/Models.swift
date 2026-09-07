@@ -21,7 +21,7 @@ public struct FileIdentity: Codable, Equatable, Sendable {
         self.device=device; self.inode=inode; self.size=size; self.modifiedSeconds=modifiedSeconds; self.modifiedNanoseconds=modifiedNanoseconds; self.changedSeconds=changedSeconds; self.changedNanoseconds=changedNanoseconds
     }
 }
-public enum SourceKind: String, Codable, Sendable { case media, xml, unexpected, hidden, directory, symlink }
+public enum SourceKind: String, Codable, Sendable { case media, xml, bim, unexpected, hidden, directory, symlink }
 public struct SourceFile: Codable, Equatable, Identifiable, Sendable {
     public var id: String { relativePath }
     public var relativePath: String
@@ -39,9 +39,20 @@ public struct ClipPackage: Codable, Equatable, Identifiable, Sendable {
     public var basename: String
     public var media: SourceFile
     public var xml: SourceFile
-    public var totalSize: UInt64 { media.size + xml.size }
-    public var files: [SourceFile] { [media, xml] }
-    public init(basename: String, media: SourceFile, xml: SourceFile) { self.basename=basename; self.media=media; self.xml=xml }
+    public var auxiliaryFiles: [SourceFile]
+    public var totalSize: UInt64 { files.reduce(0) { saturatingAdd($0, $1.size) } }
+    public var files: [SourceFile] { [media, xml] + auxiliaryFiles }
+    public init(basename: String, media: SourceFile, xml: SourceFile, auxiliaryFiles: [SourceFile] = []) {
+        self.basename=basename; self.media=media; self.xml=xml; self.auxiliaryFiles=auxiliaryFiles
+    }
+    private enum CodingKeys: String, CodingKey { case basename, media, xml, auxiliaryFiles }
+    public init(from decoder: Decoder) throws {
+        let values=try decoder.container(keyedBy:CodingKeys.self)
+        basename=try values.decode(String.self,forKey:.basename)
+        media=try values.decode(SourceFile.self,forKey:.media)
+        xml=try values.decode(SourceFile.self,forKey:.xml)
+        auxiliaryFiles=try values.decodeIfPresent([SourceFile].self,forKey:.auxiliaryFiles) ?? []
+    }
 }
 public enum BatchingMode: Codable, Equatable, Sendable {
     case maximumBytes(UInt64)
@@ -118,6 +129,7 @@ public struct DeliveryStatistics: Codable, Equatable, Sendable {
     public var sourceFileCount: Int
     public var mediaCount: Int
     public var xmlCount: Int
+    public var bimCount: Int
     public var unexpectedFileCount: Int
     public var clipPackageCount: Int
     public var totalSourceBytes: UInt64
@@ -126,16 +138,31 @@ public struct DeliveryStatistics: Codable, Equatable, Sendable {
         sourceFileCount=preflight.files.count
         mediaCount=preflight.files.filter { $0.kind == .media }.count
         xmlCount=preflight.files.filter { $0.kind == .xml }.count
-        unexpectedFileCount=preflight.files.filter { $0.kind != .media && $0.kind != .xml }.count
+        bimCount=preflight.files.filter { $0.kind == .bim }.count
+        unexpectedFileCount=preflight.files.filter { $0.kind != .media && $0.kind != .xml && $0.kind != .bim }.count
         clipPackageCount=preflight.packages.count
         totalSourceBytes=preflight.totalBytes
         finalArchiveCount=preflight.archives.count
+    }
+    private enum CodingKeys: String, CodingKey {
+        case sourceFileCount, mediaCount, xmlCount, bimCount, unexpectedFileCount, clipPackageCount, totalSourceBytes, finalArchiveCount
+    }
+    public init(from decoder: Decoder) throws {
+        let values=try decoder.container(keyedBy:CodingKeys.self)
+        sourceFileCount=try values.decode(Int.self,forKey:.sourceFileCount)
+        mediaCount=try values.decode(Int.self,forKey:.mediaCount)
+        xmlCount=try values.decode(Int.self,forKey:.xmlCount)
+        bimCount=try values.decodeIfPresent(Int.self,forKey:.bimCount) ?? 0
+        unexpectedFileCount=try values.decode(Int.self,forKey:.unexpectedFileCount)
+        clipPackageCount=try values.decode(Int.self,forKey:.clipPackageCount)
+        totalSourceBytes=try values.decode(UInt64.self,forKey:.totalSourceBytes)
+        finalArchiveCount=try values.decode(Int.self,forKey:.finalArchiveCount)
     }
 }
 public struct JobRecord: Codable, Identifiable, Sendable {
     public var id: UUID
     public var application = "Zipper"
-    public var applicationVersion = "1.0.0"
+    public var applicationVersion = "1.0.1"
     public var schemaVersion = 1
     public var createdAt = Date()
     public var completedAt: Date?
