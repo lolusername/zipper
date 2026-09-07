@@ -59,6 +59,7 @@ public final class JobEngine {
         job.status = .running
         job.failure = nil
         job.finalSourceVerified = false
+        job.completedAt = nil
         job.events.append(AuditEvent("Resume started. Revalidating original directory identities, source hashes, and every existing archive hash."))
         try save(job, destination: destination)
         return try execute(job: &job, source: source, destination: destination, cancellation: cancellation, progress: progress, resuming: true)
@@ -257,7 +258,6 @@ public final class JobEngine {
             let expectedZIPs = Set(job.archives.map { $0.plan.name })
             guard Set(try destination.names().filter { $0.lowercased().hasSuffix(".zip") }) == expectedZIPs else { throw HandoffError.integrity("Unexpected or missing ZIPs appeared during this job. Review the destination before handoff.") }
             job.finalSourceVerified = true
-            if job.completedAt == nil { job.completedAt = Date() }
             job.events.append(AuditEvent("Final source hashes match all archived members. Publishing delivery manifests."))
             try save(job, destination: destination)
             p.operation = "Publishing verified delivery reports"
@@ -270,6 +270,7 @@ public final class JobEngine {
             }
             var completed = job
             completed.status = .completed
+            completed.completedAt = Date()
             completed.failure = nil
             completed.events.append(AuditEvent("Verified handoff ready. All source files and independent archives verified."))
             try publishReports(completed, destination: destination, resuming: resuming)
@@ -282,10 +283,14 @@ public final class JobEngine {
             // This atomic completed manifest is the public delivery commit marker.
             // Before it appears, every partial report set remains explicitly non-complete.
             try destination.writeAtomic(try Self.encoder().encode(completed), name: Self.manifestName, replace: true)
-            try save(completed, destination: destination)
-            try destination.sync()
+            // The public commit is already durable. A later recovery-bookkeeping failure
+            // must not report the opposite outcome or rewrite this committed job as failed.
             job = completed
             p.operation = "Verified handoff ready"
+            do { try save(completed, destination: destination) }
+            catch {
+                p.operation = "Verified handoff ready · recovery state update failed; use Verify Existing Handoff"
+            }
             p.currentFile = ""
             p.elapsed = Date().timeIntervalSince(started)
             p.fraction = 1
@@ -295,6 +300,7 @@ public final class JobEngine {
             let cancelled = (error as? HandoffError) == .cancelled
             job.status = cancelled ? .interrupted : .failed
             job.finalSourceVerified = false
+            job.completedAt = nil
             job.failure = error.localizedDescription
             if let index = currentIndex {
                 job.archives[index].state = cancelled ? .interrupted : .failed
@@ -471,8 +477,7 @@ public final class JobEngine {
         let manifest = try Self.encoder().encode(provisional)
         let human = Self.humanReport(job)
         let sums = job.archives.map { "\($0.sha256!)  \($0.plan.name)" }.joined(separator: "\n") + "\n"
-        let formatter = ISO8601DateFormatter()
-        let log = job.events.map { "\(formatter.string(from: $0.timestamp))  \($0.message)" }.joined(separator: "\n") + "\n"
+        let log = Self.logReport(job)
         // Provisional JSON establishes durable ownership but cannot pass delivery verification.
         // Completed JSON is published by execute only after all reports and final guards succeed.
         for (name, data) in [(Self.manifestName,manifest),("HANDOFF_MANIFEST.txt",Data(human.utf8)),("SHA256SUMS.txt",Data(sums.utf8)),("HANDOFF_LOG.txt",Data(log.utf8))] {
@@ -482,7 +487,29 @@ public final class JobEngine {
     public static func humanReport(_ job: JobRecord) -> String {
         let iso = ISO8601DateFormatter()
         let files = job.preflight.files
-        var lines = ["ZIPPER — VERIFIED MEDIA HANDOFF", "Application: \(job.application) \(job.applicationVersion)", "Job UUID: \(job.id.uuidString)", "Created: \(iso.string(from: job.createdAt))", "Completed: \(job.completedAt.map(iso.string) ?? "Not completed")", "Verification: \(job.status == .completed && job.finalSourceVerified ? "PASS — final source SHA-256 and every archived member match" : "NOT COMPLETE")", "Source: \(job.preflight.configuration.sourcePath)", "Destination: \(job.preflight.destination.canonicalPath)", "Source files: \(files.count)", "Media: \(files.filter { $0.kind == .media }.count)", "XML: \(files.filter { $0.kind == .xml }.count)", "BIM: \(files.filter { $0.kind == .bim }.count)", "Unexpected files: \(files.filter { $0.kind != .media && $0.kind != .xml && $0.kind != .bim }.count)", "Clip packages: \(job.preflight.packages.count)", "Total source bytes: \(job.preflight.totalBytes)", "Batching: \(job.preflight.configuration.mode.description)", "Archives: \(job.archives.count)", "Format: Independent ZIP64 / STORE", "", "SHA256SUMS.txt: shasum -a 256 -c SHA256SUMS.txt", "Hashes establish byte agreement with this manifest; they are not a digital signature.", ""]
+        let legacy = ["1.0.0", "1.0.1"].contains(job.applicationVersion)
+        let matching = job.status == .completed && job.finalSourceVerified
+        let title = legacy ? "ZIPPER — VERIFIED MEDIA HANDOFF" : "ZIPPER — MEDIA HANDOFF EVIDENCE"
+        let verification = legacy
+            ? "Verification: \(matching ? "PASS — final source SHA-256 and every archived member match" : "NOT COMPLETE")"
+            : "Source and archive checks: \(matching ? "MATCH — final source SHA-256 and every archived member match" : "NOT COMPLETE")"
+        let batching: String
+        if legacy { batching = job.preflight.configuration.mode.description }
+        else {
+            switch job.preflight.configuration.mode {
+            case .maximumBytes(let bytes): batching = "Maximum ZIP size: \(bytes) bytes"
+            case .archiveCount(let count): batching = "Exactly \(count) archives"
+            }
+        }
+        var lines = [title, "Application: \(job.application) \(job.applicationVersion)", "Job UUID: \(job.id.uuidString)", "Created: \(iso.string(from: job.createdAt))", "Completed: \(job.completedAt.map(iso.string) ?? "Not completed")", verification]
+        if !legacy {
+            // Text can appear before the atomic JSON commit, or survive interrupted
+            // publication. It records checks without claiming standalone job success.
+            lines += ["Delivery completion: this text is not a completion marker. HANDOFF_MANIFEST.json must have status completed and Verify Existing Handoff must pass."]
+        }
+        lines += ["Source: \(job.preflight.configuration.sourcePath)", "Destination: \(job.preflight.destination.canonicalPath)", "Source files: \(files.count)", "Media: \(files.filter { $0.kind == .media }.count)", "XML: \(files.filter { $0.kind == .xml }.count)"]
+        if job.applicationVersion != "1.0.0" { lines += ["BIM: \(files.filter { $0.kind == .bim }.count)"] }
+        lines += ["Unexpected files: \(files.filter { $0.kind != .media && $0.kind != .xml && $0.kind != .bim }.count)", "Clip packages: \(job.preflight.packages.count)", "Total source bytes: \(job.preflight.totalBytes)", "Batching: \(batching)", "Archives: \(job.archives.count)", "Format: Independent ZIP64 / STORE", "", "SHA256SUMS.txt: shasum -a 256 -c SHA256SUMS.txt", "Hashes establish byte agreement with this manifest; they are not a digital signature.", ""]
         for archive in job.archives {
             lines.append("\(archive.plan.name) | \(archive.actualBytes ?? 0) bytes | \(archive.state.rawValue)")
             lines.append("SHA-256: \(archive.sha256 ?? "not verified")")
@@ -492,6 +519,11 @@ public final class JobEngine {
         if !job.preflight.warnings.isEmpty { lines += ["WARNINGS"] + job.preflight.warnings + [""] }
         if let failure = job.failure { lines += ["FAILURE",failure,""] }
         return lines.joined(separator: "\n") + "\n"
+    }
+
+    public static func logReport(_ job: JobRecord) -> String {
+        let formatter = ISO8601DateFormatter()
+        return job.events.map { "\(formatter.string(from: $0.timestamp))  \($0.message)" }.joined(separator: "\n") + "\n"
     }
 }
 
