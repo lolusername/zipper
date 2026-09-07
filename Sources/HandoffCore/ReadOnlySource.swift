@@ -126,8 +126,26 @@ public final class ReadOnlySource: @unchecked Sendable {
               sameObject(fileIdentity(opened), identity), sameObject(fileIdentity(path), identity) else {
             throw HandoffError.integrity("Source directory identity changed.")
         }
-        return try directoryHasAncestor(directory, identity: identity) ||
-            directoryHasAncestor(directoryDescriptor, identity: fileIdentity(try descriptorStatus(directory, context: "destination")))
+        let destinationIdentity = fileIdentity(try descriptorStatus(directory, context: "destination"))
+        if sameObject(identity, destinationIdentity) { return true }
+
+        // Ask the kernel for paths of the already-open objects. NOFIRMLINK also resolves
+        // /Users versus /System/Volumes/Data/Users representations of the same APFS tree.
+        // Do not walk to /: opening unselected parent directories can trigger macOS privacy
+        // authorization and strand an otherwise authorized NSOpenPanel selection in openat.
+        let sourceComponents = try descriptorPath(directoryDescriptor).split(separator: "/").map { collisionKey(String($0)) }
+        let destinationComponents = try descriptorPath(directory).split(separator: "/").map { collisionKey(String($0)) }
+        if destinationComponents.count > sourceComponents.count,
+           destinationComponents.starts(with: sourceComponents) {
+            return try directoryHasAncestor(directory, identity: identity,
+                                            maximumParentSteps: destinationComponents.count - sourceComponents.count)
+        }
+        if sourceComponents.count > destinationComponents.count,
+           sourceComponents.starts(with: destinationComponents) {
+            return try directoryHasAncestor(directoryDescriptor, identity: destinationIdentity,
+                                            maximumParentSteps: sourceComponents.count - destinationComponents.count)
+        }
+        return false
     }
 
     private func openSource(_ file: SourceFile) throws -> Int32 {
@@ -191,7 +209,7 @@ internal func canonicalDirectory(_ url: URL) throws -> String {
 }
 
 internal func validateLeafName(_ name: String) throws {
-    guard !name.isEmpty, name != ".", name != "..", !name.contains("/"), !name.contains("\\"),
+    guard !name.isEmpty, name != ".", name != "..", !name.contains("/"), !name.contains("\\"), !name.contains(":"),
           !name.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) }),
           name.utf8.count <= 255 else { throw HandoffError.blocked("Unsafe or unsupported filename: \(name.debugDescription).") }
 }
@@ -220,13 +238,30 @@ internal func directoryNames(_ descriptor: Int32) throws -> [String] {
     return names.sorted()
 }
 
-internal func directoryHasAncestor(_ descriptor: Int32, identity: FileIdentity) throws -> Bool {
+internal func descriptorPath(_ descriptor: Int32) throws -> String {
+    var bytes = [CChar](repeating: 0, count: Int(MAXPATHLEN))
+    guard fcntl(descriptor, F_GETPATH_NOFIRMLINK, &bytes) == 0 else {
+        throw fileSystemError("Cannot establish the canonical path of an open directory", "F_GETPATH_NOFIRMLINK")
+    }
+    guard let path = String(validatingUTF8: bytes), path.hasPrefix("/") else {
+        throw HandoffError.blocked("An open directory has an unsupported canonical path.")
+    }
+    return path
+}
+
+internal func directoryHasAncestor(_ descriptor: Int32, identity: FileIdentity, maximumParentSteps: Int) throws -> Bool {
+    guard maximumParentSteps >= 0, maximumParentSteps <= 1024 else {
+        throw HandoffError.blocked("Directory ancestry exceeds the supported safety limit.")
+    }
     var current = openat(descriptor, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
     guard current >= 0 else { throw fileSystemError("Cannot establish directory ancestry", "directory") }
     defer { Darwin.close(current) }
-    for _ in 0..<1024 {
+    for step in 0...maximumParentSteps {
         let here = fileIdentity(try descriptorStatus(current, context: "directory ancestry"))
         if sameObject(here, identity) { return true }
+        // Never open outside the selected candidate ancestor, even when case-insensitive
+        // component matching found a false candidate on a case-sensitive filesystem.
+        if step == maximumParentSteps { return false }
         let parent = openat(current, "..", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
         guard parent >= 0 else { throw fileSystemError("Cannot establish directory ancestry", "parent") }
         let parentIdentity: FileIdentity
@@ -236,5 +271,5 @@ internal func directoryHasAncestor(_ descriptor: Int32, identity: FileIdentity) 
         Darwin.close(current)
         current = parent
     }
-    throw HandoffError.blocked("Directory ancestry exceeds the supported safety limit.")
+    return false
 }

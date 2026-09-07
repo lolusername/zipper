@@ -120,6 +120,37 @@ final class SourcePreflightTests: XCTestCase {
         XCTAssertThrowsError(try Destination(url: alias, source: source))
     }
 
+    func testDisjointSelectionsDoNotOpenUnselectedUnreadableParents() throws {
+        guard getuid() != 0 else { throw XCTSkip("Read-permission boundary test requires a non-root account.") }
+        let f = try Fixture(); try f.clip()
+        let similarlyNamed = f.root.appendingPathComponent("source-delivery")
+        try FileManager.default.createDirectory(at: similarlyNamed, withIntermediateDirectories: false)
+        // Selected children remain readable/searchable. The parent is searchable but cannot
+        // be opened O_RDONLY, reproducing the boundary that unbounded '..' traversal crossed.
+        XCTAssertEqual(chmod(f.root.path, mode_t(0o111)), 0)
+        defer { _ = chmod(f.root.path, mode_t(0o700)) }
+        let parent = Darwin.open(f.root.path, O_RDONLY | O_DIRECTORY)
+        if parent >= 0 { Darwin.close(parent); throw XCTSkip("This account bypasses the parent directory read boundary.") }
+        XCTAssertTrue(try Preflight.analyze(f.config()).canCreate)
+        let source = try ReadOnlySource(url: f.source)
+        XCTAssertNoThrow(try Destination(url: similarlyNamed, source: source))
+    }
+
+    func testKernelCanonicalPathsRetainFirmlinkAndNestedOverlapProtection() throws {
+        let f = try Fixture(); try f.clip()
+        let nested = f.source.appendingPathComponent("nested")
+        try FileManager.default.createDirectory(at: nested, withIntermediateDirectories: false)
+        let source = try ReadOnlySource(url: f.source)
+        let descriptor = Darwin.open(source.canonicalPath, O_RDONLY | O_DIRECTORY | O_NOFOLLOW)
+        guard descriptor >= 0 else { throw HandoffError.io("Cannot open source fixture descriptor.") }
+        defer { Darwin.close(descriptor) }
+        let kernelPath = try descriptorPath(descriptor)
+        XCTAssertThrowsError(try Destination(url: URL(fileURLWithPath: kernelPath), source: source))
+        XCTAssertThrowsError(try Destination(url: URL(fileURLWithPath: kernelPath).appendingPathComponent("nested"), source: source))
+        let selectedNested = try ReadOnlySource(url: nested)
+        XCTAssertThrowsError(try Destination(url: URL(fileURLWithPath: kernelPath), source: selectedNested))
+    }
+
     func testExpectedOutputCaseInsensitiveAndPendingCollisionsBlockWithoutWriting() throws {
         for name in ["footage_001.ZIP", ".footage_001.zip.partial", "handoff_manifest.JSON", ".zipper-job.lock", "..zipper-job.json.pending", ".HANDOFF_MANIFEST.txt.pending"] {
             let f = try Fixture(); try f.clip()
@@ -290,6 +321,16 @@ final class SourcePreflightTests: XCTestCase {
         XCTAssertFalse(try Preflight.analyze(config).canCreate)
         config.prefix = "GOOD\nNAME"
         XCTAssertFalse(try Preflight.analyze(config).canCreate)
+        XCTAssertEqual(try f.snapshot(f.destination), [:])
+    }
+
+    func testColonFilenamesBlockDuringPreflightBeforeAnyWrite() throws {
+        let f = try Fixture(); try f.clip("A:001")
+        let before = try f.snapshot(f.source)
+        let report = try Preflight.analyze(f.config())
+        XCTAssertFalse(report.canCreate)
+        XCTAssertTrue(report.issues.contains { $0.contains("Unsafe or unsupported filename") && $0.contains("A:001") })
+        XCTAssertEqual(try f.snapshot(f.source), before)
         XCTAssertEqual(try f.snapshot(f.destination), [:])
     }
 }
