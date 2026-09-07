@@ -2,9 +2,9 @@
 
 Environment: Apple Silicon, macOS 26.5.2 (25F84), Xcode 26.5, Swift 6.3.2. Deployment target is macOS 14; the delivered binary is arm64.
 
-## Automated checks
+## Automated checks — historical v1.0.0 baseline
 
-The full opt-in suite passed **64 tests, zero failures, zero skips**, in 31.805 seconds:
+The v1.0.0 full opt-in suite passed **64 tests, zero failures, zero skips**, in 31.805 seconds. The v1.0.1 results are recorded below:
 
 ```sh
 ZIPPER_RUN_LARGE_ZIP_TESTS=1 ZIPPER_RUN_FILESYSTEM_TESTS=1 swift test
@@ -29,7 +29,7 @@ The complete output is [qa/full-test-run.txt](qa/full-test-run.txt).
 | Filesystem limits | Mounted a disposable 128 MiB FAT32 image. A 25 GB sparse source was blocked by FAT32's 4,294,967,295-byte file limit. An 80 MiB source was blocked by reserve requirements despite enough free bytes for payload alone. Image was detached and removed. |
 | Large-scale planning | Sparse 200 GB and 1 TB fixtures yielded 9 and 42 planned ZIPs with a 25 GB ceiling, exact byte accounting, unchanged source metadata/allocation, zero destination writes, and under 256 MiB additional peak RSS. This was preflight only, not a complete large-card transfer. |
 
-## Native app and packaging
+## Native app and packaging — historical v1.0.0 baseline
 
 The release bundle is `build/Zipper.app`, identifier `studio.zipper.handoff`.
 
@@ -54,3 +54,15 @@ These results establish the implemented safety and verification behavior in this
 Before production deployment, validate representative physical camera media and destination enclosures, physical disconnect/reconnect in every phase, actual power loss, full 200 GB–1 TB transfers, sleep/wake behavior with removable hardware, network server limits, and supported macOS versions. FAT32 validation used a real mounted disk image, not a physical FAT32 device. The source abstraction is a code-level read-only interface; this local build is not an OS-enforced read-only sandbox. Hardware write protection remains a separate assurance.
 
 The app is locally runnable and ad-hoc signed. Public distribution still requires Developer ID signing and notarization. No signing credentials were supplied or used.
+
+## v1.0.1 update — complete MXF/XML/BIM packages
+
+The full opt-in suite passed **80 tests, zero failures, zero skips**, in **35.360 seconds**, including the real ZIP64 boundary and disposable FAT32 volume checks. The complete output is [qa/triplet-support/test-run.txt](qa/triplet-support/test-run.txt).
+
+Native QA in the rebuilt v1.0.1 app used three groups, `DISCLOSURE_DAY0115` through `DISCLOSURE_DAY0117`, each containing `.MXF`, `M01.XML`, and `R01.BIM`: **9 files, 104,547 source bytes**, planned into **2 archives**.
+
+- Preflight displayed **3 media, 3 XML, 3 BIM**. The destination remained empty and the source baseline remained unchanged.
+- Native creation reached **VERIFIED HANDOFF READY**, with **2/2 archives**, **9/9 files**, **0 missing files**, and **0 hash mismatches**.
+- **Verify Handoff Again** passed deep verification of **2 ZIPs and 9 archived members**.
+
+See the [v1.0.1 QA record](qa/triplet-support/README.md) and [machine-readable native evidence](qa/triplet-support/native-evidence.json). The hardware and deployment qualification limits above still apply.

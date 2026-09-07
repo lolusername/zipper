@@ -1,0 +1,141 @@
+{
+  "checkedAt": "2026-09-07T09:40:23.274067+00:00",
+  "applicationVersion": "1.0.1",
+  "fixture": "Three synthetic DISCLOSURE_DAY0115 through DISCLOSURE_DAY0117 MXF/M01.XML/R01.BIM groups; no user footage used.",
+  "nativePreflight": {
+    "passed": true,
+    "destinationEmptyAfterAnalysis": true,
+    "sourceMatchedBaselineAfterAnalysis": true,
+    "mediaCount": 3,
+    "xmlCount": 3,
+    "bimCount": 3,
+    "clipPackages": 3,
+    "plannedArchives": 2
+  },
+  "nativeCreation": {
+    "archivesVerified": 2,
+    "sourceFilesVerified": 9,
+    "missingFiles": 0,
+    "hashMismatches": 0
+  },
+  "nativeIndependentDeliveryCheck": {
+    "deepVerification": true,
+    "passed": true,
+    "archivesVerified": 2,
+    "membersChecked": 9
+  },
+  "independentReader": "Python standard-library zipfile",
+  "allMembersMatchBaseline": true,
+  "allArchiveHashesMatchManifest": true,
+  "allTripletsIndivisible": true,
+  "sourceNamesSizesHashesUnchanged": true,
+  "deliveryStatistics": {
+    "bimCount": 3,
+    "clipPackageCount": 3,
+    "finalArchiveCount": 2,
+    "mediaCount": 3,
+    "sourceFileCount": 9,
+    "totalSourceBytes": 104547,
+    "unexpectedFileCount": 0,
+    "xmlCount": 3
+  },
+  "baseline": {
+    "DISCLOSURE_DAY0115.MXF": {
+      "bytes": 32768,
+      "sha256": "c8696f37c6bf8b546509e7f3a1eeade28a0b29989c8dd6315392f89db68f1143"
+    },
+    "DISCLOSURE_DAY0115M01.XML": {
+      "bytes": 33,
+      "sha256": "41ffa55e3136f345430c2371230703211896bd2be5219426831fa026f0dcff64"
+    },
+    "DISCLOSURE_DAY0115R01.BIM": {
+      "bytes": 2048,
+      "sha256": "10fc3c51a152e90e5b90319b601d92ccf37290ef53c35ff92507687d8a911a08"
+    },
+    "DISCLOSURE_DAY0116.MXF": {
+      "bytes": 32768,
+      "sha256": "6b219bcc0558fad592b13df943535f3d9aa187c5ad64826c08793b2da7e25df2"
+    },
+    "DISCLOSURE_DAY0116M01.XML": {
+      "bytes": 33,
+      "sha256": "57e7184aca69e676997d2bffd0d28aa47548e0528ca6451c9fa156713b9734c1"
+    },
+    "DISCLOSURE_DAY0116R01.BIM": {
+      "bytes": 2048,
+      "sha256": "10fc3c51a152e90e5b90319b601d92ccf37290ef53c35ff92507687d8a911a08"
+    },
+    "DISCLOSURE_DAY0117.MXF": {
+      "bytes": 32768,
+      "sha256": "6152802b1fca26fd200f0068b11f90ca9d7aafcb25b7e8b7f3e8663574e6e5d2"
+    },
+    "DISCLOSURE_DAY0117M01.XML": {
+      "bytes": 33,
+      "sha256": "f8758acbe102ef75291a654a2001d89ec75a0aa9cd56f5654742af181f20ef9f"
+    },
+    "DISCLOSURE_DAY0117R01.BIM": {
+      "bytes": 2048,
+      "sha256": "10fc3c51a152e90e5b90319b601d92ccf37290ef53c35ff92507687d8a911a08"
+    }
+  },
+  "archives": [
+    {
+      "name": "FOOTAGE_001.zip",
+      "bytes": 70972,
+      "sha256": "dcf870743c58da5c11a6e5b4bdc9a516d9c2586a543f84fff724970d36d1fb23",
+      "members": [
+        {
+          "name": "DISCLOSURE_DAY0115.MXF",
+          "bytes": 32768,
+          "sha256": "c8696f37c6bf8b546509e7f3a1eeade28a0b29989c8dd6315392f89db68f1143"
+        },
+        {
+          "name": "DISCLOSURE_DAY0115M01.XML",
+          "bytes": 33,
+          "sha256": "41ffa55e3136f345430c2371230703211896bd2be5219426831fa026f0dcff64"
+        },
+        {
+          "name": "DISCLOSURE_DAY0115R01.BIM",
+          "bytes": 2048,
+          "sha256": "10fc3c51a152e90e5b90319b601d92ccf37290ef53c35ff92507687d8a911a08"
+        },
+        {
+          "name": "DISCLOSURE_DAY0117.MXF",
+          "bytes": 32768,
+          "sha256": "6152802b1fca26fd200f0068b11f90ca9d7aafcb25b7e8b7f3e8663574e6e5d2"
+        },
+        {
+          "name": "DISCLOSURE_DAY0117M01.XML",
+          "bytes": 33,
+          "sha256": "f8758acbe102ef75291a654a2001d89ec75a0aa9cd56f5654742af181f20ef9f"
+        },
+        {
+          "name": "DISCLOSURE_DAY0117R01.BIM",
+          "bytes": 2048,
+          "sha256": "10fc3c51a152e90e5b90319b601d92ccf37290ef53c35ff92507687d8a911a08"
+        }
+      ]
+    },
+    {
+      "name": "FOOTAGE_002.zip",
+      "bytes": 35535,
+      "sha256": "91372c70ed6188a4bceb0a2b78aa4a2f16fd2b719e53169173bcb2ba6a01697b",
+      "members": [
+        {
+          "name": "DISCLOSURE_DAY0116.MXF",
+          "bytes": 32768,
+          "sha256": "6b219bcc0558fad592b13df943535f3d9aa187c5ad64826c08793b2da7e25df2"
+        },
+        {
+          "name": "DISCLOSURE_DAY0116M01.XML",
+          "bytes": 33,
+          "sha256": "57e7184aca69e676997d2bffd0d28aa47548e0528ca6451c9fa156713b9734c1"
+        },
+        {
+          "name": "DISCLOSURE_DAY0116R01.BIM",
+          "bytes": 2048,
+          "sha256": "10fc3c51a152e90e5b90319b601d92ccf37290ef53c35ff92507687d8a911a08"
+        }
+      ]
+    }
+  ]
+}
