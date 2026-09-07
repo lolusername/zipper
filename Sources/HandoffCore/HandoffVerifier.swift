@@ -12,10 +12,12 @@ public enum HandoffVerifier {
         try JobEngine.validateRecord(job, requireComplete: true)
         let started = Date()
         let names = try destination.names()
-        let expectedNames = Set(job.archives.map { $0.plan.name })
-        let actualNames = Set(names.filter { $0.lowercased().hasSuffix(".zip") })
-        var issues = actualNames.subtracting(expectedNames).sorted().map { "Unexpected archive: \($0)." }
-        issues += expectedNames.subtracting(actualNames).sorted().map { "Missing archive: \($0)." }
+        // Filesystem lookup and Swift String equality can normalize Unicode.
+        // The directory inventory must still match the manifest's exact spelling.
+        let expectedNames = Set(job.archives.map { Data($0.plan.name.utf8) })
+        let actualNames = Set(names.filter { $0.lowercased().hasSuffix(".zip") }.map { Data($0.utf8) })
+        var issues = actualNames.subtracting(expectedNames).map { String(decoding: $0, as: UTF8.self) }.sorted().map { "Unexpected archive: \($0)." }
+        issues += expectedNames.subtracting(actualNames).map { String(decoding: $0, as: UTF8.self) }.sorted().map { "Missing archive: \($0)." }
         var checkedIdentities = [JobEngine.manifestName: manifest.identity]
         // A completed JSON can survive interruption between individual report publications.
         // The delivery is complete only when all required reports are present and readable.
@@ -25,7 +27,15 @@ public enum HandoffVerifier {
                 let report = try readStableReport(name, destination: destination, cancellation: cancellation)
                 checkedIdentities[name] = report.identity
                 guard String(data: report.data, encoding: .utf8) != nil else { throw HandoffError.integrity("Delivery report is not valid UTF-8: \(name).") }
-                if name == "SHA256SUMS.txt" {
+                if name == "HANDOFF_MANIFEST.txt" {
+                    guard report.data == Data(JobEngine.humanReport(job).utf8) else {
+                        throw HandoffError.integrity("HANDOFF_MANIFEST.txt does not match the delivery evidence in the JSON manifest.")
+                    }
+                } else if name == "HANDOFF_LOG.txt" {
+                    guard report.data == Data(JobEngine.logReport(job).utf8) else {
+                        throw HandoffError.integrity("HANDOFF_LOG.txt does not match the audit events in the JSON manifest.")
+                    }
+                } else if name == "SHA256SUMS.txt" {
                     let expected = job.archives.map { "\($0.sha256!)  \($0.plan.name)" }.joined(separator: "\n") + "\n"
                     guard report.data == Data(expected.utf8) else { throw HandoffError.integrity("SHA256SUMS.txt does not match the archive hashes and names in the manifest.") }
                 }
@@ -48,7 +58,7 @@ public enum HandoffVerifier {
         }
         for archive in job.archives {
             try cancellation.check()
-            guard actualNames.contains(archive.plan.name) else { p.archiveStates[archive.plan.name] = .failed; continue }
+            guard actualNames.contains(Data(archive.plan.name.utf8)) else { p.archiveStates[archive.plan.name] = .failed; continue }
             p.currentArchive = archive.plan.name
             p.currentFile = archive.plan.name
             p.operation = "Checking archive SHA-256"
@@ -77,7 +87,7 @@ public enum HandoffVerifier {
         }
         try cancellation.check()
         try destination.validateIdentity()
-        let endNames = Set(try destination.names().filter { $0.lowercased().hasSuffix(".zip") })
+        let endNames = Set(try destination.names().filter { $0.lowercased().hasSuffix(".zip") }.map { Data($0.utf8) })
         if endNames != actualNames { issues.append("Archive directory changed during verification. Run the delivery check again.") }
         // Pin every earlier result until the complete delivery check finishes. An archive
         // checked first must not be allowed to change while later archives are consumed.
@@ -88,7 +98,7 @@ public enum HandoffVerifier {
                     throw HandoffError.integrity("Delivery file changed after it was checked: \(name). Run the delivery check again.")
                 }
             } catch {
-                if expectedNames.contains(name), p.archiveStates[name] == .verified {
+                if expectedNames.contains(Data(name.utf8)), p.archiveStates[name] == .verified {
                     p.archiveStates[name] = .failed
                     p.verifiedArchives -= 1
                     if deep { checkedFiles -= job.archives.first { $0.plan.name == name }!.plan.files.count }
@@ -102,7 +112,8 @@ public enum HandoffVerifier {
         p.elapsed = Date().timeIntervalSince(started)
         p.fraction = issues.isEmpty ? 1 : min(0.995,p.fraction)
         progress(p)
-        return VerificationReport(passed: issues.isEmpty, checkedArchives: p.verifiedArchives, checkedFiles: checkedFiles, issues: issues, deep: deep)
+        return VerificationReport(passed: issues.isEmpty, checkedArchives: p.verifiedArchives, checkedFiles: checkedFiles, issues: issues, deep: deep,
+                                  sourcePath: job.preflight.configuration.sourcePath, destination: destination.info)
     }
 
     private static func namedIdentity(_ name: String, destination: Destination) throws -> FileIdentity {

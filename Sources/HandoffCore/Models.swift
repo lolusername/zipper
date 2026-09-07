@@ -33,6 +33,13 @@ public struct SourceFile: Codable, Equatable, Identifiable, Sendable {
     public init(relativePath: String, basename: String, kind: SourceKind, identity: FileIdentity, sha256: String? = nil) {
         self.relativePath=relativePath; self.basename=basename; self.kind=kind; self.identity=identity; self.sha256=sha256
     }
+    /// Swift String equality normalizes Unicode. Evidence must retain the exact
+    /// UTF-8 filename bytes recorded in the source scan and written to the ZIP.
+    public static func == (lhs: SourceFile, rhs: SourceFile) -> Bool {
+        lhs.relativePath.utf8.elementsEqual(rhs.relativePath.utf8) &&
+            lhs.basename.utf8.elementsEqual(rhs.basename.utf8) &&
+            lhs.kind == rhs.kind && lhs.identity == rhs.identity && lhs.sha256 == rhs.sha256
+    }
 }
 public struct ClipPackage: Codable, Equatable, Identifiable, Sendable {
     public var id: String { basename }
@@ -52,6 +59,10 @@ public struct ClipPackage: Codable, Equatable, Identifiable, Sendable {
         media=try values.decode(SourceFile.self,forKey:.media)
         xml=try values.decode(SourceFile.self,forKey:.xml)
         auxiliaryFiles=try values.decodeIfPresent([SourceFile].self,forKey:.auxiliaryFiles) ?? []
+    }
+    public static func == (lhs: ClipPackage, rhs: ClipPackage) -> Bool {
+        lhs.basename.utf8.elementsEqual(rhs.basename.utf8) && lhs.media == rhs.media &&
+            lhs.xml == rhs.xml && lhs.auxiliaryFiles == rhs.auxiliaryFiles
     }
 }
 public enum BatchingMode: Codable, Equatable, Sendable {
@@ -79,6 +90,10 @@ public struct ArchivePlan: Codable, Equatable, Identifiable, Sendable {
     public var oversized: Bool
     public var files: [SourceFile] { packages.flatMap(\.files) }
     public init(name: String, packages: [ClipPackage], predictedBytes: UInt64, oversized: Bool = false) { self.name=name; self.packages=packages; self.predictedBytes=predictedBytes; self.oversized=oversized }
+    public static func == (lhs: ArchivePlan, rhs: ArchivePlan) -> Bool {
+        lhs.name.utf8.elementsEqual(rhs.name.utf8) && lhs.packages == rhs.packages &&
+            lhs.predictedBytes == rhs.predictedBytes && lhs.oversized == rhs.oversized
+    }
 }
 public struct DestinationInfo: Codable, Equatable, Sendable {
     public var canonicalPath: String
@@ -162,7 +177,7 @@ public struct DeliveryStatistics: Codable, Equatable, Sendable {
 public struct JobRecord: Codable, Identifiable, Sendable {
     public var id: UUID
     public var application = "Zipper"
-    public var applicationVersion = "1.0.1"
+    public var applicationVersion = "1.0.2"
     public var schemaVersion = 1
     public var createdAt = Date()
     public var completedAt: Date?
@@ -205,5 +220,7 @@ public struct VerificationReport: Sendable {
     public var issues: [String]
     public var checkedAt = Date()
     public var deep: Bool
-    public init(passed: Bool, checkedArchives: Int, checkedFiles: Int, issues: [String], deep: Bool) { self.passed=passed; self.checkedArchives=checkedArchives; self.checkedFiles=checkedFiles; self.issues=issues; self.deep=deep }
+    public var sourcePath: String?
+    public var destination: DestinationInfo?
+    public init(passed: Bool, checkedArchives: Int, checkedFiles: Int, issues: [String], deep: Bool, sourcePath: String? = nil, destination: DestinationInfo? = nil) { self.passed=passed; self.checkedArchives=checkedArchives; self.checkedFiles=checkedFiles; self.issues=issues; self.deep=deep; self.sourcePath=sourcePath; self.destination=destination }
 }
