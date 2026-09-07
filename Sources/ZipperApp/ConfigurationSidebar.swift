@@ -3,6 +3,15 @@ import SwiftUI
 struct ConfigurationSidebar: View {
     @ObservedObject var model: AppModel
     private var locked: Bool { model.isBusy || model.isAnalyzing }
+    private var creationHint: String {
+        if model.isAnalyzing { return "Preflight inspects only. It writes nothing." }
+        if model.isVerifying { return "Reading delivery bytes for verification." }
+        if model.isBusy { return "Running the approved handoff. Source stays read only." }
+        if model.job?.status == .completed { return "Handoff complete. Start a new handoff to package more files." }
+        if model.job != nil { return "Incomplete output is preserved. Resume to revalidate." }
+        if model.preflight == nil { return "Preflight inspects only. It writes nothing." }
+        return model.canStart ? "Plan approved for creation. Source remains read only." : "Resolve all blocking checks before creation."
+    }
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
@@ -31,7 +40,7 @@ struct ConfigurationSidebar: View {
                     HStack(spacing: 7) { Image(systemName: "checkmark.shield"); Text("CREATE VERIFIED HANDOFF") }.frame(maxWidth: .infinity)
                 }.buttonStyle(StudioButtonStyle(kind: .primary)).disabled(!model.canStart)
                     .help("Available after preflight passes and all required acknowledgments are made. Command-Return to start.")
-                Text(model.preflight == nil ? "Preflight inspects only. It writes nothing." : model.canStart ? "Plan approved for creation. Source remains read only." : "Resolve all blocking checks before creation.")
+                Text(creationHint)
                     .font(.system(size: 10)).foregroundStyle(Studio.muted).multilineTextAlignment(.center).frame(minHeight: 26)
             }.padding(14).background(Studio.sidebar)
                 .overlay(alignment: .top) { Rectangle().fill(Studio.line).frame(height: 1) }

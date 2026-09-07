@@ -191,14 +191,14 @@ struct ArchivePlanRow: View {
                     Image(systemName: state == .verified ? "checkmark.seal" : "doc.zipper").font(.system(size: 18, weight: .light)).foregroundStyle(state == .verified ? Studio.teal : Studio.muted)
                     VStack(alignment: .leading, spacing: 5) {
                         Text(archive.name).font(.system(size: 12, weight: .semibold, design: .monospaced)).foregroundStyle(Studio.text)
-                        Text("\(archive.packages.count) clip packages · \(archive.files.count) files").font(.system(size: 10)).foregroundStyle(Studio.muted)
+                        Text("\(archive.packages.count) clip \(archive.packages.count == 1 ? "package" : "packages") · \(archive.files.count) files").font(.system(size: 10)).foregroundStyle(Studio.muted)
                     }
                     Spacer()
                     if let state { StatusTag(title: state.rawValue, color: Studio.color(state)) }
                     else if archive.oversized { StatusTag(title: "Oversized", color: Studio.amber) }
                     Text(Studio.bytes(record?.actualBytes ?? archive.predictedBytes)).font(Studio.mono).foregroundStyle(Studio.text).frame(width: 90, alignment: .trailing)
                 }.padding(.horizontal, 15).padding(.vertical, 15).contentShape(Rectangle()).modifier(HoverSurface())
-            }.buttonStyle(.plain).accessibilityLabel("\(archive.name), \(archive.packages.count) clip packages, \(Studio.bytes(archive.predictedBytes)), \(expanded ? "collapse" : "expand")")
+            }.buttonStyle(.plain).accessibilityLabel("\(archive.name), \(archive.packages.count) clip \(archive.packages.count == 1 ? "package" : "packages"), \(Studio.bytes(archive.predictedBytes)), \(expanded ? "collapse" : "expand")")
             if expanded {
                 VStack(spacing: 0) {
                     ForEach(archive.packages) { package in

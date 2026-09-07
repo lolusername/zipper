@@ -14,6 +14,7 @@ struct WorkspaceView: View {
             HStack(spacing: 0) {
                 ConfigurationSidebar(model: model)
                 Rectangle().fill(Studio.line).frame(width: 1)
+                ScrollViewReader { scrollProxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
                         if let error = model.error {
@@ -46,8 +47,14 @@ struct WorkspaceView: View {
                         } else if model.job == nil && !model.isBusy && model.verification == nil {
                             emptyState
                         }
-                    }.padding(26).frame(maxWidth: .infinity, alignment: .topLeading)
+                    }.padding(26).frame(maxWidth: .infinity, alignment: .topLeading).id("workspace-top")
                 }.background(Studio.canvas)
+                    .onChange(of: model.isBusy) { _, _ in
+                        DispatchQueue.main.async {
+                            withAnimation(.easeOut(duration: 0.18)) { scrollProxy.scrollTo("workspace-top", anchor: .top) }
+                        }
+                    }
+                }
             }
             footer
         }.background(Studio.canvas).foregroundStyle(Studio.text).font(Studio.body).tint(Studio.teal)
