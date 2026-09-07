@@ -1,0 +1,20 @@
+Building for debugging...
+[0/4] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.10s)
+Test Suite 'Selected tests' started at 2026-09-07 11:26:33.658.
+Test Suite 'ZipperPackageTests.xctest' started at 2026-09-07 11:26:33.659.
+Test Suite 'PublicationConcurrencyAuditTests' started at 2026-09-07 11:26:33.659.
+Test Case '-[HandoffCoreTests.PublicationConcurrencyAuditTests testReportChangedBeforePublicCommitCannotReturnCompleted]' started.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/PublicationConcurrencyAuditTests.swift:62: error: -[HandoffCoreTests.PublicationConcurrencyAuditTests testReportChangedBeforePublicCommitCannotReturnCompleted] : XCTAssertNotEqual failed: ("Optional(HandoffCore.JobStatus.completed)") is equal to ("Optional(HandoffCore.JobStatus.completed)") - A required report changed during publication; creation must not return a completed handoff.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/PublicationConcurrencyAuditTests.swift:64: error: -[HandoffCoreTests.PublicationConcurrencyAuditTests testReportChangedBeforePublicCommitCannotReturnCompleted] : XCTAssertNotNil failed
+Test Case '-[HandoffCoreTests.PublicationConcurrencyAuditTests testReportChangedBeforePublicCommitCannotReturnCompleted]' failed (0.884 seconds).
+Test Suite 'PublicationConcurrencyAuditTests' failed at 2026-09-07 11:26:34.544.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.884 (0.885) seconds
+Test Suite 'ZipperPackageTests.xctest' failed at 2026-09-07 11:26:34.544.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.884 (0.885) seconds
+Test Suite 'Selected tests' failed at 2026-09-07 11:26:34.544.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.884 (0.886) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

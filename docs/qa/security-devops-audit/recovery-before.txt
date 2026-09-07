@@ -1,0 +1,41 @@
+[0/1] Planning build
+Building for debugging...
+[0/7] Write sources
+[2/7] Write swift-version--58304C5D6DBC2206.txt
+[4/9] Emitting module HandoffCore
+[5/9] Compiling HandoffCore JobEngine.swift
+[5/10] Write Objects.LinkFileList
+[7/12] Emitting module HandoffCoreTests
+[8/12] Compiling HandoffCoreTests RecoveryBindingAuditTests.swift
+[8/12] Linking Zipper
+[9/12] Write Objects.LinkFileList
+[10/12] Applying Zipper
+[11/12] Linking ZipperPackageTests
+Build complete! (1.44s)
+Test Suite 'Selected tests' started at 2026-09-07 11:27:57.953.
+Test Suite 'ZipperPackageTests.xctest' started at 2026-09-07 11:27:57.954.
+Test Suite 'RecoveryBindingAuditTests' started at 2026-09-07 11:27:57.954.
+Test Case '-[HandoffCoreTests.RecoveryBindingAuditTests testInvalidLockedRecordDoesNotRenamePendingArtifacts]' started.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:51: error: -[HandoffCoreTests.RecoveryBindingAuditTests testInvalidLockedRecordDoesNotRenamePendingArtifacts] : XCTAssertEqual failed: threw error "Error Domain=NSCocoaErrorDomain Code=260 "The file “.HANDOFF_LOG.txt.pending” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/var/folders/s7/qgk3860s08b26zqwg5p8q6vw0000gn/T/Zipper-JobTests-6B6D259D-E1BF-41AB-AC49-8B8DEF87F854/Delivery/.HANDOFF_LOG.txt.pending, NSURL=file:///var/folders/s7/qgk3860s08b26zqwg5p8q6vw0000gn/T/Zipper-JobTests-6B6D259D-E1BF-41AB-AC49-8B8DEF87F854/Delivery/.HANDOFF_LOG.txt.pending, NSUnderlyingError=0xcbf49cf90 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}"
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:52: error: -[HandoffCoreTests.RecoveryBindingAuditTests testInvalidLockedRecordDoesNotRenamePendingArtifacts] : XCTAssertFalse failed
+Test Case '-[HandoffCoreTests.RecoveryBindingAuditTests testInvalidLockedRecordDoesNotRenamePendingArtifacts]' failed (0.083 seconds).
+Test Case '-[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock]' started.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:20: error: -[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock] : XCTAssertThrowsError failed: did not throw an error - Recovery must reject the changed sourcePath before publishing evidence for the wrong binding.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:28: error: -[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock] : XCTAssertFalse failed
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:20: error: -[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock] : XCTAssertThrowsError failed: did not throw an error - Recovery must reject the changed sourceIdentity before publishing evidence for the wrong binding.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:28: error: -[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock] : XCTAssertFalse failed
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:20: error: -[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock] : XCTAssertThrowsError failed: did not throw an error - Recovery must reject the changed destinationPath before publishing evidence for the wrong binding.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:28: error: -[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock] : XCTAssertFalse failed
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:20: error: -[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock] : XCTAssertThrowsError failed: did not throw an error - Recovery must reject the changed destinationIdentity before publishing evidence for the wrong binding.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/RecoveryBindingAuditTests.swift:28: error: -[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock] : XCTAssertFalse failed
+Test Case '-[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock]' failed (0.602 seconds).
+Test Suite 'RecoveryBindingAuditTests' failed at 2026-09-07 11:27:58.639.
+	 Executed 2 tests, with 10 failures (1 unexpected) in 0.685 (0.685) seconds
+Test Suite 'ZipperPackageTests.xctest' failed at 2026-09-07 11:27:58.639.
+	 Executed 2 tests, with 10 failures (1 unexpected) in 0.685 (0.685) seconds
+Test Suite 'Selected tests' failed at 2026-09-07 11:27:58.639.
+	 Executed 2 tests, with 10 failures (1 unexpected) in 0.685 (0.686) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

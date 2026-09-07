@@ -1,0 +1,88 @@
+[0/1] Planning build
+Building for debugging...
+[0/7] Write sources
+[1/7] Write swift-version--58304C5D6DBC2206.txt
+[3/10] Compiling HandoffCore HandoffVerifier.swift
+[4/10] Compiling HandoffCore ReportEvidence.swift
+[5/10] Emitting module HandoffCore
+[6/33] Compiling HandoffCoreTests ReportCapacityTests.swift
+[7/33] Compiling HandoffCoreTests FilesystemVolumeTests.swift
+[8/33] Compiling HandoffCoreTests DestinationIntegrityAuditTests.swift
+[9/33] Compiling HandoffCoreTests EngineAuditTests.swift
+[10/33] Compiling HandoffCoreTests PublicationConcurrencyAuditTests.swift
+[11/33] Compiling HandoffCoreTests RecoveryAuditTests.swift
+[12/33] Compiling HandoffCoreTests JobIntegrationTests.swift
+[13/33] Compiling HandoffCoreTests CameraTripletTests.swift
+[14/33] Emitting module HandoffCoreTests
+[15/33] Compiling HandoffCoreTests ArchiveIntegrityAuditTests.swift
+[16/33] Compiling HandoffCoreTests CrashRecoveryTests.swift
+[17/33] Compiling HandoffCoreTests SourcePreflightTests.swift
+[18/33] Compiling HandoffCoreTests ReportExportAuditTests.swift
+[19/33] Compiling HandoffCoreTests SourceSafetyAuditTests.swift
+[20/33] Compiling HandoffCoreTests ZIPArchiveTests.swift
+[20/33] Write Objects.LinkFileList
+[22/33] Compiling ZipperApp PreflightPanel.swift
+[23/33] Compiling ZipperApp AppModel.swift
+[24/33] Compiling ZipperApp ConfigurationSidebar.swift
+[25/33] Emitting module ZipperApp
+[26/33] Compiling ZipperApp WorkspaceView.swift
+[27/33] Compiling ZipperApp DesignSystem.swift
+[28/33] Compiling ZipperApp ZipperApp.swift
+[29/33] Compiling ZipperApp JobPanels.swift
+[29/33] Write Objects.LinkFileList
+[30/33] Linking ZipperPackageTests
+[31/33] Linking Zipper
+[32/33] Applying Zipper
+Build complete! (2.01s)
+Test Suite 'Selected tests' started at 2026-09-07 11:26:44.457.
+Test Suite 'ZipperPackageTests.xctest' started at 2026-09-07 11:26:44.458.
+Test Suite 'ArchiveIntegrityAuditTests' started at 2026-09-07 11:26:44.458.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testArchiveMemberOrderAndInventoriesCannotOmitOrDuplicateBIM]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testArchiveMemberOrderAndInventoriesCannotOmitOrDuplicateBIM]' passed (0.155 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeArchiveNameDoesNotSatisfyDifferentExpectedFilenameBytes]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeArchiveNameDoesNotSatisfyDifferentExpectedFilenameBytes]' passed (0.137 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeEqualityCannotHideDifferentManifestMemberBytes]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeEqualityCannotHideDifferentManifestMemberBytes]' passed (0.133 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeSourceInventoryRenameCannotPassDeepVerification]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeSourceInventoryRenameCannotPassDeepVerification]' passed (0.133 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCorruptRequiredHumanReportsCannotReceivePassingDeliveryCheck]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCorruptRequiredHumanReportsCannotReceivePassingDeliveryCheck]' passed (0.143 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCurrentVersionDoesNotAcceptLegacyTimestampTolerance]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCurrentVersionDoesNotAcceptLegacyTimestampTolerance]' passed (0.135 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testEveryZIP64StructuralFieldAndMemberBoundaryRejectsSingleByteDamage]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testEveryZIP64StructuralFieldAndMemberBoundaryRejectsSingleByteDamage]' passed (0.254 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacy100And101ReportFormatsStillVerifyWithoutOriginalSource]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacy100And101ReportFormatsStillVerifyWithoutOriginalSource]' passed (0.252 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacySubsecondReportsVerifyButOtherTimestampAndTextChangesFail]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacySubsecondReportsVerifyButOtherTimestampAndTextChangesFail]' passed (0.280 seconds).
+Test Suite 'ArchiveIntegrityAuditTests' passed at 2026-09-07 11:26:46.080.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 1.621 (1.622) seconds
+Test Suite 'RecoveryAuditTests' started at 2026-09-07 11:26:46.080.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testCorruptVerifiedPartialIsPreservedAndCannotBeSilentlyRebuilt]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testCorruptVerifiedPartialIsPreservedAndCannotBeSilentlyRebuilt]' passed (0.196 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testFinalStateWriteFailureCannotContradictCommittedDeliveryOutcome]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testFinalStateWriteFailureCannotContradictCommittedDeliveryOutcome]' passed (0.422 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testInterruptedPublicationHasNoCompletionDateAndResumeRecordsCurrentCompletion]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testInterruptedPublicationHasNoCompletionDateAndResumeRecordsCurrentCompletion]' passed (0.394 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testLateReportFailureNeverLeavesAnUnqualifiedPassingHumanReport]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testLateReportFailureNeverLeavesAnUnqualifiedPassingHumanReport]' passed (0.413 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testPublishedLogDescribesCheckEvidenceWithoutClaimingPrematureCommit]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testPublishedLogDescribesCheckEvidenceWithoutClaimingPrematureCommit]' passed (0.259 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testRepeatedCancellationDuringResumeNeverPublishesSuccessOrChangesOriginals]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testRepeatedCancellationDuringResumeNeverPublishesSuccessOrChangesOriginals]' passed (0.572 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testReportDatesRemainIdenticalAfterJSONRoundTripAtSecondBoundaries]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testReportDatesRemainIdenticalAfterJSONRoundTripAtSecondBoundaries]' passed (0.261 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testUnfinishedLegacyJobUsesCurrentReportSafetyOnResume]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testUnfinishedLegacyJobUsesCurrentReportSafetyOnResume]' passed (0.343 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testVerifiedPartialWithSavedEvidenceIsRecheckedAndPromotedOnResume]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testVerifiedPartialWithSavedEvidenceIsRecheckedAndPromotedOnResume]' passed (0.342 seconds).
+Test Suite 'RecoveryAuditTests' passed at 2026-09-07 11:26:49.283.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 3.203 (3.204) seconds
+Test Suite 'ZipperPackageTests.xctest' passed at 2026-09-07 11:26:49.283.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 4.824 (4.826) seconds
+Test Suite 'Selected tests' passed at 2026-09-07 11:26:49.283.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 4.824 (4.826) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

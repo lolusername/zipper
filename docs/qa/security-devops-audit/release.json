@@ -1,0 +1,13 @@
+{
+  "version": "1.0.3",
+  "build": "4",
+  "app": "/Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app",
+  "executableSHA256": "b07770da2e343430cd2466c2d1712cdeb7b9b412bf8e1e9f15cc7017bfa96b34",
+  "strictSignatureVerification": "passed",
+  "signing": "local ad-hoc with hardened runtime",
+  "nativeLaunch": "passed",
+  "nativeDeepVerification": {"archives": 8, "members": 281, "source": "synthetic audit fixture", "result": "passed"},
+  "coreTests": {"count": 125, "failures": 0, "skipped": 0},
+  "realFootageModified": false,
+  "realFootageTransferRepeated": false
+}

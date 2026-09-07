@@ -1,0 +1,54 @@
+Window: "Zipper", App: Zipper.
+0 standard window Zipper, Secondary Actions: Raise, ID: SwiftUI.ModifiedContent<SwiftUI.ModifiedContent<SwiftUI.ModifiedContent<ZipperApp.WorkspaceView, SwiftUI._AppearanceActionModifier>, SwiftUI._PreferenceWritingModifier<SwiftUI.PreferredColorSchemeKey>>, SwiftUI._FlexFrameLayout>-1-AppWindow-1
+	1 container
+		2 image Description: Box, ID: shippingbox
+		3 text Zipper VERIFIED MEDIA HANDOFF VERIFIED
+		4 button New Handoff
+		5 scroll area Secondary Actions: Scroll Up, Scroll Down
+			6 text SOURCE — READ ONLY
+			7 button Description: SOURCE — READ ONLY, Help: Choose source directory, Value: No directory selected
+			8 text DESTINATION — WRITABLE OUTPUT
+			9 button Description: DESTINATION — WRITABLE OUTPUT, Help: Choose output directory, Value: No directory selected
+			10 text PACKAGING
+			11 button (selected) Maximum size
+			12 button Archive count
+			13 text field (settable) Description: Maximum ZIP size in gigabytes, Value: 25
+			14 text GB Hard ceiling per ZIP. An indivisible oversized clip requires acknowledgment. ARCHIVE NAME PREFIX
+			15 text field (settable) Description: Archive name prefix, Value: FOOTAGE
+			16 text FOOTAGE_001.zip
+			17 image Description: Link, ID: link
+			18 text Media + XML + BIM stay together.
+			19 scroll bar (settable, float) 0
+				20 value indicator (settable, float) 0
+				21 increment arrow button
+				22 decrement arrow button
+				23 increment page button
+				24 decrement page button
+		25 button (disabled) ANALYZE / PREFLIGHT, ⌘R
+		26 button (selected, disabled) Description: CREATE VERIFIED HANDOFF, Help: Available after preflight passes and all required acknowledgments are made. Command-Return to start.
+		27 text Preflight inspects only. It writes nothing. DELIVERY CHECK
+		28 button (selected) VERIFY EXISTING HANDOFF
+		29 checkbox Description: Also verify every archive member, Value: 1, Help: Reopen each ZIP and compare every member’s SHA-256 with the manifest. Original source is not required.
+		30 button Description: Resume an interrupted handoff…, Help: Select a destination containing a persisted Zipper job. Existing verified ZIPs are rechecked before reuse.
+		31 scroll area
+			32 image (selected) Description: Verified, ID: checkmark.seal.fill
+			33 text INDEPENDENT DELIVERY CHECK Handoff verification passed DEEP VERIFICATION 8 ZIPs verified 281 members checked Sep 7, 2026 at 11:37 AM ZIP hashes and archived member hashes were compared with the delivery manifest. This check does not require the original source.
+			34 button Reveal in Finder
+			35 button Export Report
+		36 image Description: Lock, ID: lock.fill
+		37 text READ SOURCE
+		38 image Description: Right, ID: arrow.right
+		39 text WRITE DESTINATION ZIP64 · STORE · SHA-256
+	40 close button
+	41 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	42 minimize button
+43 menu bar
+	44 Zipper
+	45 File
+	46 Edit
+	47 View
+	48 Handoff
+	49 Window
+	50 Help
+
+The focused UI element is 0 standard window Zipper, Secondary Actions: Raise, ID: SwiftUI.ModifiedContent<SwiftUI.ModifiedContent<SwiftUI.ModifiedContent<ZipperApp.WorkspaceView, SwiftUI._AppearanceActionModifier>, SwiftUI._PreferenceWritingModifier<SwiftUI.PreferredColorSchemeKey>>, SwiftUI._FlexFrameLayout>-1-AppWindow-1

@@ -1,0 +1,31 @@
+[0/1] Planning build
+Building for debugging...
+[0/6] Write sources
+[2/6] Write swift-version--58304C5D6DBC2206.txt
+[4/10] Emitting module HandoffCoreTests
+[5/10] Compiling HandoffCoreTests ArchiveIntegrityAuditTests.swift
+[5/11] Write Objects.LinkFileList
+[7/11] Compiling ZipperApp AppModel.swift
+[8/11] Emitting module ZipperApp
+[8/12] Write Objects.LinkFileList
+[9/12] Linking ZipperPackageTests
+[10/12] Linking Zipper
+[11/12] Applying Zipper
+Build complete! (1.36s)
+Test Suite 'Selected tests' started at 2026-09-07 11:25:13.932.
+Test Suite 'ZipperPackageTests.xctest' started at 2026-09-07 11:25:13.933.
+Test Suite 'ArchiveIntegrityAuditTests' started at 2026-09-07 11:25:13.933.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacySubsecondReportsVerifyButOtherTimestampAndTextChangesFail]' started.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/ArchiveIntegrityAuditTests.swift:106: error: -[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacySubsecondReportsVerifyButOtherTimestampAndTextChangesFail] : XCTAssertTrue failed
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/ArchiveIntegrityAuditTests.swift:106: error: -[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacySubsecondReportsVerifyButOtherTimestampAndTextChangesFail] : XCTAssertTrue failed
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacySubsecondReportsVerifyButOtherTimestampAndTextChangesFail]' failed (0.347 seconds).
+Test Suite 'ArchiveIntegrityAuditTests' failed at 2026-09-07 11:25:14.280.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.347 (0.347) seconds
+Test Suite 'ZipperPackageTests.xctest' failed at 2026-09-07 11:25:14.280.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.347 (0.347) seconds
+Test Suite 'Selected tests' failed at 2026-09-07 11:25:14.280.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.347 (0.348) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

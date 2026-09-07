@@ -13,7 +13,9 @@ open build/Zipper.app
 
 The local app is ad-hoc signed with the hardened runtime. Redistribution requires your own Developer ID signing and Apple notarization. No Homebrew runtime, Python runtime, package server, or network service is required by the app. Public libarchive headers are vendored; runtime dependencies are the macOS system libarchive, zlib, CryptoKit, and SwiftUI.
 
-## Supported volumes in v1.0.2
+Quit Zipper before rebuilding. Packaging signs and verifies a separate bundle before atomically replacing the previous app; a failed build preserves the previous bundle. Concurrent packaging and replacement of a running app are blocked. Packaging failure regressions use disposable fixtures via `./scripts/test-package.sh`.
+
+## Supported volumes in v1.0.3
 
 Creation and report export require a **writable local APFS destination**. Sources may be local APFS, or local FAT/FAT32, exFAT, or HFS+ volumes mounted read-only by macOS. File permissions alone do not satisfy that mount requirement. Existing deliveries on FAT/exFAT/HFS+ can be verified only while mounted read-only. Network and unknown filesystems are blocked.
 
@@ -79,7 +81,7 @@ The last selected destination is remembered. On relaunch, an interrupted job the
 
 A disconnected or read-only destination can prevent recording the last failure. In that case the app reports the persistence failure, and the previous durable state remains non-complete. Reconnection does not imply trust. Changed directory identity, remapped mounts, changed source bytes, corrupted archived bytes, or ambiguous ownership stop recovery. Choose a new destination and perform a fresh job if exact identity cannot be restored. Verified ZIPs are never overwritten or deleted automatically.
 
-Delivery reports are published transactionally: provisional JSON is non-complete, all report files are flushed, final source/output guards run, then completed JSON becomes the public commit marker. A partially published report set cannot pass the delivery checker. Text/log evidence explicitly requires the completed JSON and a passing delivery check. If only the recovery-state update fails after that public commit, the app keeps the completed outcome and displays a warning. Interrupted legacy jobs regenerate current-version reports on resume.
+Delivery reports are published transactionally: provisional JSON is non-complete, all report files are flushed and read back for exact byte agreement, final source/output/report identity guards run, then completed JSON becomes the public commit marker. A partially published report set cannot pass the delivery checker. Text/log evidence explicitly requires the completed JSON and a passing delivery check. If only the recovery-state update fails after that public commit, the app keeps the completed outcome and displays a warning. Interrupted legacy jobs regenerate current-version reports on resume. Recovery validates the state read under its lock before accepting changed directory bindings or renaming pending files.
 
 Human-readable report and log contents must agree with the JSON evidence, including byte-exact names. Report/state files are bounded to 64 MiB; preflight rejects inventories whose estimated evidence would exceed that limit. Export Report protects all known original-source paths, including standalone verification sessions with no sidebar source. Export requires the original source location to remain identifiable; reconnect it if unavailable. Verification itself remains source-free.
 
@@ -112,7 +114,7 @@ ZIPPER_RUN_LARGE_ZIP_TESTS=1 ZIPPER_RUN_FILESYSTEM_TESTS=1 \
 ZIPPER_RUN_SOURCE_SAFETY_VOLUME_TESTS=1 ZIPPER_RUN_DESTINATION_SAFETY_VOLUME_TESTS=1 swift test
 ```
 
-See [validation evidence](docs/VALIDATION.md) for executed checks and remaining qualification limits. Routine tests include byte-for-byte source snapshots, preflight zero writes, pairing/ancestry/alias guards, exact partitioning, corruption/truncation, cancellation, recovery, independent extraction, source changes, and delivery checks without source media.
+See the [v1.0.3 security and reliability audit](docs/qa/security-devops-audit/README.md) and [validation evidence](docs/VALIDATION.md) for executed checks and remaining qualification limits. Routine tests include byte-for-byte source snapshots, preflight zero writes, pairing/ancestry/alias guards, exact partitioning, corruption/truncation, cancellation, recovery, independent extraction, source changes, and delivery checks without source media.
 
 This release has not been qualified with an entire 200 GB–1 TB physical card, physical unplug/replug during each phase, real power loss, all USB/Thunderbolt enclosures, every macOS version. Identical device numbers trigger a warning; separate filesystems do not prove separate physical drives. Network filesystems are unsupported. Complete those deployment-specific checks before treating this as a field-qualified sole handoff workflow.
 

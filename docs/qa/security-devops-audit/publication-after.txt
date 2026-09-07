@@ -1,0 +1,49 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--58304C5D6DBC2206.txt
+[3/9] Compiling HandoffCore HandoffVerifier.swift
+[4/9] Compiling HandoffCore JobEngine.swift
+[5/9] Emitting module HandoffCore
+[6/9] Compiling HandoffCore Destination.swift
+[7/13] Compiling HandoffCore ReportExporter.swift
+[8/13] Compiling HandoffCore ReportEvidence.swift
+[9/13] Compiling HandoffCore Preflight.swift
+[10/13] Compiling HandoffCore ZIPArchive.swift
+[11/31] Compiling HandoffCoreTests ReportExportAuditTests.swift
+[12/31] Compiling HandoffCoreTests DestinationIntegrityAuditTests.swift
+[13/31] Compiling HandoffCoreTests CrashRecoveryTests.swift
+[14/31] Compiling HandoffCoreTests ReportCapacityTests.swift
+[15/31] Compiling ZipperApp AppModel.swift
+[16/31] Emitting module ZipperApp
+[16/31] Write Objects.LinkFileList
+[18/31] Compiling HandoffCoreTests PublicationConcurrencyAuditTests.swift
+[19/31] Compiling HandoffCoreTests RecoveryAuditTests.swift
+[20/31] Compiling HandoffCoreTests EngineAuditTests.swift
+[21/31] Compiling HandoffCoreTests SourceSafetyAuditTests.swift
+[22/31] Compiling HandoffCoreTests CameraTripletTests.swift
+[23/31] Compiling HandoffCoreTests JobIntegrationTests.swift
+[24/31] Compiling HandoffCoreTests ZIPArchiveTests.swift
+[25/31] Emitting module HandoffCoreTests
+[26/31] Compiling HandoffCoreTests SourcePreflightTests.swift
+[27/31] Compiling HandoffCoreTests ArchiveIntegrityAuditTests.swift
+[27/31] Write Objects.LinkFileList
+[28/31] Linking Zipper
+[29/31] Applying Zipper
+[30/31] Linking ZipperPackageTests
+Build complete! (2.24s)
+Test Suite 'Selected tests' started at 2026-09-07 11:27:27.578.
+Test Suite 'ZipperPackageTests.xctest' started at 2026-09-07 11:27:27.579.
+Test Suite 'PublicationConcurrencyAuditTests' started at 2026-09-07 11:27:27.579.
+Test Case '-[HandoffCoreTests.PublicationConcurrencyAuditTests testReportChangedBeforePublicCommitCannotReturnCompleted]' started.
+Test Case '-[HandoffCoreTests.PublicationConcurrencyAuditTests testReportChangedBeforePublicCommitCannotReturnCompleted]' passed (0.872 seconds).
+Test Suite 'PublicationConcurrencyAuditTests' passed at 2026-09-07 11:27:28.451.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.872 (0.872) seconds
+Test Suite 'ZipperPackageTests.xctest' passed at 2026-09-07 11:27:28.451.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.872 (0.872) seconds
+Test Suite 'Selected tests' passed at 2026-09-07 11:27:28.451.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.872 (0.873) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

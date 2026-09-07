@@ -1,0 +1,16 @@
+PASS: compiler failure preserves the entire previous bundle and cleans staging
+PASS: build failure preserves the entire previous bundle and cleans staging
+PASS: missing_binary failure preserves the entire previous bundle and cleans staging
+PASS: icon failure preserves the entire previous bundle and cleans staging
+PASS: sign failure preserves the entire previous bundle and cleans staging
+PASS: verify failure preserves the entire previous bundle and cleans staging
+PASS: publish_missing failure preserves the entire previous bundle and cleans staging
+PASS: already running application preserves the entire previous bundle and cleans staging
+PASS: running application is blocked before release compilation
+PASS: application launched during build preserves the entire previous bundle and cleans staging
+PASS: competing package run cannot acquire or remove an existing lock
+PASS: complete staged application atomically replaces previous application
+PASS: first build publishes a complete application
+PASS: symlink application target is rejected without touching its destination
+PASS: symlink build directory is rejected
+All packaging regressions passed; real application and footage untouched.

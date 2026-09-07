@@ -2,6 +2,12 @@
 
 Environment: Apple Silicon, macOS 26.5.2 (25F84), Xcode 26.5, Swift 6.3.2. Deployment target is macOS 14; the delivered binary is arm64.
 
+## v1.0.3 security and reliability audit
+
+The full opt-in suite passed **125 tests, zero failures, zero skips**, in **75.065 seconds**. [Complete output](qa/security-devops-audit/full-test-run.txt). New regressions reproduce and reject changed reports during publication, changed recovery bindings between state reads, and mutations caused by invalid recovery records. Legacy subsecond report timestamps now verify within their specifically documented historical precision limit. [Findings and before/after evidence](qa/security-devops-audit/README.md).
+
+The previous 72.84 GB actual-footage qualification below remains historical v1.0.2 evidence; that transfer was not repeated for this update. New corruption and interruption tests used disposable fixtures only.
+
 ## Automated checks — historical v1.0.0 baseline
 
 The v1.0.0 full opt-in suite passed **64 tests, zero failures, zero skips**, in 31.805 seconds. The v1.0.1 and v1.0.2 results are recorded below:

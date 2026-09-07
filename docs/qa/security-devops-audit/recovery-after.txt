@@ -1,0 +1,28 @@
+Another instance of SwiftPM (PID: 50708) is already running using '/Users/atiliobarreda/Desktop/software/personal/zipper/.build', waiting until that process has finished execution...[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--58304C5D6DBC2206.txt
+[3/7] Emitting module HandoffCore
+[4/7] Compiling HandoffCore JobEngine.swift
+[4/9] Write Objects.LinkFileList
+[6/9] Linking ZipperPackageTests
+[7/9] Linking Zipper
+[8/9] Applying Zipper
+Build complete! (1.18s)
+Test Suite 'Selected tests' started at 2026-09-07 11:28:44.025.
+Test Suite 'ZipperPackageTests.xctest' started at 2026-09-07 11:28:44.026.
+Test Suite 'RecoveryBindingAuditTests' started at 2026-09-07 11:28:44.026.
+Test Case '-[HandoffCoreTests.RecoveryBindingAuditTests testInvalidLockedRecordDoesNotRenamePendingArtifacts]' started.
+Test Case '-[HandoffCoreTests.RecoveryBindingAuditTests testInvalidLockedRecordDoesNotRenamePendingArtifacts]' passed (0.031 seconds).
+Test Case '-[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock]' started.
+Test Case '-[HandoffCoreTests.RecoveryBindingAuditTests testRecoveryRechecksSourceAndDestinationBindingsAfterLock]' passed (0.084 seconds).
+Test Suite 'RecoveryBindingAuditTests' passed at 2026-09-07 11:28:44.141.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.115 (0.115) seconds
+Test Suite 'ZipperPackageTests.xctest' passed at 2026-09-07 11:28:44.141.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.115 (0.115) seconds
+Test Suite 'Selected tests' passed at 2026-09-07 11:28:44.141.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.115 (0.116) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
