@@ -37,34 +37,15 @@ public enum Preflight {
                 issues.append("Symbolic link is unsupported in source: \(file.relativePath).")
             case .unexpected:
                 issues.append("Unexpected file requires operator resolution: \(file.relativePath). No source files are silently omitted.")
-            case .media, .xml:
+            case .media, .xml, .bim:
                 do { try source.validate(file) }
                 catch { issues.append(error.localizedDescription) }
             }
         }
 
-        var packages: [ClipPackage] = []
-        let recognized = files.filter { $0.kind == .media || $0.kind == .xml }
-        let groups = Dictionary(grouping: recognized, by: { collisionKey($0.basename) })
-        for key in groups.keys.sorted() {
-            let group = groups[key]!
-            let media = group.filter { $0.kind == .media }
-            let xml = group.filter { $0.kind == .xml }
-            if media.isEmpty { issues.append("Missing media: \(xml.map(\.relativePath).joined(separator: ", ")) has no matching supported media file.") }
-            if xml.isEmpty { issues.append("Missing XML: \(media.map(\.relativePath).joined(separator: ", ")) has no matching XML sidecar.") }
-            if media.count > 1 || xml.count > 1 {
-                issues.append("Duplicate/ambiguous basename: \(group.map(\.relativePath).sorted().joined(separator: ", ")). Each package requires exactly one media and one XML file.")
-            }
-            if media.count == 1, xml.count == 1 {
-                guard Array(media[0].basename.utf8) == Array(xml[0].basename.utf8), !media[0].basename.isEmpty else {
-                    issues.append("Media/XML basenames must match exactly, including case and Unicode representation: \(media[0].relativePath), \(xml[0].relativePath).")
-                    continue
-                }
-                packages.append(ClipPackage(basename: media[0].basename, media: media[0], xml: xml[0]))
-            }
-        }
-
-        packages.sort { $0.basename.utf8.lexicographicallyPrecedes($1.basename.utf8) }
+        let grouping = ClipGrouping.group(files)
+        let packages = grouping.packages
+        issues += grouping.issues
         let archives = plan(packages, configuration: configuration, issues: &issues)
         let destinationNames = try destination.names()
         let existing = Set(destinationNames.map(collisionKey))

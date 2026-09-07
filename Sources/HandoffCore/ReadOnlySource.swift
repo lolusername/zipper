@@ -35,6 +35,7 @@ public final class ReadOnlySource: @unchecked Sendable {
             else if name.hasPrefix(".") { kind = .hidden }
             else if type != S_IFREG { kind = .unexpected }
             else if (name as NSString).pathExtension.lowercased() == "xml" { kind = .xml }
+            else if (name as NSString).pathExtension.lowercased() == "bim" { kind = .bim }
             else if SupportedMedia.extensions.contains((name as NSString).pathExtension.lowercased()) { kind = .media }
             else { kind = .unexpected }
             return SourceFile(relativePath: name, basename: (name as NSString).deletingPathExtension,
@@ -150,8 +151,8 @@ public final class ReadOnlySource: @unchecked Sendable {
 
     private func openSource(_ file: SourceFile) throws -> Int32 {
         try validateLeafName(file.relativePath)
-        guard file.kind == .media || file.kind == .xml else {
-            throw HandoffError.blocked("Only validated media and XML may be consumed: \(file.relativePath).")
+        guard file.kind == .media || file.kind == .xml || file.kind == .bim else {
+            throw HandoffError.blocked("Only validated media, XML, and BIM sidecars may be consumed: \(file.relativePath).")
         }
         // O_NONBLOCK prevents a malicious replacement with a FIFO from hanging the process.
         let descriptor = openat(directoryDescriptor, file.relativePath, O_RDONLY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK)
