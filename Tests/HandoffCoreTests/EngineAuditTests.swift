@@ -65,6 +65,50 @@ final class EngineAuditTests: XCTestCase {
         XCTAssertFalse(state.finalSourceVerified)
     }
 
+    func testArchiveCannotChangeDuringPublishingStage() throws {
+        let fixture = try Fixture()
+        var changed = false
+        XCTAssertThrowsError(try fixture.create { progress in
+            if !changed && progress.operation == "Publishing verified delivery reports" {
+                do { try fixture.corrupt("FOOTAGE_001.zip"); changed = true }
+                catch { XCTFail(error.localizedDescription) }
+            }
+        })
+        XCTAssertTrue(changed)
+        XCTAssertNotEqual(try JobEngine.loadState(destinationURL: fixture.destination).status, .completed)
+    }
+
+    func testSourceModificationAtPublishingStageCannotLeavePassingManifest() throws {
+        let fixture = try Fixture()
+        var changed = false
+        XCTAssertThrowsError(try fixture.create { progress in
+            if !changed && progress.operation == "Publishing verified delivery reports" {
+                do {
+                    var bytes = try Data(contentsOf: fixture.source.appendingPathComponent("A001.mov"))
+                    bytes[0] ^= 1
+                    try bytes.write(to: fixture.source.appendingPathComponent("A001.mov"))
+                    changed = true
+                } catch { XCTFail(error.localizedDescription) }
+            }
+        })
+        XCTAssertTrue(changed)
+        do {
+            let report = try HandoffVerifier.verify(destinationURL: fixture.destination)
+            XCTAssertFalse(report.passed, "Failed final source stability cannot leave a passing delivery manifest.")
+        } catch { /* A missing or explicitly incomplete final manifest is also a safe rejection. */ }
+    }
+
+    func testCancellationAtPublishingStageCannotBecomeSuccess() throws {
+        let fixture = try Fixture()
+        let token = CancellationToken()
+        var cancelled = false
+        XCTAssertThrowsError(try JobEngine().create(preflight: Preflight.analyze(fixture.configuration), cancellation: token) { progress in
+            if progress.operation == "Publishing verified delivery reports" { token.cancel(); cancelled = true }
+        }) { error in XCTAssertEqual(error as? HandoffError, .cancelled) }
+        XCTAssertTrue(cancelled)
+        XCTAssertEqual(try JobEngine.loadState(destinationURL: fixture.destination).status, .interrupted)
+    }
+
     func testRequiredReportsMustAllExistAndBeReadable() throws {
         let fixture = try Fixture()
         try fixture.create()
@@ -122,6 +166,30 @@ final class EngineAuditTests: XCTestCase {
         let resumed = try JobEngine().resume(destinationURL: fixture.destination)
         XCTAssertEqual(resumed.status, .completed)
         XCTAssertTrue(try HandoffVerifier.verify(destinationURL: fixture.destination).passed)
+    }
+
+    func testManifestCannotCarryConflictingPreflightPackages() throws {
+        let fixture = try Fixture()
+        var job = try fixture.create()
+        job.preflight.packages[0].media.identity.size = UInt64.max
+        XCTAssertThrowsError(try JobEngine.validateRecord(job, requireComplete: true))
+    }
+
+    func testManifestBatchCountMustAgreeWithActualPartition() throws {
+        let fixture = try Fixture()
+        var job = try fixture.create()
+        job.preflight.configuration.mode = .archiveCount(3)
+        XCTAssertThrowsError(try JobEngine.validateRecord(job, requireComplete: true))
+    }
+
+    func testManifestCannotBypassOversizedAcknowledgment() throws {
+        let fixture = try Fixture()
+        var job = try fixture.create()
+        job.preflight.configuration.mode = .maximumBytes(1)
+        job.preflight.configuration.acknowledgedOversized = false
+        for index in job.archives.indices { job.archives[index].plan.oversized = true }
+        job.preflight.archives = job.archives.map(\.plan)
+        XCTAssertThrowsError(try JobEngine.validateRecord(job, requireComplete: true))
     }
 
     func testSymlinkRequiredReportIsRejected() throws {
