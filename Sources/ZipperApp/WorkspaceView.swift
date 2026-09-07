@@ -5,7 +5,7 @@ struct WorkspaceView: View {
     @ObservedObject var model: AppModel
     private var ready: Bool {
         guard let job = model.job else { return false }
-        return job.status == .completed && job.finalSourceVerified && !job.archives.isEmpty && job.archives.allSatisfy { $0.state == .verified } && !model.isBusy && model.error == nil && model.verification?.passed != false
+        return job.status == .completed && job.finalSourceVerified && !job.archives.isEmpty && job.archives.allSatisfy { $0.state == .verified } && !model.isBusy && model.error == nil && model.verification == nil
     }
     var body: some View {
         VStack(spacing: 0) {
@@ -36,14 +36,14 @@ struct WorkspaceView: View {
                             StandaloneVerificationProgress(progress: progress, cancel: model.cancel)
                         } else if ready, let job = model.job {
                             CompletionPanel(job: job, reveal: model.reveal, verify: model.verifyAgain, export: model.exportReport, disabled: model.isBusy)
-                        } else if let job = model.job, job.status != .completed {
+                        } else if let job = model.job, job.status != .completed, model.verification == nil {
                             LiveJobPanel(job: job, progress: model.progress, busy: model.isBusy, cancel: model.cancel, resume: model.resume)
                         } else if model.isBusy, let progress = model.progress {
                             StandaloneVerificationProgress(progress: progress, cancel: model.cancel)
                         }
-                        if let report = model.preflight ?? model.job?.preflight {
+                        if !model.isVerifying, model.verification == nil, let report = model.preflight ?? model.job?.preflight {
                             PreflightPanel(report: report, acknowledgedOversized: $model.acknowledgedOversized, job: model.job, progress: model.progress, locked: model.isBusy || model.isAnalyzing)
-                        } else if model.job == nil && !model.isBusy {
+                        } else if model.job == nil && !model.isBusy && model.verification == nil {
                             emptyState
                         }
                     }.padding(26).frame(maxWidth: .infinity, alignment: .topLeading)
@@ -61,7 +61,7 @@ struct WorkspaceView: View {
             Spacer()
             if model.isAnalyzing { StatusTag(title: "Analyzing", color: Studio.amber, icon: "viewfinder") }
             else if model.isBusy { StatusTag(title: "Operation in progress", icon: "circle.dotted") }
-            else if ready { StatusTag(title: "Verified", icon: "checkmark.shield.fill") }
+            else if ready || model.verification?.passed == true { StatusTag(title: "Verified", icon: "checkmark.shield.fill") }
             else { StatusTag(title: "Source protected", color: Studio.muted, icon: "lock") }
             if model.preflight != nil || model.job != nil || model.verification != nil {
                 Button(action: model.reset) { Label("New Handoff", systemImage: "plus") }
