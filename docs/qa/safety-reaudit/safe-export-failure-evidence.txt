@@ -1,0 +1,7 @@
+ZIPPER — DELIVERY CHECK
+Checked: 2026-09-07T10:25:56Z
+Result: FAIL
+Archives verified: 8
+Deep member verification: Yes
+Members verified: 281
+Required delivery report is missing or invalid: HANDOFF_MANIFEST.txt. HANDOFF_MANIFEST.txt does not match the delivery evidence in the JSON manifest.

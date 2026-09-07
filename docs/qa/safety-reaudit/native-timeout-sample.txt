@@ -1,0 +1,69 @@
+Analysis of sampling Zipper (pid 61856) every 1 millisecond
+Process:         Zipper [61856]
+Path:            /Users/USER/Desktop/*/Zipper.app/Contents/MacOS/Zipper
+Load Address:    0x102b24000
+Identifier:      studio.zipper.handoff
+Version:         1.0.1 (2)
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  launchd [1]
+Target Type:     live task
+
+Date/Time:       2026-09-07 05:45:53.423 -0400
+Launch Time:     2026-09-07 05:41:01.625 -0400
+OS Version:      macOS 26.5.2 (25F84)
+Report Version:  7
+Analysis Tool:   /usr/bin/sample
+
+Physical footprint:         52.2M
+Physical footprint (peak):  67.1M
+Idle exit:                  untracked
+----
+
+Call graph:
+    1686 Thread_23922043   DispatchQueue_1: com.apple.main-thread  (serial)
+    + 1686 start  (in dyld) + 6992  [0x1890bfe00]
+    +   1686 ZipperApp_main  (in Zipper) + 64  [0x102bde688]  ZipperApp.swift:0
+    +     1686 static App.main()  (in SwiftUI) + 224  [0x1be967344]
+    +       1686 runApp<A>(_:)  (in SwiftUI) + 104  [0x1be69b4a4]
+    +         1686 specialized runApp(_:)  (in SwiftUI) + 140  [0x1be2e547c]
+    +           1686 NSApplicationMain  (in AppKit) + 880  [0x18d9337b0]
+    +             1686 -[NSApplication run]  (in AppKit) + 368  [0x18d95b13c]
+    +               1686 -[NSApplication(NSEventRouting) nextEventMatchingMask:untilDate:inMode:dequeue:]  (in AppKit) + 72  [0x18e4fd5bc]
+    +                 1686 -[NSApplication(NSEventRouting) _nextEventMatchingEventMask:untilDate:inMode:dequeue:]  (in AppKit) + 688  [0x18e4fd8b0]
+    +                   1686 _DPSNextEvent  (in AppKit) + 576  [0x18d968084]
+    +                     1686 _DPSBlockUntilNextEventMatchingListInMode  (in AppKit) + 228  [0x18e01435c]
+    +                       1686 _BlockUntilNextEventMatchingListInMode  (in HIToolbox) + 48  [0x1964ac14c]
+    +                         1686 ReceiveNextEventCommon  (in HIToolbox) + 488  [0x1963228bc]
+    +                           1686 RunCurrentEventLoopInMode  (in HIToolbox) + 320  [0x19631f560]
+    +                             1686 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x18960c1c4]
+    +                               1686 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x1895399c4]
+    +                                 1686 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x18953b0d8]
+    +                                   1686 mach_msg  (in libsystem_kernel.dylib) + 24  [0x189439fc0]
+    +                                     1686 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x1894429c0]
+    +                                       1686 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x18944c574]
+    +                                         1686 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x189439c34]
+    1686 Thread_23922068: com.apple.NSEventThread
+    + 1686 thread_start  (in libsystem_pthread.dylib) + 8  [0x189478c1c]
+    +   1686 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x18947dc58]
+    +     1686 _NSEventThread  (in AppKit) + 184  [0x18da89c7c]
+    +       1686 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x18960c1c4]
+    +         1686 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x1895399c4]
+    +           1686 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x18953b0d8]
+    +             1686 mach_msg  (in libsystem_kernel.dylib) + 24  [0x189439fc0]
+    +               1686 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x1894429c0]
+    +                 1686 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x18944c574]
+    +                   1686 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x189439c34]
+    1686 Thread_23950930
+      1686 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x189478c10]
+        1686 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x189479f0c]
+          1686 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x18943b9f0]
+
+Total number in stack (recursive counted multiple, when >=5):
+
+Sort by top of stack, same collapsed (when >= 5):
+        mach_msg2_trap  (in libsystem_kernel.dylib)        3372
+        __workq_kernreturn  (in libsystem_kernel.dylib)        1686
+
+
+Binary image inventory omitted from this audit excerpt.

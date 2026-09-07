@@ -1,0 +1,2580 @@
+{
+  "source": "/Users/atiliobarreda/Desktop/video/VISUAL DEALERS/VISUAL DEALERS/NYC/CAM 1/XDROOT/Clip",
+  "file_count": 281,
+  "extensions": {
+    ".XML": 95,
+    ".MXF": 95,
+    ".BIM": 91
+  },
+  "total_source_bytes": 72835846074,
+  "all_xml_mxf_umids_match": true,
+  "source_names_sizes_identities_mtimes_ctimes_unchanged": true,
+  "records": [
+    {
+      "stem": "DISCLOSURE_DAY0024",
+      "xml_sha256": "b01a2fed7cf5e530855fdd074ed2eb787df4350084bc6b5c8cc5bfc52907f1c9",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0025",
+      "xml_sha256": "2804dc29f76d335fa4987cc49d7d25fbbd1533881c95065dfa6942b764e7ecdd",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0026",
+      "xml_sha256": "cb02fc3a3d4ab22500f46b382cab708e288b67fb55d5d1a977a29b3750dd7f73",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0027",
+      "xml_sha256": "54f4ec35c2a25399540cbe1f3ea1802a9cfe58179a63087f5996c8c5d07d5d65",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0028",
+      "xml_sha256": "89fcb41e5f3210d4a5de17d103580de844ec74ee85577e1164f33f24824cd1ce",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0029",
+      "xml_sha256": "0e13f3034528b232fbf8ae6b7b5947251b272cc91acaa4ceed3885f5d9d0aa93",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0030",
+      "xml_sha256": "aba5c53003490d78edc4e9f767bc6cad6b1fac1a10e75b44301dc042916c06f5",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0031",
+      "xml_sha256": "270ab1a3e77c18ac43f39dadb9e9e2ec4afaccc4b7f9170a4a731c651caca0ca",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0032",
+      "xml_sha256": "a841599dd3517c7dfa01965ae988913c17c982aedebd0e3c20b43c0d7252dad9",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0033",
+      "xml_sha256": "fa2430fbd63c53a8af235452b0f0eb7d20c48129e1be0bc285a6a8af14b5217c",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0034",
+      "xml_sha256": "b0f96bf5a0bee1407b9262971974944ba3b45192b562a775f6804b89a9400702",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0035",
+      "xml_sha256": "552861d5996f640d28135bc224d4d1883a86a038dc713add59634863f86172c3",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0036",
+      "xml_sha256": "c246c21657a7dde20eefcd688ca73ddb8793b59de741b712ecd1f4cee16c4996",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0037",
+      "xml_sha256": "3193af585d41379ba36c355240e0de74868b5325af66bf735cd1c3cd68940ac1",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0038",
+      "xml_sha256": "f0188767fd32a3fc8d1fe7462e948fcc3a1dcd4a32751a254336677186f6023d",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0039",
+      "xml_sha256": "2e4185f5bf90b64e6e30b325e2f86dd912e9b14ac64f7c59301c71808e785f20",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0040",
+      "xml_sha256": "97ce6373816bac681563665bfe8c4f5d9a7237d09d281eb10a19f5bec99bdbe0",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0041",
+      "xml_sha256": "d4355dc0e3db32bc60e74badc618540a933a5ba27f39c235f004b06faac07cb5",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0042",
+      "xml_sha256": "3385a1acac715af1b3c0c630ea2f58aa1718edc9da782b0d07b28010af5a94dd",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0043",
+      "xml_sha256": "7d54120143fb833a56ecb3bd3cc7df7cad9bd2851b518917cd7432d2974a3c68",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0044",
+      "xml_sha256": "fad16a4870a93ffa0593ca3bc97d521cb44a77e43727ba8a3c94ff77026633bb",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0045",
+      "xml_sha256": "3f1b8adf6eebc964f2e25a36f327c47bd90cacdb4d9e130ebc92a069e172c79e",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0046",
+      "xml_sha256": "c868f2107b2e183048e2cc1b7d4dc260c21710af35d8746743eea56fbf394b71",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0047",
+      "xml_sha256": "11cb110ebeaa2e4156f104171ff7433175b2edfda318b824aafa1c7de7d17f7c",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0048",
+      "xml_sha256": "14eab4ba8c2bf31a68489e7d26e542eec268749e880b1439b84c0564ab203a1e",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0049",
+      "xml_sha256": "ba7f799e88d92c8930d41a250f989abb79a3faa517052ad587013e286aa2abf5",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0050",
+      "xml_sha256": "caa1845dc1d68cf0b1829c1ce02f4f57796123a9ea4f979d29519e25486d3df0",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0051",
+      "xml_sha256": "555c425b1683b44756221596c6c22911608c955c731b8976aac0473dd656ef9b",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0052",
+      "xml_sha256": "3b68d906b6443faca3faae821d3f61cb74fd6aff0e68cbfb3f642577bb38d408",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0053",
+      "xml_sha256": "4dea0ab3a42588d203901c7ee7c728b96d3b66469e0f7a297245fd6ba25f80e7",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0054",
+      "xml_sha256": "e97a8f47bc99254870b77da666b2b06852af169febe01492aeeff177af719b61",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0055",
+      "xml_sha256": "cf71679542bb4888d19e1388675d2c6a54706a5d8d6a849afcc8633a47671ffe",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0056",
+      "xml_sha256": "af64b78d9c0fd7969667356a76180b561b616fc4e857177f86f5ec714e04b423",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0057",
+      "xml_sha256": "bcb3cd0445625e7809138e6d7f815c15ff51b2781b7ae173ed7ddb0e352331d2",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "179.82p",
+      "recording_mode": "slowAndQuickMotion",
+      "bim_present": false,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "none"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "none"
+        ],
+        "Accelerometor": [
+          "none"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0058",
+      "xml_sha256": "887260597241587225ea7aafe29029b8d2d22eef12cbb50443fcd85ad71e9689",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "179.82p",
+      "recording_mode": "slowAndQuickMotion",
+      "bim_present": false,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "none"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "none"
+        ],
+        "Accelerometor": [
+          "none"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0059",
+      "xml_sha256": "51a43008434b6dd75b0d6590fd8c3a84bfd59c7a1aab418076d388237e6f53b7",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "179.82p",
+      "recording_mode": "slowAndQuickMotion",
+      "bim_present": false,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "none"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "none"
+        ],
+        "Accelerometor": [
+          "none"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0060",
+      "xml_sha256": "31f3f524d6e383dc6f7174283f5bc3f196e267731100c5605a6097ced6e6d9b9",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "179.82p",
+      "recording_mode": "slowAndQuickMotion",
+      "bim_present": false,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "none"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "none"
+        ],
+        "Accelerometor": [
+          "none"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0061",
+      "xml_sha256": "e00cd78da861e0c37722ac5daeebefc5d4ac8de48dc40f3c42383f4f8fab1e62",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0062",
+      "xml_sha256": "5b6f3eea68ae8b0e67e6a4e05948e975931880e27f21d1201c12b46c7acee78a",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0063",
+      "xml_sha256": "c37238f7f0b4ad9027e9daf7732b12adfbbc272d960e57e65e7878826abce033",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0064",
+      "xml_sha256": "ff0ffcdb7118e3d8dcf0cd9bafdb7d6d7513a30177399f236311ad15de2e05f7",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0065",
+      "xml_sha256": "8b45cc3c84682848a1593e31072581b960df38883cb3c319076551bb926faf0b",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0066",
+      "xml_sha256": "28caa0989ca33ba654d78a75b30f1285d348937b8d35d2558721a01ec70e9425",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0067",
+      "xml_sha256": "be47130ce14d976bb72a3464c045760157c21055998841f28c45aa030cc9e729",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "29.97p",
+      "recording_mode": "slowAndQuickMotion",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "none"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "none"
+        ],
+        "Accelerometor": [
+          "none"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0068",
+      "xml_sha256": "842c7e0dd6682ce0d7fd885c283555a4ed9959ba529ff5033869b0aa7aa45dfc",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "29.97p",
+      "recording_mode": "slowAndQuickMotion",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "none"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "none"
+        ],
+        "Accelerometor": [
+          "none"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0069",
+      "xml_sha256": "34d04e13ae06c727d21af6b02109f3f3e32961cdb24d99390448cdba799e140d",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "29.97p",
+      "recording_mode": "slowAndQuickMotion",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "none"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "none"
+        ],
+        "Accelerometor": [
+          "none"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0070",
+      "xml_sha256": "98ce06f17f47038f0df7fbb5e45a12b94163e0a9f5446194fe22412c4314e45e",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "29.97p",
+      "recording_mode": "slowAndQuickMotion",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "none"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "none"
+        ],
+        "Accelerometor": [
+          "none"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0071",
+      "xml_sha256": "0d8094e8ac21a027bc46882ba6f1413df98fe029dbde48881a3d071aca12fc7d",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0072",
+      "xml_sha256": "c68e9ee79d3fa2628fecb9439cb0a0587424b2b8b830b08bd6d0a73cd102e113",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0073",
+      "xml_sha256": "2a00be461f0e7ae74bb98bc28fdcc81ac32db25502390b98f0d2e4b1d833f134",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0074",
+      "xml_sha256": "ac484d368c6c5e76060000c284d98c625a4426d2ba2c7c96c641b07a62dfc0dc",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0075",
+      "xml_sha256": "78d7796812c1326d0a5085c400dee4dce76ad650bd5575f5be5cde8eae2c6865",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0076",
+      "xml_sha256": "fbaa97c2e258a241c0d1afd757c693167b6fc6b27f0858d354c89440ef6a05b5",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0077",
+      "xml_sha256": "b087d9a903e0be4f2832543163802662eb13aa4027195e8c93bd964f452d159e",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0078",
+      "xml_sha256": "252657705f0193020e306e83b7f6695980580826d56adc99889f350f694e83f6",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0079",
+      "xml_sha256": "9d7bd96f0d473b4fd8d6e098a004eb60bb90e9b8dbae01b9da65977fd28e7836",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0080",
+      "xml_sha256": "ca7306a1367a6e3c2eb31c9934ab317f2f6e87b7065f8525973264327c9e98a3",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0081",
+      "xml_sha256": "0aab16a226f0e3bce596077d04594bb2eca118a8eb66eeb993754da361ed0691",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0082",
+      "xml_sha256": "cf9dedcd1c097100688f83de08c4bae75c06344d6534f32fe41a7992a053263a",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0083",
+      "xml_sha256": "e77931ac4bf51957f0ae1000e291983da463aa9bd8e386d8a2ea00028ea9baef",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0084",
+      "xml_sha256": "79848966633d80894468a17dd5077a4c3b4d0f7e41b8feee8087eec1534629d8",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0085",
+      "xml_sha256": "af701578ccd1196a21e4f7584b31157132a4a1588636b5beb54930c5f080ef55",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0086",
+      "xml_sha256": "e18e1325c1be802804aa42108c6aa5e9148743a26259c1ad7b02137013a8609b",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0087",
+      "xml_sha256": "409dbe00d2d43a9fd549834218bea363adda81291ac9b28375e9c1fa9e69b3e1",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0088",
+      "xml_sha256": "cd21d06eba7a1855801545c2af3cad54d07fe6a36ab80b4f4fc10bd46949647f",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0089",
+      "xml_sha256": "fdf01b013684bdc927dc842aaa5e0e0c61d88b1a2f6766b8203b8e2c4efd3d5a",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0090",
+      "xml_sha256": "dc4a3adff42239db962e8af38ee49a6f7fb130fa300b0a079de03bf5b8db46de",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0091",
+      "xml_sha256": "4883e57cef866c0c790961c0b48377dab8de13ba16dc4de2c43fb6e4d45627d1",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0092",
+      "xml_sha256": "78fa8f5f992fddcff50051482e38d40079d2fadd02ef9fab16029e5c880964ea",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0093",
+      "xml_sha256": "8f33c20e2925db39f65cd551da1c386ef254cc3d6871f154a57a64cb8b9bb5dd",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0094",
+      "xml_sha256": "1a586b0122c1819abc143038e371f0accb20bcdaeaa3eade778dcc58eb608cba",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0095",
+      "xml_sha256": "df2c38ab8a53621e7fbd55524ac8ce2f9eec749acaee235039bea8c50a6ee783",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0096",
+      "xml_sha256": "cd2f1676d9b31a378f9dec55d26c7c817b2a189962e5ed0ca86a46726fb8eddd",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0097",
+      "xml_sha256": "3e929a731cd34ce2b42aa643861276902165294053b650ab7285ffa527e6806a",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0098",
+      "xml_sha256": "d530ab721ed26e4f80cd534d946372dd8df473873c0007653ba9579b1a33e177",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0099",
+      "xml_sha256": "adc47109233780e142d9a452beefe99c8ef5f6f724bc41970749d1c18726939a",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0100",
+      "xml_sha256": "a7369008221b12fe75a6afdeaf99cb02cb75b09fc2c13e6a6bfff98836431026",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0101",
+      "xml_sha256": "98ff6908971372c8d96dc12922b103862a263814e79e8941f92f923af326d238",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0102",
+      "xml_sha256": "f5cd14af145b6249453e40c89234a2f9c28b97e4aab3c47416974f1b3bb4eb98",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0103",
+      "xml_sha256": "f1f8bd2c4439a520b37412215cb2eadfd77e02923abc3cd7cfc837eb0344cfa8",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0104",
+      "xml_sha256": "d09783273d4074789edb31edf5774dda93fc47142de7e85e35e5a5eee11c705e",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0105",
+      "xml_sha256": "1f50148a83f68bebb5b4f6128dab5be9ae87bb5c222697ad22ee99ffffa6a9d2",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0106",
+      "xml_sha256": "508e0cedd6b56a26500b044e7416322166b3499c2d9949295c27fcdf1c96e03f",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0107",
+      "xml_sha256": "1e4e39b1fb6fd260d6721478de863bb06dd00b4cd19811e797f13c67e99b287f",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0108",
+      "xml_sha256": "760291f607f7da6bc3c8700ad17bbf4b46631c0f0d91d753150eb5effa728695",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0109",
+      "xml_sha256": "5e39e9e4d30582abb5d826a10c7a85b1af79008eca14ae04731bbc465a9cd6c7",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0110",
+      "xml_sha256": "0aa13df146890bab84e38699b6bf0cd236be533fcfb8a034586d765810d2562a",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "start"
+        ],
+        "DistortionCorrection": [
+          "start"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0111",
+      "xml_sha256": "7c0cd536a89b1cdcfa2cf2bfbbdf4b77a3626b96fd948c7d5bcb9f7513ab79c4",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0112",
+      "xml_sha256": "54e6177324a56e2028d68567cbba21fe2002694aa10adc7613f2c891175d273d",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0113",
+      "xml_sha256": "4e58f05248f8d06fa5865e074796af10431cbed209b99efe372ee881e82f030e",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0114",
+      "xml_sha256": "c8d869fabe877771318ee211d543a663f1ff0966ae30469c06a98d2538eca803",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0115",
+      "xml_sha256": "58edd520ade34325bc0e611fda7e5ebd6aebb42ee33de52ae895e3c8e2bd88a6",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0116",
+      "xml_sha256": "c8f876d5939b891e6fdd58d16fbab31acf6baac5613357faf23ac885c9ceb244",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0117",
+      "xml_sha256": "c4cb2f345d99218a7c284f97700d85f8bbb2a6d93a302e13254910e91abbf103",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    },
+    {
+      "stem": "DISCLOSURE_DAY0118",
+      "xml_sha256": "3dfbb06fc88a7924c7b9cd49d20bbd46fd4853c019c895753969c9ea738b38da",
+      "manufacturer": "Sony",
+      "model": "PXW-FX9V",
+      "capture_fps": "23.98p",
+      "recording_mode": "normal",
+      "bim_present": true,
+      "acquisition_events": {
+        "ImagerControlInformation": [
+          "start"
+        ],
+        "LensControlInformation": [
+          "none"
+        ],
+        "DistortionCorrection": [
+          "none"
+        ],
+        "Gyroscope": [
+          "start"
+        ],
+        "Accelerometor": [
+          "start"
+        ]
+      },
+      "xml_mxf_umid_match": true
+    }
+  ],
+  "limits": "Read-only metadata and header inspection; no full footage hashing, decoding, archive creation, or original-card comparison."
+}

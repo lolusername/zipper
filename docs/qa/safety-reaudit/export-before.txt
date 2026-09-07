@@ -1,0 +1,10 @@
+v1.0.1 native regression reproduced with only synthetic source files.
+Source sidebar and destination sidebar were empty. Verify Existing Handoff passed, then Export Report accepted its recorded original source directory.
+Created fixture-only reaudit-source-export-probe.txt:
+ZIPPER — DELIVERY CHECK
+Checked: 2026-09-07T09:44:46Z
+Result: PASS
+Archives verified: 2
+Deep member verification: Yes
+Members verified: 9
+

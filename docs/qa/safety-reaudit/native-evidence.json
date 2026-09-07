@@ -1,0 +1,42 @@
+{
+  "files_verified": 281,
+  "archives": [
+    {
+      "name": "FOOTAGE_001.zip",
+      "sha256": "cfe8c71b20f1402e3f3d74f2b4d07506a5c3c8dc984e9e6ece481af4fff15024"
+    },
+    {
+      "name": "FOOTAGE_002.zip",
+      "sha256": "1341232f32dd59dd54ccc42be8dea066578dbc9448690ab059d17874a2425ac0"
+    },
+    {
+      "name": "FOOTAGE_003.zip",
+      "sha256": "0b08379fe5f2de562d4275b0cc1d4aae3494b7705caae3cb61ef48b2b66ad88b"
+    },
+    {
+      "name": "FOOTAGE_004.zip",
+      "sha256": "cd72d8dc215e59391459e26527450ed0a4a5439764c3e5e5954e2387ec4cb5db"
+    },
+    {
+      "name": "FOOTAGE_005.zip",
+      "sha256": "1f7a15d79ed7dbef090ad4aa465428c8d1ccb79e14dc5848e13a6f94529edbba"
+    },
+    {
+      "name": "FOOTAGE_006.zip",
+      "sha256": "1e20cadd2bb289b3d3aec54d40f545084fdc294d04e500d78aadfc26cb7f8235"
+    },
+    {
+      "name": "FOOTAGE_007.zip",
+      "sha256": "ab9b0f29f31612edbc291d57b49cc95427b14279dc82a3776811a81db1fbc4a8"
+    },
+    {
+      "name": "FOOTAGE_008.zip",
+      "sha256": "fa99091043b6f0a5fb22b50d3b421ec098500a63fbce8e069330ec92814685ba"
+    }
+  ],
+  "source_bytes": 415551,
+  "source_unchanged": true,
+  "independent_reader": "Python zipfile",
+  "manifest_version": "1.0.2",
+  "manifest_status": "completed"
+}

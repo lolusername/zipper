@@ -1,0 +1,14 @@
+{
+  "application_version" : "1.0.2",
+  "archives" : 8,
+  "clip_packages" : 95,
+  "completed_at" : "2026-09-07T10:29:11Z",
+  "creation_completed" : true,
+  "deep_reverification_passed" : true,
+  "destination" : "\/Users\/atiliobarreda\/Desktop\/software\/personal\/zipper\/.build\/actual-footage-qualification-422CF942-A92C-4A5F-BBF9-890C97BF375F",
+  "limits" : "Actual APFS folder, release HandoffCore engine; no physical media disconnect or power-loss test, no codec decode or full-card reconstruction.",
+  "source" : "\/Users\/atiliobarreda\/Desktop\/video\/VISUAL DEALERS\/VISUAL DEALERS\/NYC\/CAM 1\/XDROOT\/Clip",
+  "source_bytes" : 72835846074,
+  "source_files" : 281,
+  "source_metadata_unchanged" : true
+}

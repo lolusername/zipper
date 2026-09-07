@@ -1,0 +1,22 @@
+2026-09-07T10:24:43Z PREFLIGHT PASS: 281 files, 72835846074 bytes. Destination: /Users/atiliobarreda/Desktop/software/personal/zipper/.build/actual-footage-qualification-422CF942-A92C-4A5F-BBF9-890C97BF375F
+2026-09-07T10:24:43Z Hashing source |  | 0% | 0/8 archives
+2026-09-07T10:24:58Z Hashing source | DISCLOSURE_DAY0051.MXF | 7% | 0/8 archives
+2026-09-07T10:25:13Z Hashing source | DISCLOSURE_DAY0058.MXF | 15% | 0/8 archives
+2026-09-07T10:25:28Z Verifying archived members · SHA-256 | DISCLOSURE_DAY0068.MXF | 22% | 0/8 archives
+2026-09-07T10:25:43Z Verifying archived members · SHA-256 | DISCLOSURE_DAY0047.MXF | 30% | 1/8 archives
+2026-09-07T10:25:58Z Verifying archived members · SHA-256 | DISCLOSURE_DAY0056.MXF | 37% | 2/8 archives
+2026-09-07T10:26:13Z Verifying archived members · SHA-256 | DISCLOSURE_DAY0038.MXF | 45% | 3/8 archives
+2026-09-07T10:26:28Z Verifying archived members · SHA-256 | DISCLOSURE_DAY0031.MXF | 52% | 4/8 archives
+2026-09-07T10:26:43Z Writing ZIP64 · STORE | DISCLOSURE_DAY0117.MXF | 59% | 5/8 archives
+2026-09-07T10:26:58Z Writing ZIP64 · STORE | DISCLOSURE_DAY0107.MXF | 67% | 6/8 archives
+2026-09-07T10:27:13Z Writing ZIP64 · STORE | DISCLOSURE_DAY0116.MXF | 74% | 7/8 archives
+2026-09-07T10:27:28Z Final source stability check · SHA-256 | DISCLOSURE_DAY0055.MXF | 83% | 8/8 archives
+2026-09-07T10:27:43Z Final source stability check · SHA-256 | DISCLOSURE_DAY0082.MXF | 90% | 8/8 archives
+2026-09-07T10:27:58Z Final source stability check · SHA-256 | DISCLOSURE_DAY0112.MXF | 98% | 8/8 archives
+2026-09-07T10:28:01Z CREATE PASS. Running independent deep delivery verification.
+2026-09-07T10:28:01Z Checking archive SHA-256 | CAM1_AUDIT_001.zip | 0% | 0/8 archives
+2026-09-07T10:28:16Z Deep verification · every archived member | DISCLOSURE_DAY0083.MXF | 22% | 1/8 archives
+2026-09-07T10:28:31Z Checking archive SHA-256 | CAM1_AUDIT_004.zip | 43% | 3/8 archives
+2026-09-07T10:28:46Z Checking archive SHA-256 | CAM1_AUDIT_006.zip | 65% | 5/8 archives
+2026-09-07T10:29:01Z Deep verification · every archived member | DISCLOSURE_DAY0107.MXF | 86% | 6/8 archives
+2026-09-07T10:29:11Z ALL ACTUAL-FOOTAGE CHECKS PASSED

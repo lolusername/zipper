@@ -1,0 +1,13 @@
+[0/1] Planning build
+Building for production...
+[0/5] Write sources
+[2/5] Write swift-version--58304C5D6DBC2206.txt
+[4/6] Compiling HandoffCore ClipGrouping.swift
+[5/7] Compiling ZipperApp AppModel.swift
+[5/7] Write Objects.LinkFileList
+[6/7] Linking Zipper
+Build complete! (15.70s)
+/Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app: replacing existing signature
+/Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app: valid on disk
+/Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app: satisfies its Designated Requirement
+Built app: /Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app

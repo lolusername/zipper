@@ -4,7 +4,7 @@ Environment: Apple Silicon, macOS 26.5.2 (25F84), Xcode 26.5, Swift 6.3.2. Deplo
 
 ## Automated checks — historical v1.0.0 baseline
 
-The v1.0.0 full opt-in suite passed **64 tests, zero failures, zero skips**, in 31.805 seconds. The v1.0.1 results are recorded below:
+The v1.0.0 full opt-in suite passed **64 tests, zero failures, zero skips**, in 31.805 seconds. The v1.0.1 and v1.0.2 results are recorded below:
 
 ```sh
 ZIPPER_RUN_LARGE_ZIP_TESTS=1 ZIPPER_RUN_FILESYSTEM_TESTS=1 swift test
@@ -51,7 +51,7 @@ Screenshots and the complete [native QA record](qa/NATIVE-QA.md) are in [qa](qa/
 
 These results establish the implemented safety and verification behavior in this environment. They do **not** establish qualification for all hardware or operating systems.
 
-Before production deployment, validate representative physical camera media and destination enclosures, physical disconnect/reconnect in every phase, actual power loss, full 200 GB–1 TB transfers, sleep/wake behavior with removable hardware, network server limits, and supported macOS versions. FAT32 validation used a real mounted disk image, not a physical FAT32 device. The source abstraction is a code-level read-only interface; this local build is not an OS-enforced read-only sandbox. Hardware write protection remains a separate assurance.
+Before production deployment, validate representative physical camera media and destination enclosures, physical disconnect/reconnect in every phase, actual power loss, full 200 GB–1 TB transfers, sleep/wake behavior with removable hardware, and supported macOS versions. FAT32 validation used a real mounted disk image, not a physical FAT32 device. The source abstraction is a code-level read-only interface; this local build is not an OS-enforced read-only sandbox. Hardware write protection remains a separate assurance.
 
 The app is locally runnable and ad-hoc signed. Public distribution still requires Developer ID signing and notarization. No signing credentials were supplied or used.
 
@@ -66,3 +66,13 @@ Native QA in the rebuilt v1.0.1 app used three groups, `DISCLOSURE_DAY0115` thro
 - **Verify Handoff Again** passed deep verification of **2 ZIPs and 9 archived members**.
 
 See the [v1.0.1 QA record](qa/triplet-support/README.md) and [machine-readable native evidence](qa/triplet-support/native-evidence.json). The hardware and deployment qualification limits above still apply.
+
+## v1.0.2 safety re-audit
+
+The expanded opt-in suite passed **120 tests, zero failures, zero skips**, in **70.293 seconds**. After the final camera-scope warning was added, all **17 camera tests** passed again. The release build and strict code-signature validation passed. See [the complete audit record](qa/safety-reaudit/README.md), [full test output](qa/safety-reaudit/full-test-run.txt), and [final camera tests](qa/safety-reaudit/camera-final-tests.txt).
+
+The rebuilt native app successfully created and deeply reverified **8 ZIPs / 281 synthetic source files** (95 MXF, 95 XML, 91 BIM), totaling 415,551 source bytes. Python zipfile independently matched every archived member against the source baseline. The test source remained unchanged; the output directory remained empty through preflight.
+
+Separately, the user's actual 72,835,846,074-byte Sony folder passed **native preflight only** with 95 clip packages, 281 entries, and eight planned archives. Read-only XML/FFprobe inspection matched all 95 XML target UMIDs to the associated MXF material-package UMIDs and identified PXW-FX9V in every XML. A subsequent run linked the packaged release HandoffCore objects into a temporary audit harness and successfully archived all 72.84 GB, rehashed the full source, and deeply reverified all eight archives. Python zipfile then independently compared every archived byte directly with the current source, checked every member CRC and manifest SHA-256, and confirmed unchanged source/delivery metadata. This was not a video-codec decode or a physical camera-card qualification. See [the camera audit](SONY-STRUCTURE-AUDIT.md).
+
+Current creation destinations are writable local APFS only. Local FAT/exFAT/HFS+ sources and delivered archives require an OS read-only mount. Network filesystems are unsupported. The physical-hardware qualification limits above still apply.

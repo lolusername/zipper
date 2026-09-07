@@ -1,0 +1,307 @@
+[0/1] Planning build
+Building for debugging...
+[0/6] Write sources
+[2/6] Write swift-version--58304C5D6DBC2206.txt
+[4/9] Compiling HandoffCore Preflight.swift
+[5/9] Compiling HandoffCore JobEngine.swift
+[6/9] Emitting module HandoffCore
+[6/11] Write Objects.LinkFileList
+[7/13] Linking Zipper
+[8/13] Applying Zipper
+[10/13] Compiling HandoffCoreTests RecoveryAuditTests.swift
+[11/13] Emitting module HandoffCoreTests
+[11/13] Write Objects.LinkFileList
+[12/13] Linking ZipperPackageTests
+Build complete! (1.46s)
+Test Suite 'All tests' started at 2026-09-07 06:04:27.865.
+Test Suite 'ZipperPackageTests.xctest' started at 2026-09-07 06:04:27.866.
+Test Suite 'ArchiveIntegrityAuditTests' started at 2026-09-07 06:04:27.866.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testArchiveMemberOrderAndInventoriesCannotOmitOrDuplicateBIM]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testArchiveMemberOrderAndInventoriesCannotOmitOrDuplicateBIM]' passed (0.159 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeArchiveNameDoesNotSatisfyDifferentExpectedFilenameBytes]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeArchiveNameDoesNotSatisfyDifferentExpectedFilenameBytes]' passed (0.151 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeEqualityCannotHideDifferentManifestMemberBytes]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeEqualityCannotHideDifferentManifestMemberBytes]' passed (0.139 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeSourceInventoryRenameCannotPassDeepVerification]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCanonicalUnicodeSourceInventoryRenameCannotPassDeepVerification]' passed (0.145 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCorruptRequiredHumanReportsCannotReceivePassingDeliveryCheck]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testCorruptRequiredHumanReportsCannotReceivePassingDeliveryCheck]' passed (0.165 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testEveryZIP64StructuralFieldAndMemberBoundaryRejectsSingleByteDamage]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testEveryZIP64StructuralFieldAndMemberBoundaryRejectsSingleByteDamage]' passed (0.269 seconds).
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacy100And101ReportFormatsStillVerifyWithoutOriginalSource]' started.
+Test Case '-[HandoffCoreTests.ArchiveIntegrityAuditTests testLegacy100And101ReportFormatsStillVerifyWithoutOriginalSource]' passed (0.268 seconds).
+Test Suite 'ArchiveIntegrityAuditTests' passed at 2026-09-07 06:04:29.163.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 1.297 (1.297) seconds
+Test Suite 'CameraTripletTests' started at 2026-09-07 06:04:29.163.
+Test Case '-[HandoffCoreTests.CameraTripletTests testArchiveCountOneTwoAndThreeKeepsEachTripletIndivisible]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testArchiveCountOneTwoAndThreeKeepsEachTripletIndivisible]' passed (0.008 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationAfterCancellationBlocksResumeAndPreservesVerifiedArchive]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationAfterCancellationBlocksResumeAndPreservesVerifiedArchive]' passed (0.136 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationAfterPreflightBlocksWithoutDestinationWrites]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationAfterPreflightBlocksWithoutDestinationWrites]' passed (0.006 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationDuringFinalSourceCheckPreventsSuccessfulPublication]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationDuringFinalSourceCheckPreventsSuccessfulPublication]' passed (0.190 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testCancellationAndResumeRetainsVerifiedTripletArchiveAndRehashesAllBIMFiles]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testCancellationAndResumeRetainsVerifiedTripletArchiveAndRehashesAllBIMFiles]' passed (0.339 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testCompletedHandoffPreservesAllNamesBytesAndHashesAndVerifiesWithoutOriginals]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testCompletedHandoffPreservesAllNamesBytesAndHashesAndVerifiesWithoutOriginals]' passed (0.924 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testCorruptBIMPayloadFailsIndependentMemberAndWholeHandoffVerification]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testCorruptBIMPayloadFailsIndependentMemberAndWholeHandoffVerification]' passed (0.289 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testExactAndM01XMLTogetherAreAmbiguousAndBlock]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testExactAndM01XMLTogetherAreAmbiguousAndBlock]' passed (0.005 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testLegacyExactBasenamePairsAndVersionOneManifestStateStillVerify]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testLegacyExactBasenamePairsAndVersionOneManifestStateStillVerify]' passed (0.160 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testM01XMLWithoutOptionalBIMStillCreatesAndVerifies]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testM01XMLWithoutOptionalBIMStillCreatesAndVerifies]' passed (0.139 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testMaximumSizeIncludesBIMPayloadAndZIPOverheadWithoutSplittingTriplets]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testMaximumSizeIncludesBIMPayloadAndZIPOverheadWithoutSplittingTriplets]' passed (0.331 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testOrphanBIMIsVisibleAndBlocksPreflight]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testOrphanBIMIsVisibleAndBlocksPreflight]' passed (0.005 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testPastedCardListingContains281FilesAcross95MixedPackages]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testPastedCardListingContains281FilesAcross95MixedPackages]' passed (3.843 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testRealMediaStemEndingM01IsNeverTruncated]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testRealMediaStemEndingM01IsNeverTruncated]' passed (0.003 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testScreenshotTripletPreflightIncludesAllNineFilesAndWritesNothing]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testScreenshotTripletPreflightIncludesAllNineFilesAndWritesNothing]' passed (0.005 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testSharedXMLBetweenRealM01MediaStemAndCameraStemBlocksBoth]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testSharedXMLBetweenRealM01MediaStemAndCameraStemBlocksBoth]' passed (0.001 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testSimilarNumberedStemsDoNotCrossAssociateSidecars]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testSimilarNumberedStemsDoNotCrossAssociateSidecars]' passed (0.003 seconds).
+Test Suite 'CameraTripletTests' passed at 2026-09-07 06:04:35.553.
+	 Executed 17 tests, with 0 failures (0 unexpected) in 6.388 (6.390) seconds
+Test Suite 'CrashRecoveryTests' started at 2026-09-07 06:04:35.553.
+Test Case '-[HandoffCoreTests.CrashRecoveryTests testAbruptProcessExitRecoversAtThreeDurableBoundaries]' started.
+Test Case '-[HandoffCoreTests.CrashRecoveryTests testAbruptProcessExitRecoversAtThreeDurableBoundaries]' passed (1.272 seconds).
+Test Case '-[HandoffCoreTests.CrashRecoveryTests testCrashWorker]' started.
+Test Case '-[HandoffCoreTests.CrashRecoveryTests testCrashWorker]' passed (0.000 seconds).
+Test Suite 'CrashRecoveryTests' passed at 2026-09-07 06:04:36.826.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 1.273 (1.273) seconds
+Test Suite 'DestinationIntegrityAuditTests' started at 2026-09-07 06:04:36.826.
+Test Case '-[HandoffCoreTests.DestinationIntegrityAuditTests testExFATDestinationRequiresReadOnlyMountForIntegrityVerification]' started.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/DestinationIntegrityAuditTests.swift:85: error: -[HandoffCoreTests.DestinationIntegrityAuditTests testExFATDestinationRequiresReadOnlyMountForIntegrityVerification] : XCTAssertTrue failed - Required delivery report is missing or invalid: HANDOFF_LOG.txt. HANDOFF_LOG.txt does not match the audit events in the JSON manifest.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/DestinationIntegrityAuditTests.swift:85: error: -[HandoffCoreTests.DestinationIntegrityAuditTests testExFATDestinationRequiresReadOnlyMountForIntegrityVerification] : XCTAssertTrue failed - Required delivery report is missing or invalid: HANDOFF_LOG.txt. HANDOFF_LOG.txt does not match the audit events in the JSON manifest.
+/Users/atiliobarreda/Desktop/software/personal/zipper/Tests/HandoffCoreTests/DestinationIntegrityAuditTests.swift:38: error: -[HandoffCoreTests.DestinationIntegrityAuditTests testExFATDestinationRequiresReadOnlyMountForIntegrityVerification] : XCTAssertEqual failed: ("16") is not equal to ("0") - hdiutil: couldn't unmount "disk9" - Resource busy
+
+Test Case '-[HandoffCoreTests.DestinationIntegrityAuditTests testExFATDestinationRequiresReadOnlyMountForIntegrityVerification]' failed (3.361 seconds).
+Test Case '-[HandoffCoreTests.DestinationIntegrityAuditTests testFAT32DestinationRequiresReadOnlyMountForIntegrityVerification]' started.
+Test Case '-[HandoffCoreTests.DestinationIntegrityAuditTests testFAT32DestinationRequiresReadOnlyMountForIntegrityVerification]' passed (3.419 seconds).
+Test Case '-[HandoffCoreTests.DestinationIntegrityAuditTests testHFSDestinationRequiresReadOnlyMountForIntegrityVerification]' started.
+Test Case '-[HandoffCoreTests.DestinationIntegrityAuditTests testHFSDestinationRequiresReadOnlyMountForIntegrityVerification]' passed (2.565 seconds).
+Test Suite 'DestinationIntegrityAuditTests' failed at 2026-09-07 06:04:46.171.
+	 Executed 3 tests, with 3 failures (0 unexpected) in 9.345 (9.346) seconds
+Test Suite 'EngineAuditTests' started at 2026-09-07 06:04:46.171.
+Test Case '-[HandoffCoreTests.EngineAuditTests testArchiveCannotChangeDuringPublishingStage]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testArchiveCannotChangeDuringPublishingStage]' passed (0.208 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testCancellationAtPublishingStageCannotBecomeSuccess]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testCancellationAtPublishingStageCannotBecomeSuccess]' passed (0.170 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testChecksumsReportMustMatchJSONEvidence]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testChecksumsReportMustMatchJSONEvidence]' passed (0.211 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testInterruptedReportPublicationCannotPassDeliveryCheckAndCanResume]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testInterruptedReportPublicationCannotPassDeliveryCheckAndCanResume]' passed (0.313 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testManifestBatchCountMustAgreeWithActualPartition]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testManifestBatchCountMustAgreeWithActualPartition]' passed (0.210 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testManifestCannotBypassOversizedAcknowledgment]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testManifestCannotBypassOversizedAcknowledgment]' passed (0.217 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testManifestCannotCarryConflictingPreflightPackages]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testManifestCannotCarryConflictingPreflightPackages]' passed (0.220 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testPreviouslyCheckedArchiveCannotChangeWhileLaterArchiveIsVerified]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testPreviouslyCheckedArchiveCannotChangeWhileLaterArchiveIsVerified]' passed (0.441 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testPreviouslyPromotedArchiveCannotChangeBeforeJobCompletion]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testPreviouslyPromotedArchiveCannotChangeBeforeJobCompletion]' passed (0.181 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testReportsChangingDuringArchiveVerificationFail]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testReportsChangingDuringArchiveVerificationFail]' passed (0.804 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testRequiredReportsMustAllExistAndBeReadable]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testRequiredReportsMustAllExistAndBeReadable]' passed (0.229 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testSourceModificationAtPublishingStageCannotLeavePassingManifest]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testSourceModificationAtPublishingStageCannotLeavePassingManifest]' passed (0.177 seconds).
+Test Case '-[HandoffCoreTests.EngineAuditTests testSymlinkRequiredReportIsRejected]' started.
+Test Case '-[HandoffCoreTests.EngineAuditTests testSymlinkRequiredReportIsRejected]' passed (0.221 seconds).
+Test Suite 'EngineAuditTests' passed at 2026-09-07 06:04:49.775.
+	 Executed 13 tests, with 0 failures (0 unexpected) in 3.602 (3.604) seconds
+Test Suite 'FilesystemVolumeTests' started at 2026-09-07 06:04:49.775.
+Test Case '-[HandoffCoreTests.FilesystemVolumeTests testRealFAT32FileLimitAndCapacityPreflightWithoutWrites]' started.
+Test Case '-[HandoffCoreTests.FilesystemVolumeTests testRealFAT32FileLimitAndCapacityPreflightWithoutWrites]' passed (2.151 seconds).
+Test Suite 'FilesystemVolumeTests' passed at 2026-09-07 06:04:51.927.
+	 Executed 1 test, with 0 failures (0 unexpected) in 2.151 (2.152) seconds
+Test Suite 'JobIntegrationTests' started at 2026-09-07 06:04:51.927.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testCancellationPreservesVerifiedZIPAndResumeRechecksIt]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testCancellationPreservesVerifiedZIPAndResumeRechecksIt]' passed (0.342 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testCancelledPartialIsRetainedAndRebuiltOnResume]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testCancelledPartialIsRetainedAndRebuiltOnResume]' passed (0.332 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testCorruptExistingArchiveFailsDeliveryAndResumeWillNotOverwriteIt]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testCorruptExistingArchiveFailsDeliveryAndResumeWillNotOverwriteIt]' passed (0.254 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testDeliveryReportsMissingAndUnexpectedArchives]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testDeliveryReportsMissingAndUnexpectedArchives]' passed (0.243 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testFinalSourceRehashCatchesLateMutation]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testFinalSourceRehashCatchesLateMutation]' passed (0.176 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testFullHandoffPreservesRecursiveSourceByteForByteAndVerifiesWithoutSource]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testFullHandoffPreservesRecursiveSourceByteForByteAndVerifiesWithoutSource]' passed (0.327 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testJobLockPreventsConcurrentResume]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testJobLockPreventsConcurrentResume]' passed (0.126 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testManifestTraversalAndUnverifiedStatusAreRejected]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testManifestTraversalAndUnverifiedStatusAreRejected]' passed (0.247 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testMidJobSourceMutationNeverPublishesSuccessAndPersistsFailure]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testMidJobSourceMutationNeverPublishesSuccessAndPersistsFailure]' passed (0.081 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testOversizedArchiveRequiresAcknowledgmentAndNeverSplitsPairs]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testOversizedArchiveRequiresAcknowledgmentAndNeverSplitsPairs]' passed (0.142 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testRecoveryOfInitialPendingStateWithoutFinalState]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testRecoveryOfInitialPendingStateWithoutFinalState]' passed (0.245 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testRecoveryPreservesInterruptedStateWrite]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testRecoveryPreservesInterruptedStateWrite]' passed (0.333 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testRecoveryRejectsDifferentDestinationObject]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testRecoveryRejectsDifferentDestinationObject]' passed (0.127 seconds).
+Test Case '-[HandoffCoreTests.JobIntegrationTests testSourceChangeAfterAnalysisBlocksBeforeAnyDestinationWrites]' started.
+Test Case '-[HandoffCoreTests.JobIntegrationTests testSourceChangeAfterAnalysisBlocksBeforeAnyDestinationWrites]' passed (0.007 seconds).
+Test Suite 'JobIntegrationTests' passed at 2026-09-07 06:04:54.911.
+	 Executed 14 tests, with 0 failures (0 unexpected) in 2.982 (2.984) seconds
+Test Suite 'LargeScalePreflightTests' started at 2026-09-07 06:04:54.911.
+Test Case '-[HandoffCoreTests.LargeScalePreflightTests testSparseTwoHundredGBAndOneTBPlansStayBoundedAndNeverWriteDestination]' started.
+Test Case '-[HandoffCoreTests.LargeScalePreflightTests testSparseTwoHundredGBAndOneTBPlansStayBoundedAndNeverWriteDestination]' passed (1.132 seconds).
+Test Suite 'LargeScalePreflightTests' passed at 2026-09-07 06:04:56.042.
+	 Executed 1 test, with 0 failures (0 unexpected) in 1.132 (1.132) seconds
+Test Suite 'RecoveryAuditTests' started at 2026-09-07 06:04:56.042.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testCorruptVerifiedPartialIsPreservedAndCannotBeSilentlyRebuilt]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testCorruptVerifiedPartialIsPreservedAndCannotBeSilentlyRebuilt]' passed (0.206 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testFinalStateWriteFailureCannotContradictCommittedDeliveryOutcome]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testFinalStateWriteFailureCannotContradictCommittedDeliveryOutcome]' passed (0.439 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testInterruptedPublicationHasNoCompletionDateAndResumeRecordsCurrentCompletion]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testInterruptedPublicationHasNoCompletionDateAndResumeRecordsCurrentCompletion]' passed (0.400 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testLateReportFailureNeverLeavesAnUnqualifiedPassingHumanReport]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testLateReportFailureNeverLeavesAnUnqualifiedPassingHumanReport]' passed (0.417 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testPublishedLogDescribesCheckEvidenceWithoutClaimingPrematureCommit]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testPublishedLogDescribesCheckEvidenceWithoutClaimingPrematureCommit]' passed (0.269 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testRepeatedCancellationDuringResumeNeverPublishesSuccessOrChangesOriginals]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testRepeatedCancellationDuringResumeNeverPublishesSuccessOrChangesOriginals]' passed (0.600 seconds).
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testVerifiedPartialWithSavedEvidenceIsRecheckedAndPromotedOnResume]' started.
+Test Case '-[HandoffCoreTests.RecoveryAuditTests testVerifiedPartialWithSavedEvidenceIsRecheckedAndPromotedOnResume]' passed (0.350 seconds).
+Test Suite 'RecoveryAuditTests' passed at 2026-09-07 06:04:58.725.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 2.682 (2.683) seconds
+Test Suite 'ReportCapacityTests' started at 2026-09-07 06:04:58.725.
+Test Case '-[HandoffCoreTests.ReportCapacityTests testLargeValidInventoryIsBlockedBeforeWritingUnreadableManifest]' started.
+Test Case '-[HandoffCoreTests.ReportCapacityTests testLargeValidInventoryIsBlockedBeforeWritingUnreadableManifest]' passed (4.839 seconds).
+Test Case '-[HandoffCoreTests.ReportCapacityTests testNormalInventoryFitsAndWrittenStateIsReadable]' started.
+Test Case '-[HandoffCoreTests.ReportCapacityTests testNormalInventoryFitsAndWrittenStateIsReadable]' passed (0.004 seconds).
+Test Suite 'ReportCapacityTests' passed at 2026-09-07 06:05:03.568.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 4.842 (4.843) seconds
+Test Suite 'ReportExportAuditTests' started at 2026-09-07 06:05:03.568.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testExportProtectsBothCurrentSelectionAndVerifiedOriginalAndAliases]' started.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testExportProtectsBothCurrentSelectionAndVerifiedOriginalAndAliases]' passed (0.136 seconds).
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testExportToSeparateFolderPreservesSourceAndNeverReplacesExistingFile]' started.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testExportToSeparateFolderPreservesSourceAndNeverReplacesExistingFile]' passed (0.157 seconds).
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testMissingOriginalBlocksExportWhileDeliveryVerificationStillWorks]' started.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testMissingOriginalBlocksExportWhileDeliveryVerificationStillWorks]' passed (0.153 seconds).
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testMissingOriginalRejectsReplacedDeliveryDirectory]' started.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testMissingOriginalRejectsReplacedDeliveryDirectory]' passed (0.138 seconds).
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testReplacedSourcePathCannotPermitExportInsideRenamedOriginals]' started.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testReplacedSourcePathCannotPermitExportInsideRenamedOriginals]' passed (0.146 seconds).
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testStandaloneVerificationExportProtectsManifestSourceWithoutSidebarSelection]' started.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testStandaloneVerificationExportProtectsManifestSourceWithoutSidebarSelection]' passed (0.150 seconds).
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testUnknownSourceContextCannotEnableUnprotectedExport]' started.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testUnknownSourceContextCannotEnableUnprotectedExport]' passed (0.144 seconds).
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testUnreadableButTraversableSourceCannotUseDeliveryFallbackToWriteInsideIt]' started.
+Test Case '-[HandoffCoreTests.ReportExportAuditTests testUnreadableButTraversableSourceCannotUseDeliveryFallbackToWriteInsideIt]' passed (0.003 seconds).
+Test Suite 'ReportExportAuditTests' passed at 2026-09-07 06:05:04.596.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 1.027 (1.028) seconds
+Test Suite 'SourcePreflightTests' started at 2026-09-07 06:05:04.596.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testCaseMismatchBetweenMediaAndSidecarBlocks]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testCaseMismatchBetweenMediaAndSidecarBlocks]' passed (0.002 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testColonFilenamesBlockDuringPreflightBeforeAnyWrite]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testColonFilenamesBlockDuringPreflightBeforeAnyWrite]' passed (0.002 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testCountModeProducesExactlyNBalancedIndivisibleArchives]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testCountModeProducesExactlyNBalancedIndivisibleArchives]' passed (0.007 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testDestinationIdentityRecordsPromotionAndRejectsUnsafeNames]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testDestinationIdentityRecordsPromotionAndRejectsUnsafeNames]' passed (0.011 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testDestinationRejectsSourceHardlinksSymlinksTraversalAndOverwrite]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testDestinationRejectsSourceHardlinksSymlinksTraversalAndOverwrite]' passed (0.019 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testDirectoryReplacementAndCancellationAreSafe]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testDirectoryReplacementAndCancellationAreSafe]' passed (0.001 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testDisjointSelectionsDoNotOpenUnselectedUnreadableParents]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testDisjointSelectionsDoNotOpenUnselectedUnreadableParents]' passed (0.002 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testExpectedOutputCaseInsensitiveAndPendingCollisionsBlockWithoutWriting]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testExpectedOutputCaseInsensitiveAndPendingCollisionsBlockWithoutWriting]' passed (0.011 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testFilesystemLimitsAndUnsafePrefix]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testFilesystemLimitsAndUnsafePrefix]' passed (0.002 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testFinderAliasCanonicalizationBlocksOverlap]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testFinderAliasCanonicalizationBlocksOverlap]' passed (0.006 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testKernelCanonicalPathsRetainFirmlinkAndNestedOverlapProtection]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testKernelCanonicalPathsRetainFirmlinkAndNestedOverlapProtection]' passed (0.002 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testMaximumIsExactZIPCeilingAndOversizedNeedsAcknowledgment]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testMaximumIsExactZIPCeilingAndOversizedNeedsAcknowledgment]' passed (0.005 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testMissingAndAmbiguousPairingBlocks]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testMissingAndAmbiguousPairingBlocks]' passed (0.002 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testPathSymlinkAndAncestryOverlapAreRejected]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testPathSymlinkAndAncestryOverlapAreRejected]' passed (0.002 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testPreflightHasZeroSourceAndDestinationWrites]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testPreflightHasZeroSourceAndDestinationWrites]' passed (0.002 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testPromotionRequiresTheExactPreviouslyVerifiedObject]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testPromotionRequiresTheExactPreviouslyVerifiedObject]' passed (0.012 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testSourceReplacementDeletionAndTreeChangesDetected]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testSourceReplacementDeletionAndTreeChangesDetected]' passed (0.003 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testStreamingHashIsBoundedAndDetectsMutationDuringRead]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testStreamingHashIsBoundedAndDetectsMutationDuringRead]' passed (0.021 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testUnknownHiddenNestedAndSymlinkEntriesAreVisibleAndBlock]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testUnknownHiddenNestedAndSymlinkEntriesAreVisibleAndBlock]' passed (0.003 seconds).
+Test Case '-[HandoffCoreTests.SourcePreflightTests testUnrelatedZIPBlocksBeforePackagingWhileUnreservedTextIsAllowed]' started.
+Test Case '-[HandoffCoreTests.SourcePreflightTests testUnrelatedZIPBlocksBeforePackagingWhileUnreservedTextIsAllowed]' passed (0.002 seconds).
+Test Suite 'SourcePreflightTests' passed at 2026-09-07 06:05:04.715.
+	 Executed 20 tests, with 0 failures (0 unexpected) in 0.118 (0.119) seconds
+Test Suite 'SourceSafetyAuditTests' started at 2026-09-07 06:05:04.715.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testAPFSSameSizeRewriteWithRestoredMtimeIsDetectedDuringHash]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testAPFSSameSizeRewriteWithRestoredMtimeIsDetectedDuringHash]' passed (0.004 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testDestinationAncestorSymlinkReplacementCannotRedirectCreationIntoSource]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testDestinationAncestorSymlinkReplacementCannotRedirectCreationIntoSource]' passed (0.001 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testEveryObservedSourceDescriptorIsReadOnly]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testEveryObservedSourceDescriptorIsReadOnly]' passed (0.005 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testNetworkAndUnknownSourceFilesystemsFailClosedEvenIfMountedReadOnly]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testNetworkAndUnknownSourceFilesystemsFailClosedEvenIfMountedReadOnly]' passed (0.000 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testReadOnlyExFATSourceCompletesVerifiedHandoff]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testReadOnlyExFATSourceCompletesVerifiedHandoff]' passed (2.615 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testReadOnlyFAT32SourceCompletesVerifiedHandoff]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testReadOnlyFAT32SourceCompletesVerifiedHandoff]' passed (3.008 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testReadOnlyHFSSourceCompletesVerifiedHandoff]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testReadOnlyHFSSourceCompletesVerifiedHandoff]' passed (2.486 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testWritableExFATSourceRequiresReadOnlyMountBeforePreflightOrHashing]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testWritableExFATSourceRequiresReadOnlyMountBeforePreflightOrHashing]' passed (2.335 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testWritableFAT32SourceRequiresReadOnlyMountBeforePreflightOrHashing]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testWritableFAT32SourceRequiresReadOnlyMountBeforePreflightOrHashing]' passed (2.066 seconds).
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testWritableHFSSourceRequiresReadOnlyMountBeforePreflightOrHashing]' started.
+Test Case '-[HandoffCoreTests.SourceSafetyAuditTests testWritableHFSSourceRequiresReadOnlyMountBeforePreflightOrHashing]' passed (1.598 seconds).
+Test Suite 'SourceSafetyAuditTests' passed at 2026-09-07 06:05:18.835.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 14.118 (14.120) seconds
+Test Suite 'ZIPArchiveTests' started at 2026-09-07 06:05:18.835.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testArchiveReplacementDuringHashFailsNamedIdentityCheck]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testArchiveReplacementDuringHashFailsNamedIdentityCheck]' passed (0.032 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testCancellationRetainsOnlyPartialAndDoesNotChangeSource]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testCancellationRetainsOnlyPartialAndDoesNotChangeSource]' passed (0.030 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testConsistentlyAlteredCRCStillFailsIndependentReader]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testConsistentlyAlteredCRCStillFailsIndependentReader]' passed (0.025 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testEmptyMediaAndChunkBoundaryPayloads]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testEmptyMediaAndChunkBoundaryPayloads]' passed (0.160 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testExactSizeDeterministicBytesIndependentReaderAndUnzip]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testExactSizeDeterministicBytesIndependentReaderAndUnzip]' passed (0.297 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testMissingTruncatedAndAlteredCentralDirectoryAreRejected]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testMissingTruncatedAndAlteredCentralDirectoryAreRejected]' passed (0.028 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testPayloadCorruptionFailsCryptographicVerification]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testPayloadCorruptionFailsCryptographicVerification]' passed (0.210 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testRealZIP64OverFourGiB]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testRealZIP64OverFourGiB]' passed (20.068 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testSourceHashMismatchFailsAndExclusiveCreationPreservesOutput]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testSourceHashMismatchFailsAndExclusiveCreationPreservesOutput]' passed (0.025 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testUnapprovedSizeRejectedBeforeAnyWrite]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testUnapprovedSizeRejectedBeforeAnyWrite]' passed (0.008 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testWriterReportsSourceBytesSeparatelyFromZIPOverhead]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testWriterReportsSourceBytesSeparatelyFromZIPOverhead]' passed (0.023 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testWrongExpectedNamesCountsAndHashesAreRejected]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testWrongExpectedNamesCountsAndHashesAreRejected]' passed (0.020 seconds).
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testZIP64SizeAndEntryCountBoundaryArithmetic]' started.
+Test Case '-[HandoffCoreTests.ZIPArchiveTests testZIP64SizeAndEntryCountBoundaryArithmetic]' passed (0.008 seconds).
+Test Suite 'ZIPArchiveTests' passed at 2026-09-07 06:05:39.770.
+	 Executed 13 tests, with 0 failures (0 unexpected) in 20.934 (20.936) seconds
+Test Suite 'ZipperPackageTests.xctest' failed at 2026-09-07 06:05:39.770.
+	 Executed 118 tests, with 3 failures (0 unexpected) in 71.892 (71.905) seconds
+Test Suite 'All tests' failed at 2026-09-07 06:05:39.770.
+	 Executed 118 tests, with 3 failures (0 unexpected) in 71.892 (71.905) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

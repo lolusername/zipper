@@ -1,0 +1,18 @@
+v1.0.2 audit build before timestamp normalization. Valid copied report disagreed with its JSON at a second boundary.
+2026-09-07T10:04:36Z  Preflight started (read-only).
+2026-09-07T10:04:36Z  Preflight passed: 2 complete clip packages; 2 independent ZIP64 archives.
+2026-09-07T10:04:36Z  Source hashing started. SHA-256 is computed by streaming every source file.
+2026-09-07T10:04:36Z  Source hashing completed for 4 files.
+2026-09-07T10:04:36Z  Writing .FOOTAGE_001.zip.partial.
+2026-09-07T10:04:36Z  Archive closed and flushed. Independently reopening .FOOTAGE_001.zip.partial and hashing every member.
+2026-09-07T10:04:36Z  Member verification passed for FOOTAGE_001.zip. Computing the complete ZIP SHA-256.
+2026-09-07T10:04:36Z  Verification evidence recorded for FOOTAGE_001.zip: d2d6cc378becb3daa8faea6f522c4c90e7929f7affb76facd820d625003b14fa.
+2026-09-07T10:04:36Z  Verified archive promoted atomically: FOOTAGE_001.zip.
+2026-09-07T10:04:36Z  Writing .FOOTAGE_002.zip.partial.
+2026-09-07T10:04:36Z  Archive closed and flushed. Independently reopening .FOOTAGE_002.zip.partial and hashing every member.
+2026-09-07T10:04:36Z  Member verification passed for FOOTAGE_002.zip. Computing the complete ZIP SHA-256.
+2026-09-07T10:04:36Z  Verification evidence recorded for FOOTAGE_002.zip: 90f36f46cc0205e12e539041f6d842e1367345691875565676d2972eb626e6d1.
+2026-09-07T10:04:36Z  Verified archive promoted atomically: FOOTAGE_002.zip.
+2026-09-07T10:04:36Z  Final source validation started: re-enumerating and rehashing all original files.
+2026-09-07T10:04:37Z  Final source hashes match all archived members. Publishing delivery manifests.
+2026-09-07T10:04:37Z  Source and archive checks completed. Delivery completion requires the committed HANDOFF_MANIFEST.json and a passing delivery check.

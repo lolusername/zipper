@@ -1,0 +1,8 @@
+[0/1] Planning build
+Building for production...
+[0/2] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.14s)
+/Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app: replacing existing signature
+/Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app: valid on disk
+/Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app: satisfies its Designated Requirement
+Built app: /Users/atiliobarreda/Desktop/software/personal/zipper/build/Zipper.app

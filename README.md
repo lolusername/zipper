@@ -13,6 +13,12 @@ open build/Zipper.app
 
 The local app is ad-hoc signed with the hardened runtime. Redistribution requires your own Developer ID signing and Apple notarization. No Homebrew runtime, Python runtime, package server, or network service is required by the app. Public libarchive headers are vendored; runtime dependencies are the macOS system libarchive, zlib, CryptoKit, and SwiftUI.
 
+## Supported volumes in v1.0.2
+
+Creation and report export require a **writable local APFS destination**. Sources may be local APFS, or local FAT/FAT32, exFAT, or HFS+ volumes mounted read-only by macOS. File permissions alone do not satisfy that mount requirement. Existing deliveries on FAT/exFAT/HFS+ can be verified only while mounted read-only. Network and unknown filesystems are blocked.
+
+The audit reproduced same-size, timestamp-preserving changes that escaped stability checks on writable FAT32/HFS+ volumes. These restrictions prevent the app from claiming integrity on those writable filesystems. Zipper does not mount, reformat, or alter any volume. A read-only original may instead be copied through an independently verified offload to APFS for packaging.
+
 ## Operator workflow
 
 1. Choose **SOURCE — READ ONLY** and a separate **DESTINATION — WRITABLE OUTPUT** directory.
@@ -35,6 +41,8 @@ These three files form one indivisible package. `DISCLOSURE_DAY0115M01.XML` maps
 `BASER01.BIM` may accompany either `BASE.MXF` + `BASE.XML` or `BASE.MXF` + `BASEM01.XML`. Only the `M01` / `R01` suffixes are supported; suffixes and extensions may vary in ASCII case, while the shared media stem must match exactly, including case and Unicode representation. Bare `BASE.BIM`, other numbered suffixes, duplicate sidecars, and competing XML matches block creation.
 
 Hidden/system files, unknown files, nested directories, symlinks, ambiguous mappings, and unmatched media/XML/BIM also block creation. Nothing is silently omitted. The app has no delete, move, rename-original, erase, or source-cleanup actions. Source selection does not imply format-level validation of camera codecs, XML schemas, or BIM contents; all accepted bytes are preserved exactly.
+
+A Sony `XDROOT/Clip` selection packages only the files inside `Clip`. Card-level metadata, proxy folders, take/clip-list references, and the surrounding directory tree are outside that selection. Preflight now displays this limitation for the Sony sidecar pattern. Retain a complete original card tree separately; these ZIPs do not reconstruct it. See [Sony structure and actual-folder research](docs/SONY-STRUCTURE-AUDIT.md).
 
 Supported media extensions are centralized in `SupportedMedia.extensions`. Camera formats that require folder trees or multiple media components are outside this flat-directory workflow.
 
@@ -71,7 +79,9 @@ The last selected destination is remembered. On relaunch, an interrupted job the
 
 A disconnected or read-only destination can prevent recording the last failure. In that case the app reports the persistence failure, and the previous durable state remains non-complete. Reconnection does not imply trust. Changed directory identity, remapped mounts, changed source bytes, corrupted archived bytes, or ambiguous ownership stop recovery. Choose a new destination and perform a fresh job if exact identity cannot be restored. Verified ZIPs are never overwritten or deleted automatically.
 
-Delivery reports are published transactionally: provisional JSON is non-complete, all report files are flushed, final source/output guards run, then completed JSON becomes the public commit marker. A partially published report set cannot pass the delivery checker.
+Delivery reports are published transactionally: provisional JSON is non-complete, all report files are flushed, final source/output guards run, then completed JSON becomes the public commit marker. A partially published report set cannot pass the delivery checker. Text/log evidence explicitly requires the completed JSON and a passing delivery check. If only the recovery-state update fails after that public commit, the app keeps the completed outcome and displays a warning. Interrupted legacy jobs regenerate current-version reports on resume.
+
+Human-readable report and log contents must agree with the JSON evidence, including byte-exact names. Report/state files are bounded to 64 MiB; preflight rejects inventories whose estimated evidence would exceed that limit. Export Report protects all known original-source paths, including standalone verification sessions with no sidebar source. Export requires the original source location to remain identifiable; reconnect it if unavailable. Verification itself remains source-free.
 
 ## Safety architecture
 
@@ -82,7 +92,7 @@ Delivery reports are published transactionally: provisional JSON is non-complete
 - The custom STORE writer never trusts its own successful return. An explicit structural validator checks local/central ZIP64 records and the footer; the independent macOS libarchive reader streams every actual archived member through CryptoKit SHA-256.
 - Completed archive SHA-256, size, identity, and exact membership are recorded before `.partial` is promoted. A final source rehash and output identity checks precede completion.
 - Memory use is bounded by streaming chunks and file/plan metadata, not media size. Source chunks are 4 MiB; archive verification/hash chunks are 1 MiB.
-- A destination advisory lock prevents concurrent cooperating jobs. Drives receive `fsync` and macOS `F_FULLFSYNC` where supported. Hardware and remote servers still determine whether they honor flush requests.
+- A destination advisory lock prevents concurrent cooperating jobs. Drives receive `fsync` and macOS `F_FULLFSYNC` where supported. Hardware still determines whether it honors flush requests.
 
 The source API is a capability boundary in code, supported by source immutability and filesystem guard tests. This local build is not an OS-enforced read-only security sandbox. Use hardware write protection or an OS-mounted read-only source when operational policy requires an independent protection boundary.
 
@@ -98,12 +108,13 @@ Opt-in tests use only disposable test fixtures:
 
 ```sh
 ZIPPER_RUN_LARGE_ZIP_TESTS=1 swift test --filter ZIPArchiveTests.testRealZIP64OverFourGiB
-./scripts/test-filesystems.sh
+ZIPPER_RUN_LARGE_ZIP_TESTS=1 ZIPPER_RUN_FILESYSTEM_TESTS=1 \
+ZIPPER_RUN_SOURCE_SAFETY_VOLUME_TESTS=1 ZIPPER_RUN_DESTINATION_SAFETY_VOLUME_TESTS=1 swift test
 ```
 
 See [validation evidence](docs/VALIDATION.md) for executed checks and remaining qualification limits. Routine tests include byte-for-byte source snapshots, preflight zero writes, pairing/ancestry/alias guards, exact partitioning, corruption/truncation, cancellation, recovery, independent extraction, source changes, and delivery checks without source media.
 
-This release has not been qualified with an entire 200 GB–1 TB physical card, physical unplug/replug during each phase, real power loss, all USB/Thunderbolt enclosures, every macOS version, or all SMB/NFS server configurations. Identical device numbers trigger a warning; separate filesystems do not prove separate physical drives. Network filesystem capacity/durability limits can depend on the server. Complete those deployment-specific checks before treating this as a field-qualified sole handoff workflow.
+This release has not been qualified with an entire 200 GB–1 TB physical card, physical unplug/replug during each phase, real power loss, all USB/Thunderbolt enclosures, every macOS version. Identical device numbers trigger a warning; separate filesystems do not prove separate physical drives. Network filesystems are unsupported. Complete those deployment-specific checks before treating this as a field-qualified sole handoff workflow.
 
 ## Source references
 

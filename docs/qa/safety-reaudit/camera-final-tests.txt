@@ -1,0 +1,61 @@
+[0/1] Planning build
+Building for debugging...
+[0/6] Write sources
+[2/6] Write swift-version--58304C5D6DBC2206.txt
+[4/8] Compiling HandoffCore Preflight.swift
+[5/8] Emitting module HandoffCore
+[5/10] Write Objects.LinkFileList
+[6/12] Linking Zipper
+[7/12] Applying Zipper
+[9/12] Compiling HandoffCoreTests CameraTripletTests.swift
+[10/12] Emitting module HandoffCoreTests
+[10/12] Write Objects.LinkFileList
+[11/12] Linking ZipperPackageTests
+Build complete! (1.46s)
+Test Suite 'Selected tests' started at 2026-09-07 06:15:04.238.
+Test Suite 'ZipperPackageTests.xctest' started at 2026-09-07 06:15:04.239.
+Test Suite 'CameraTripletTests' started at 2026-09-07 06:15:04.239.
+Test Case '-[HandoffCoreTests.CameraTripletTests testArchiveCountOneTwoAndThreeKeepsEachTripletIndivisible]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testArchiveCountOneTwoAndThreeKeepsEachTripletIndivisible]' passed (0.010 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationAfterCancellationBlocksResumeAndPreservesVerifiedArchive]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationAfterCancellationBlocksResumeAndPreservesVerifiedArchive]' passed (0.137 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationAfterPreflightBlocksWithoutDestinationWrites]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationAfterPreflightBlocksWithoutDestinationWrites]' passed (0.006 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationDuringFinalSourceCheckPreventsSuccessfulPublication]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testBIMMutationDuringFinalSourceCheckPreventsSuccessfulPublication]' passed (0.189 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testCancellationAndResumeRetainsVerifiedTripletArchiveAndRehashesAllBIMFiles]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testCancellationAndResumeRetainsVerifiedTripletArchiveAndRehashesAllBIMFiles]' passed (0.350 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testCompletedHandoffPreservesAllNamesBytesAndHashesAndVerifiesWithoutOriginals]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testCompletedHandoffPreservesAllNamesBytesAndHashesAndVerifiesWithoutOriginals]' passed (0.900 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testCorruptBIMPayloadFailsIndependentMemberAndWholeHandoffVerification]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testCorruptBIMPayloadFailsIndependentMemberAndWholeHandoffVerification]' passed (0.265 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testExactAndM01XMLTogetherAreAmbiguousAndBlock]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testExactAndM01XMLTogetherAreAmbiguousAndBlock]' passed (0.005 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testLegacyExactBasenamePairsAndVersionOneManifestStateStillVerify]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testLegacyExactBasenamePairsAndVersionOneManifestStateStillVerify]' passed (0.156 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testM01XMLWithoutOptionalBIMStillCreatesAndVerifies]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testM01XMLWithoutOptionalBIMStillCreatesAndVerifies]' passed (0.130 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testMaximumSizeIncludesBIMPayloadAndZIPOverheadWithoutSplittingTriplets]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testMaximumSizeIncludesBIMPayloadAndZIPOverheadWithoutSplittingTriplets]' passed (0.308 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testOrphanBIMIsVisibleAndBlocksPreflight]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testOrphanBIMIsVisibleAndBlocksPreflight]' passed (0.005 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testPastedCardListingContains281FilesAcross95MixedPackages]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testPastedCardListingContains281FilesAcross95MixedPackages]' passed (4.183 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testRealMediaStemEndingM01IsNeverTruncated]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testRealMediaStemEndingM01IsNeverTruncated]' passed (0.003 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testScreenshotTripletPreflightIncludesAllNineFilesAndWritesNothing]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testScreenshotTripletPreflightIncludesAllNineFilesAndWritesNothing]' passed (0.005 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testSharedXMLBetweenRealM01MediaStemAndCameraStemBlocksBoth]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testSharedXMLBetweenRealM01MediaStemAndCameraStemBlocksBoth]' passed (0.001 seconds).
+Test Case '-[HandoffCoreTests.CameraTripletTests testSimilarNumberedStemsDoNotCrossAssociateSidecars]' started.
+Test Case '-[HandoffCoreTests.CameraTripletTests testSimilarNumberedStemsDoNotCrossAssociateSidecars]' passed (0.003 seconds).
+Test Suite 'CameraTripletTests' passed at 2026-09-07 06:15:10.896.
+	 Executed 17 tests, with 0 failures (0 unexpected) in 6.656 (6.657) seconds
+Test Suite 'ZipperPackageTests.xctest' passed at 2026-09-07 06:15:10.896.
+	 Executed 17 tests, with 0 failures (0 unexpected) in 6.656 (6.657) seconds
+Test Suite 'Selected tests' passed at 2026-09-07 06:15:10.896.
+	 Executed 17 tests, with 0 failures (0 unexpected) in 6.656 (6.658) seconds
+◇ Test run started.
+↳ Testing Library Version: 1902
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.

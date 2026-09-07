@@ -1,0 +1,12 @@
+{
+  "reader": "Python standard-library zipfile",
+  "comparison": "Every archived byte compared directly with current original bytes; every member CRC checked by zipfile; every member SHA-256 compared with the manifest",
+  "source_bytes": 72835846074,
+  "source_files": 281,
+  "archives": 8,
+  "passed": true,
+  "source_metadata_unchanged": true,
+  "delivery_metadata_unchanged": true,
+  "elapsed_seconds": 28.833,
+  "destination": "/Users/atiliobarreda/Desktop/software/personal/zipper/.build/actual-footage-qualification-422CF942-A92C-4A5F-BBF9-890C97BF375F"
+}
