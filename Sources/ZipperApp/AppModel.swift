@@ -190,6 +190,9 @@ final class AppModel: ObservableObject {
         }
         else { return }
         let panel=NSSavePanel(); panel.title="Export Delivery Report"; panel.nameFieldStringValue="Zipper-Verification-Report.txt"
+        // Folder creation happens inside the native panel before our export destination
+        // validation. Keep the panel itself from creating entries in an original source.
+        panel.canCreateDirectories=false
         panel.directoryURL=verificationDestination ?? job.map { URL(fileURLWithPath:$0.preflight.destination.canonicalPath) }
         guard panel.runModal() == .OK, let url=panel.url else { return }
         do {
