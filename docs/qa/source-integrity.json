@@ -1,0 +1,86 @@
+{
+  "sourceUnchanged": true,
+  "sourceFileCount": 6,
+  "archives": {
+    "FOOTAGE_001.zip": {
+      "size": 45464,
+      "sha256": "738b50f1b8ea0f58a03548643d19d9f2bc4f1013c2ea3b70113859e4781f722d"
+    },
+    "FOOTAGE_002.zip": {
+      "size": 50830,
+      "sha256": "c755c033610c25de33c60df05a60fe606b02b2eae52c078f32a0a5504aee33e2"
+    }
+  },
+  "members": {
+    "A001C002.mov": "FOOTAGE_001.zip",
+    "A001C002.xml": "FOOTAGE_001.zip",
+    "A001C001.mov": "FOOTAGE_002.zip",
+    "A001C001.xml": "FOOTAGE_002.zip",
+    "A001C003.mov": "FOOTAGE_002.zip",
+    "A001C003.xml": "FOOTAGE_002.zip"
+  },
+  "sourceBefore": {
+    "A001C001.mov": {
+      "size": 30000,
+      "sha256": "74d351caf543882c67633b2ef76f875345f6213f7d81af41879f189759bbf4c5"
+    },
+    "A001C001.xml": {
+      "size": 22,
+      "sha256": "51560c8e725a74c0a74a7fe0afce6632eebee19b204bc1443dddbe1efda89843"
+    },
+    "A001C002.mov": {
+      "size": 45000,
+      "sha256": "56c006bf10571b60c243d73174bd806ae2c00cc79906f943fe4de3f378923b91"
+    },
+    "A001C002.xml": {
+      "size": 22,
+      "sha256": "e368b6143d602a62f1fdfd47ef7d4b22fd97562c6f9c1acbb52936b32dea51be"
+    },
+    "A001C003.mov": {
+      "size": 20000,
+      "sha256": "62096d1b21759067cc32fa6f80d1fc24ca9b5ed541fe4fed94da5a7afcd5e22d"
+    },
+    "A001C003.xml": {
+      "size": 22,
+      "sha256": "63a8b68ef4d87c4f73f5e1037ee11d336cbd2bb0eeead0e2a8cf46a286fe6ca3"
+    }
+  },
+  "sourceAfter": {
+    "A001C001.mov": {
+      "size": 30000,
+      "sha256": "74d351caf543882c67633b2ef76f875345f6213f7d81af41879f189759bbf4c5"
+    },
+    "A001C001.xml": {
+      "size": 22,
+      "sha256": "51560c8e725a74c0a74a7fe0afce6632eebee19b204bc1443dddbe1efda89843"
+    },
+    "A001C002.mov": {
+      "size": 45000,
+      "sha256": "56c006bf10571b60c243d73174bd806ae2c00cc79906f943fe4de3f378923b91"
+    },
+    "A001C002.xml": {
+      "size": 22,
+      "sha256": "e368b6143d602a62f1fdfd47ef7d4b22fd97562c6f9c1acbb52936b32dea51be"
+    },
+    "A001C003.mov": {
+      "size": 20000,
+      "sha256": "62096d1b21759067cc32fa6f80d1fc24ca9b5ed541fe4fed94da5a7afcd5e22d"
+    },
+    "A001C003.xml": {
+      "size": 22,
+      "sha256": "63a8b68ef4d87c4f73f5e1037ee11d336cbd2bb0eeead0e2a8cf46a286fe6ca3"
+    }
+  },
+  "jobStatus": "completed",
+  "finalSourceVerified": true,
+  "deliveryFiles": [
+    ".zipper-job.json",
+    ".zipper-job.lock",
+    "FOOTAGE_001.zip",
+    "FOOTAGE_002.zip",
+    "HANDOFF_LOG.txt",
+    "HANDOFF_MANIFEST.json",
+    "HANDOFF_MANIFEST.txt",
+    "SHA256SUMS.txt"
+  ]
+}
