@@ -29,11 +29,11 @@ public enum HandoffVerifier {
                 checkedIdentities[name] = report.identity
                 guard String(data: report.data, encoding: .utf8) != nil else { throw HandoffError.integrity("Delivery report is not valid UTF-8: \(name).") }
                 if name == "HANDOFF_MANIFEST.txt" {
-                    guard report.data == Data(JobEngine.humanReport(job).utf8) else {
+                    guard ReportEvidence.matchesHuman(report.data, job: job) else {
                         throw HandoffError.integrity("HANDOFF_MANIFEST.txt does not match the delivery evidence in the JSON manifest.")
                     }
                 } else if name == "HANDOFF_LOG.txt" {
-                    guard report.data == Data(JobEngine.logReport(job).utf8) else {
+                    guard ReportEvidence.matchesLog(report.data, job: job) else {
                         throw HandoffError.integrity("HANDOFF_LOG.txt does not match the audit events in the JSON manifest.")
                     }
                 } else if name == "SHA256SUMS.txt" {
@@ -125,7 +125,7 @@ public enum HandoffVerifier {
         return fileIdentity(try descriptorStatus(fd, context: name))
     }
 
-    private static func readStableReport(_ name: String, destination: Destination, cancellation: CancellationToken) throws -> (data: Data, identity: FileIdentity) {
+    static func readStableReport(_ name: String, destination: Destination, cancellation: CancellationToken) throws -> (data: Data, identity: FileIdentity) {
         let fd = try destination.openRead(name)
         defer { Darwin.close(fd) }
         let before = fileIdentity(try descriptorStatus(fd, context: name))

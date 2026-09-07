@@ -128,7 +128,8 @@ public final class Destination: @unchecked Sendable {
         return opened
     }
 
-    public func renameExclusive(from: String, to: String, expectedIdentity: FileIdentity? = nil) throws {
+    @discardableResult
+    public func renameExclusive(from: String, to: String, expectedIdentity: FileIdentity? = nil) throws -> FileIdentity {
         try validateWriteSafety()
         try validateLeafName(from)
         try validateLeafName(to)
@@ -152,9 +153,13 @@ public final class Destination: @unchecked Sendable {
             throw HandoffError.integrity("Destination output changed during promotion: \(to). It must not be delivered.")
         }
         try sync()
+        return promotedIdentity
     }
 
-    public func writeAtomic(_ data: Data, name: String, replace: Bool) throws {
+    /// Returns the promoted object's identity, tied to the descriptor whose bytes were
+    /// written, rather than accepting a subsequently reopened replacement as evidence.
+    @discardableResult
+    public func writeAtomic(_ data: Data, name: String, replace: Bool) throws -> FileIdentity {
         try validateWriteSafety()
         try validateLeafName(name)
         let temporary = ".\(name).pending"
@@ -202,7 +207,8 @@ public final class Destination: @unchecked Sendable {
                 throw HandoffError.integrity("Destination state changed while saving: \(name).")
             }
             try sync()
-        } else { try renameExclusive(from: temporary, to: name, expectedIdentity: writtenIdentity) }
+            return publishedIdentity
+        } else { return try renameExclusive(from: temporary, to: name, expectedIdentity: writtenIdentity) }
     }
 
     public func sync() throws {

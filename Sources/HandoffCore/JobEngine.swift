@@ -46,11 +46,22 @@ public final class JobEngine {
         let lock = try JobLock(destination: destination, resume: true)
         defer { lock.release() }
         // Read again while holding the lock, never resume a stale state observed before lock acquisition.
+        progress(JobProgress(operation: "Rechecking recovery state under destination lock"))
+        try cancellation.check()
         let lockedRecord = try Self.readRecoveryRecord(destination: destination)
         guard lockedRecord.id == job.id else { throw HandoffError.integrity("Job state changed while opening recovery.") }
+        // The lock protects this second snapshot. Recheck its binding to the already
+        // opened descriptors before accepting new state or moving pending artifacts.
+        try Self.validateRecord(lockedRecord, requireComplete: false)
+        guard lockedRecord.preflight.configuration.sourcePath.utf8.elementsEqual(job.preflight.configuration.sourcePath.utf8),
+              lockedRecord.preflight.configuration.destinationPath.utf8.elementsEqual(job.preflight.configuration.destinationPath.utf8),
+              Self.sameObject(source.identity, lockedRecord.preflight.sourceIdentity),
+              Self.sameObject(destination.info.identity, lockedRecord.preflight.destination.identity),
+              destination.info.canonicalPath.utf8.elementsEqual(lockedRecord.preflight.destination.canonicalPath.utf8) else {
+            throw HandoffError.integrity("Source or destination binding changed while opening recovery. No recovery artifacts were changed; inspect the saved job before retrying.")
+        }
         job = lockedRecord
         try preservePendingState(job: &job, destination: destination)
-        try Self.validateRecord(job, requireComplete: false)
         if job.status == .completed {
             let report = try HandoffVerifier.verify(destinationURL: destinationURL, deep: true, cancellation: cancellation)
             guard report.passed else { throw HandoffError.integrity(report.issues.joined(separator: "\n")) }
@@ -279,13 +290,20 @@ public final class JobEngine {
             completed.completedAt = Date()
             completed.failure = nil
             completed.events.append(AuditEvent("Source and archive checks completed. Delivery completion requires the committed HANDOFF_MANIFEST.json and a passing delivery check."))
-            try publishReports(completed, destination: destination, resuming: resuming)
+            let reportIdentities = try publishReports(completed, destination: destination, resuming: resuming, cancellation: cancellation)
             try cancellation.check()
             try source.validateSnapshot(job.preflight.files)
             for (name, identity) in verifiedOutputIdentities {
                 guard try destination.identityOf(name) == identity else { throw HandoffError.integrity("Verified archive changed while delivery reports were being published: \(name).") }
             }
             guard Set(try destination.names().filter { $0.lowercased().hasSuffix(".zip") }) == expectedZIPs else { throw HandoffError.integrity("Archive directory changed during report publication.") }
+            // Every report, including the provisional JSON, must still be the exact
+            // object whose bytes were read back before the completed public commit.
+            for (name, identity) in reportIdentities {
+                guard try destination.identityOf(name) == identity else {
+                    throw HandoffError.integrity("Delivery report changed before completion: \(name). The handoff is not ready.")
+                }
+            }
             // This atomic completed manifest is the public delivery commit marker.
             // Before it appears, every partial report set remains explicitly non-complete.
             try destination.writeAtomic(try Self.encodedReport(completed), name: Self.manifestName, replace: true)
@@ -485,7 +503,7 @@ public final class JobEngine {
         !name.isEmpty && name != "." && name != ".." && !name.contains("/") && !name.contains("\\") && !name.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) })
     }
     static func isSHA256(_ value: String?) -> Bool { guard let value, value.count == 64 else { return false }; return value.utf8.allSatisfy { (48...57).contains($0) || (97...102).contains($0) } }
-    private func publishReports(_ job: JobRecord, destination: Destination, resuming: Bool) throws {
+    private func publishReports(_ job: JobRecord, destination: Destination, resuming: Bool, cancellation: CancellationToken) throws -> [String: FileIdentity] {
         try Self.validateRecord(job, requireComplete: true)
         let existing = Set(try destination.names())
         let collisions = existing.intersection(Self.reportNames)
@@ -508,9 +526,17 @@ public final class JobEngine {
         for (name, data) in reports { try Self.validateReportBytes(data, name: name) }
         // Provisional JSON establishes durable ownership but cannot pass delivery verification.
         // Completed JSON is published by execute only after all reports and final guards succeed.
+        var identities: [String: FileIdentity] = [:]
         for (name, data) in reports {
-            try destination.writeAtomic(data, name: name, replace: replacingOwned && existing.contains(name))
+            try cancellation.check()
+            let writtenIdentity = try destination.writeAtomic(data, name: name, replace: replacingOwned && existing.contains(name))
+            let readBack = try HandoffVerifier.readStableReport(name, destination: destination, cancellation: cancellation)
+            guard readBack.identity == writtenIdentity, readBack.data == data else {
+                throw HandoffError.integrity("Delivery report changed while being published: \(name). The handoff is not ready.")
+            }
+            identities[name] = writtenIdentity
         }
+        return identities
     }
     public static func humanReport(_ job: JobRecord) -> String {
         let iso = ISO8601DateFormatter()

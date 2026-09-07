@@ -175,7 +175,7 @@ public struct DeliveryStatistics: Codable, Equatable, Sendable {
     }
 }
 public struct JobRecord: Codable, Identifiable, Sendable {
-    public static let currentApplicationVersion = "1.0.2"
+    public static let currentApplicationVersion = "1.0.3"
     public var id: UUID
     public var application = "Zipper"
     public var applicationVersion = JobRecord.currentApplicationVersion

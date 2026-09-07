@@ -84,6 +84,49 @@ final class ArchiveIntegrityAuditTests: XCTestCase {
         }
     }
 
+    func testLegacySubsecondReportsVerifyButOtherTimestampAndTextChangesFail() throws {
+        for version in ["1.0.0", "1.0.1"] {
+            let fixture = try Fixture(basename: "LEGACY", triplet: false)
+            var job = fixture.job
+            job.applicationVersion = version
+            job.createdAt = Date(timeIntervalSince1970: 1_788_776_000.999999)
+            job.completedAt = job.createdAt.addingTimeInterval(60)
+            for index in job.events.indices {
+                job.events[index].timestamp = job.createdAt.addingTimeInterval(Double(index))
+            }
+            let human = JobEngine.humanReport(job)
+            let log = JobEngine.logReport(job)
+            try fixture.writeManifest(job)
+            let decoded = try JobEngine.decoder().decode(JobRecord.self, from: JobEngine.encoder().encode(job))
+            XCTAssertNotEqual(human, JobEngine.humanReport(decoded), "This fixture must reproduce the historical rounding discrepancy.")
+            let humanURL = fixture.destination.appendingPathComponent("HANDOFF_MANIFEST.txt")
+            let logURL = fixture.destination.appendingPathComponent("HANDOFF_LOG.txt")
+            try Data(human.utf8).write(to: humanURL)
+            try Data(log.utf8).write(to: logURL)
+            XCTAssertTrue(try HandoffVerifier.verify(destinationURL: fixture.destination).passed)
+
+            var invalid = decoded
+            invalid.createdAt = decoded.createdAt.addingTimeInterval(2)
+            try Data(JobEngine.humanReport(invalid).utf8).write(to: humanURL)
+            XCTAssertFalse(try HandoffVerifier.verify(destinationURL: fixture.destination).passed)
+            try Data(human.utf8).write(to: humanURL)
+            invalid = decoded
+            invalid.events[0].timestamp = decoded.events[0].timestamp.addingTimeInterval(-1)
+            try Data(JobEngine.logReport(invalid).utf8).write(to: logURL)
+            XCTAssertFalse(try HandoffVerifier.verify(destinationURL: fixture.destination).passed)
+            try Data((log + "Extra invented event\n").utf8).write(to: logURL)
+            XCTAssertFalse(try HandoffVerifier.verify(destinationURL: fixture.destination).passed)
+        }
+    }
+
+    func testCurrentVersionDoesNotAcceptLegacyTimestampTolerance() throws {
+        let fixture = try Fixture()
+        var altered = try JobEngine.decoder().decode(JobRecord.self, from: JobEngine.encoder().encode(fixture.job))
+        altered.createdAt = altered.createdAt.addingTimeInterval(1)
+        try Data(JobEngine.humanReport(altered).utf8).write(to: fixture.destination.appendingPathComponent("HANDOFF_MANIFEST.txt"))
+        XCTAssertFalse(try HandoffVerifier.verify(destinationURL: fixture.destination).passed)
+    }
+
     func testCanonicalUnicodeEqualityCannotHideDifferentManifestMemberBytes() throws {
         let first = "A\u{0327}\u{0301}"
         let second = "A\u{0301}\u{0327}"
