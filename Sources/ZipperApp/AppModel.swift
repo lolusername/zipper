@@ -27,16 +27,21 @@ final class AppModel: ObservableObject {
     private var accessURLs: [URL] = []
     private var verificationDestination: URL?
     private var lastConfiguration: JobConfiguration?
+    private var recoveryGeneration = UUID()
 
     init() {
         if let saved = UserDefaults.standard.string(forKey: "Zipper.lastDestination") {
             destinationPath = saved
-            inspectRecovery()
+            restoreAccess(bookmarkKey:"Zipper.destinationBookmark",expectedPath:saved,isSource:false)
+        }
+        if let saved = UserDefaults.standard.string(forKey: "Zipper.lastSource") {
+            sourcePath=saved
+            restoreAccess(bookmarkKey:"Zipper.sourceBookmark",expectedPath:saved,isSource:true)
         }
     }
     var canAnalyze: Bool { !isBusy && !sourcePath.isEmpty && !destinationPath.isEmpty }
     var canStart: Bool {
-        guard !isBusy, var report=preflight, report.issues.isEmpty, let configuration=try? configuration() else { return false }
+        guard !isBusy, job == nil, var report=preflight, report.issues.isEmpty, let configuration=try? configuration() else { return false }
         report.configuration.acknowledgedOversized = acknowledgedOversized
         var approved = report.configuration
         approved.acknowledgedOversized = configuration.acknowledgedOversized
@@ -50,12 +55,15 @@ final class AppModel: ObservableObject {
     func chooseSource() {
         if let url=chooseDirectory(title: "Choose camera originals", message: "SOURCE — READ ONLY. Select a flat folder of media and matching XML sidecars.") {
             invalidatePreflight(); sourcePath=url.path
+            UserDefaults.standard.set(url.path,forKey:"Zipper.lastSource")
+            rememberAccess(url,bookmarkKey:"Zipper.sourceBookmark",readOnly:true)
         }
     }
     func chooseDestination() {
         if let url=chooseDirectory(title: "Choose delivery destination", message: "DESTINATION — WRITABLE OUTPUT. Choose a separate, existing folder.") {
             invalidatePreflight(); destinationPath=url.path
             UserDefaults.standard.set(url.path,forKey:"Zipper.lastDestination")
+            rememberAccess(url,bookmarkKey:"Zipper.destinationBookmark",readOnly:false)
             inspectRecovery()
         }
     }
@@ -118,7 +126,7 @@ final class AppModel: ObservableObject {
         guard !destinationPath.isEmpty else { return }
         let destination=URL(fileURLWithPath:destinationPath)
         verificationDestination=nil
-        job=try? JobEngine.loadState(destinationURL:destination)
+        job=nil
         begin(operation:"Recovering and revalidating handoff")
         verification=nil
         let token=cancellation
@@ -131,7 +139,11 @@ final class AppModel: ObservableObject {
         end()
         switch result {
         case .success(let completed): job=completed; preflight=completed.preflight; sourcePath=completed.preflight.configuration.sourcePath
-        case .failure(let failure): error=failure.localizedDescription; job=try? JobEngine.loadState(destinationURL:destination)
+        case .failure(let failure):
+            error=failure.localizedDescription
+            job?.status = (failure as? HandoffError) == .cancelled ? .interrupted : .failed
+            job?.finalSourceVerified=false
+            job?.failure=failure.localizedDescription
         }
         inspectRecovery()
     }
@@ -190,10 +202,45 @@ final class AppModel: ObservableObject {
         guard !isBusy else { return }
         invalidatePreflight(); inspectRecovery()
     }
+    private func rememberAccess(_ url: URL, bookmarkKey: String, readOnly: Bool) {
+        DispatchQueue.global(qos:.utility).async { [weak self] in
+            let options: URL.BookmarkCreationOptions = readOnly ? [.withSecurityScope,.securityScopeAllowOnlyReadAccess] : [.withSecurityScope]
+            let bookmark=(try? url.bookmarkData(options:options,includingResourceValuesForKeys:nil,relativeTo:nil)) ?? (try? url.bookmarkData(options:[.minimalBookmark],includingResourceValuesForKeys:nil,relativeTo:nil))
+            Task { @MainActor in
+                guard let self, (readOnly ? self.sourcePath : self.destinationPath)==url.path, let bookmark else { return }
+                UserDefaults.standard.set(bookmark,forKey:bookmarkKey)
+            }
+        }
+    }
+    private func restoreAccess(bookmarkKey: String, expectedPath: String, isSource: Bool) {
+        // Bookmark resolution and removable-volume inspection must never stall window creation.
+        guard let bookmark=UserDefaults.standard.data(forKey:bookmarkKey) else { return }
+        DispatchQueue.global(qos:.utility).async { [weak self] in
+            var stale=false
+            let resolved=(try? URL(resolvingBookmarkData:bookmark,options:[.withSecurityScope,.withoutUI,.withoutMounting],relativeTo:nil,bookmarkDataIsStale:&stale)) ?? (try? URL(resolvingBookmarkData:bookmark,options:[.withoutUI,.withoutMounting],relativeTo:nil,bookmarkDataIsStale:&stale))
+            let accessed=resolved?.startAccessingSecurityScopedResource() ?? false
+            Task { @MainActor in
+                guard let self, (isSource ? self.sourcePath : self.destinationPath)==expectedPath else { if accessed { resolved?.stopAccessingSecurityScopedResource() }; return }
+                if let resolved, !stale {
+                    if accessed { self.accessURLs.append(resolved) }
+                    if isSource { self.sourcePath=resolved.path }
+                    else { self.destinationPath=resolved.path; self.inspectRecovery() }
+                } else if accessed { resolved?.stopAccessingSecurityScopedResource() }
+            }
+        }
+    }
     private func inspectRecovery() {
-        guard !destinationPath.isEmpty else { hasInterruptedJob=false; return }
-        let url=URL(fileURLWithPath:destinationPath)
-        hasInterruptedJob = (try? JobEngine.loadState(destinationURL:url)).map { $0.status != .completed } ?? false
+        hasInterruptedJob=false
+        let path=destinationPath
+        guard !path.isEmpty else { return }
+        let generation=UUID(); recoveryGeneration=generation
+        DispatchQueue.global(qos:.utility).async { [weak self] in
+            let record=try? JobEngine.loadState(destinationURL:URL(fileURLWithPath:path))
+            Task { @MainActor in
+                guard let self, self.recoveryGeneration==generation, self.destinationPath==path else { return }
+                self.hasInterruptedJob=record.map { $0.status != .completed } ?? false
+            }
+        }
     }
     private func begin(operation: String) {
         cancellation=CancellationToken(); error=nil; isBusy=true

@@ -183,7 +183,7 @@ struct VerificationResultPanel: View {
                 StatusTag(title: report.deep ? "Deep verification" : "Archive hashes", color: report.passed ? Studio.teal : Studio.red)
             }
             HStack(spacing: 20) {
-                Text("\(report.checkedArchives) ZIPs checked").font(Studio.mono)
+                Text("\(report.checkedArchives) ZIPs verified").font(Studio.mono)
                 if report.deep { Text("\(report.checkedFiles) members checked").font(Studio.mono) }
                 Spacer()
                 Text(report.checkedAt.formatted(date: .abbreviated, time: .shortened)).font(.system(size: 10)).foregroundStyle(Studio.muted)
@@ -217,7 +217,7 @@ struct StandaloneVerificationProgress: View {
                 FineProgress(value: min(0.999, progress.fraction))
                 Text(progress.currentArchive.isEmpty ? "Checking delivery manifest…" : progress.currentArchive).font(Studio.mono).foregroundStyle(Studio.muted).lineLimit(1).truncationMode(.middle)
                 HStack(spacing: 18) {
-                    Metric(label: "ARCHIVES CHECKED", value: "\(progress.verifiedArchives) / \(progress.totalArchives)")
+                    Metric(label: "ARCHIVES VERIFIED", value: "\(progress.verifiedArchives) / \(progress.totalArchives)")
                     Metric(label: "VERIFIED BYTES", value: Studio.bytes(progress.verifiedBytes), tint: Studio.teal)
                     Metric(label: "ELAPSED", value: Studio.elapsed(progress.elapsed))
                 }

@@ -331,7 +331,11 @@ public final class JobEngine {
     static func decoder() -> JSONDecoder { let d=JSONDecoder(); d.dateDecodingStrategy = .iso8601; return d }
     static func sameObject(_ a: FileIdentity, _ b: FileIdentity) -> Bool { a.device == b.device && a.inode == b.inode }
     public static func bytes(_ n: UInt64) -> String { ByteCountFormatter.string(fromByteCount: Int64(clamping: n), countStyle: .decimal) }
-    public static func loadState(destinationURL: URL) throws -> JobRecord { try readRecoveryRecord(destination: Destination(url: destinationURL)) }
+    public static func loadState(destinationURL: URL) throws -> JobRecord {
+        let record=try readRecoveryRecord(destination: Destination(url: destinationURL))
+        try validateRecord(record,requireComplete:false)
+        return record
+    }
     private static func readRecoveryRecord(destination: Destination) throws -> JobRecord {
         let names = try destination.names()
         if names.contains(stateName) { return try readRecord(name: stateName, destination: destination) }

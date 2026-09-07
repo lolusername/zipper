@@ -162,7 +162,10 @@ final class EngineAuditTests: XCTestCase {
             }
         })
         XCTAssertTrue(injected)
-        XCTAssertFalse(try HandoffVerifier.verify(destinationURL: fixture.destination).passed)
+        let provisional = try JobEngine.readRecord(name: JobEngine.manifestName, destination: Destination(url: fixture.destination))
+        XCTAssertNotEqual(provisional.status, .completed)
+        XCTAssertFalse(provisional.finalSourceVerified)
+        XCTAssertThrowsError(try HandoffVerifier.verify(destinationURL: fixture.destination))
         let resumed = try JobEngine().resume(destinationURL: fixture.destination)
         XCTAssertEqual(resumed.status, .completed)
         XCTAssertTrue(try HandoffVerifier.verify(destinationURL: fixture.destination).passed)
