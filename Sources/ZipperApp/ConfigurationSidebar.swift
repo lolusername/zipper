@@ -28,7 +28,7 @@ struct ConfigurationSidebar: View {
                     }
                     HStack(spacing: 6) {
                         Image(systemName: "link").foregroundStyle(Studio.teal)
-                        Text("Media + XML stay together.").foregroundStyle(Studio.muted)
+                        Text("Media + XML + BIM stay together.").foregroundStyle(Studio.muted)
                     }.font(.system(size: 11))
                 }.padding(18)
             }

@@ -1,6 +1,6 @@
 # Zipper
 
-Native macOS media handoffs with independent ZIP64 archives and end-to-end SHA-256 verification. Built in Swift and SwiftUI for flat directories of camera media and matching XML sidecars.
+Native macOS media handoffs with independent ZIP64 archives and end-to-end SHA-256 verification. Built in Swift and SwiftUI for flat directories of camera media and matching XML/BIM sidecars.
 
 ## Run
 
@@ -17,14 +17,26 @@ The local app is ad-hoc signed with the hardened runtime. Redistribution require
 
 1. Choose **SOURCE — READ ONLY** and a separate **DESTINATION — WRITABLE OUTPUT** directory.
 2. Select a maximum size in decimal GB, or an exact number of archives. Set the output prefix.
-3. **Analyze / Preflight**. This performs no source or destination writes. Inspect source inventory, pairing errors, volume capacity, and each archive's proposed contents.
+3. **Analyze / Preflight**. This performs no source or destination writes. Inspect media/XML/BIM counts and bytes, sidecar matching errors, volume capacity, and every file in each proposed archive.
 4. Resolve blocking issues outside this app. Oversized indivisible packages require explicit acknowledgment.
 5. **Create Verified Handoff**. Source hashing, archive writing, member verification, archive hashing, and final source rehashing are distinct phases. Only the completed verification state means the delivery is ready.
 6. Before handoff, use **Verify Existing Handoff**. Quick mode checks ZIP SHA-256 values; deep mode also reads and hashes every member. Both require complete reports, detect missing/unexpected ZIPs, write nothing, and work without the source card.
 
-The initial source policy is deliberately strict: exactly one supported media file and one XML file with identical basenames, including case and Unicode representation. Hidden/system files, unknown files, nested directories, symlinks, ambiguous basenames, and unmatched media/XML block creation. Nothing is silently omitted. The app has no delete, move, rename-original, erase, or source-cleanup actions. Source selection does not imply format-level validation of camera codecs or XML schemas; all accepted bytes are preserved exactly.
+Each clip package contains exactly one supported media file and one matching XML, plus an optional matching BIM sidecar. Exact-basename pairs such as `A001C001.mov` + `A001C001.xml` remain supported. For MXF clips, Zipper also recognizes the `M01.XML` / `R01.BIM` naming pattern:
 
-Supported media extensions are centralized in `SupportedMedia.extensions`. Camera formats that require folder trees or multiple media components are outside the flat-pair v1 workflow.
+```text
+DISCLOSURE_DAY0115.MXF
+DISCLOSURE_DAY0115M01.XML
+DISCLOSURE_DAY0115R01.BIM
+```
+
+These three files form one indivisible package. `DISCLOSURE_DAY0115M01.XML` maps to the media stem `DISCLOSURE_DAY0115`; the matching BIM is included, hashed, packaged, and verified alongside the MXF and XML. BIM is optional when absent and is never silently discarded when present. Original filenames remain unchanged inside the ZIP.
+
+`BASER01.BIM` may accompany either `BASE.MXF` + `BASE.XML` or `BASE.MXF` + `BASEM01.XML`. Only the `M01` / `R01` suffixes are supported; suffixes and extensions may vary in ASCII case, while the shared media stem must match exactly, including case and Unicode representation. Bare `BASE.BIM`, other numbered suffixes, duplicate sidecars, and competing XML matches block creation.
+
+Hidden/system files, unknown files, nested directories, symlinks, ambiguous mappings, and unmatched media/XML/BIM also block creation. Nothing is silently omitted. The app has no delete, move, rename-original, erase, or source-cleanup actions. Source selection does not imply format-level validation of camera codecs, XML schemas, or BIM contents; all accepted bytes are preserved exactly.
+
+Supported media extensions are centralized in `SupportedMedia.extensions`. Camera formats that require folder trees or multiple media components are outside this flat-directory workflow.
 
 ## Delivery
 
@@ -39,7 +51,7 @@ HANDOFF_LOG.txt
 .zipper-job.lock
 ```
 
-Each ZIP is independently extractable. Media and XML always remain together. ZIP64 and STORE are unconditional; no split volumes or compression are used. Archive payloads retain original filenames and byte content. Filesystem extended attributes, resource forks, original permissions, and filesystem timestamps are not delivery payloads. Source extended attributes and timestamps are never explicitly changed; a filesystem may update access time as a consequence of reading.
+Each ZIP is independently extractable. Media, XML, and matching BIM files always remain together. Every included BIM receives the same source hashing, archived-member verification, final source check, and manifest evidence as media and XML. ZIP64 and STORE are unconditional; no split volumes or compression are used. Archive payloads retain original filenames and byte content. Filesystem extended attributes, resource forks, original permissions, and filesystem timestamps are not delivery payloads. Source extended attributes and timestamps are never explicitly changed; a filesystem may update access time as a consequence of reading.
 
 Independent archive checks:
 

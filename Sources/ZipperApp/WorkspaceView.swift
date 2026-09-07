@@ -27,7 +27,7 @@ struct WorkspaceView: View {
                                     ProgressView().controlSize(.small)
                                     VStack(alignment: .leading, spacing: 7) {
                                         Text("Inspecting source and destination…").font(.system(size: 19, weight: .medium))
-                                        Text("Checking file pairs, capacity, filesystem limits, and the archive plan. No destination data is being written.").font(Studio.body).foregroundStyle(Studio.muted).fixedSize(horizontal: false, vertical: true)
+                                        Text("Matching media and sidecars, checking capacity and filesystem limits, and planning archives. No destination data is being written.").font(Studio.body).foregroundStyle(Studio.muted).fixedSize(horizontal: false, vertical: true)
                                     }
                                     Spacer()
                                     Button("Cancel", action: model.cancel).buttonStyle(StudioButtonStyle(kind: .danger))
@@ -96,12 +96,12 @@ struct WorkspaceView: View {
             VStack(alignment: .leading, spacing: 12) {
                 Eyebrow(title: "CAMERA ORIGINALS. VERIFIED DELIVERY.", color: Studio.teal)
                 Text("A handoff you can account for.").font(.system(size: 29, weight: .medium)).tracking(-0.6)
-                Text("Package camera media and matching XML into independent ZIPs. Every file is checked against the source before an archive becomes deliverable.")
+                Text("Package camera media and matching XML / BIM sidecars into independent ZIPs. Every file is checked against the source before an archive becomes deliverable.")
                     .font(.system(size: 13)).foregroundStyle(Studio.muted).lineSpacing(4).fixedSize(horizontal: false, vertical: true).frame(maxWidth: 560, alignment: .leading)
             }.padding(.top, 22)
             StudioPanel(title: "THE HANDOFF SEQUENCE", accessory: "4 integrity gates") {
                 VStack(spacing: 0) {
-                    sequence("01", title: "Inspect the source", detail: "Check every file, pair media with XML, and inspect the exact archive plan.", symbol: "viewfinder")
+                    sequence("01", title: "Inspect the source", detail: "Match media with its sidecars, account for every file, and inspect the exact archive plan.", symbol: "viewfinder")
                     sequence("02", title: "Hash and package", detail: "Read source bytes, calculate SHA-256, and write destination .partial files.", symbol: "arrow.right.doc.on.clipboard")
                     sequence("03", title: "Reopen and verify", detail: "Read every archived member and compare its SHA-256 with the source.", symbol: "checkmark.shield")
                     sequence("04", title: "Recheck the source", detail: "Confirm final source stability, then issue a complete audited handoff.", symbol: "checkmark.seal")
@@ -111,11 +111,19 @@ struct WorkspaceView: View {
                 Image(systemName: "info.circle").foregroundStyle(Studio.muted)
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Start with a flat camera directory").font(.system(size: 12, weight: .medium))
-                    Text("Each clip needs one supported media file and one XML with an identical basename. Unmatched, hidden, and unexpected files appear in preflight; nothing is silently omitted.")
+                    Text("Each clip needs one media file and matching XML. MXF clips also support M01.XML and R01.BIM sidecars; matching BIM files are included whenever present. Exact-basename media / XML pairs still work. Unmatched, hidden, and unexpected files block preflight.")
                         .font(.system(size: 12)).foregroundStyle(Studio.muted).lineSpacing(3).fixedSize(horizontal: false, vertical: true)
                 }
             }.padding(.horizontal, 2)
-            HStack { Text("A001C001.mov").foregroundStyle(Studio.text); Image(systemName: "plus").foregroundStyle(Studio.muted); Text("A001C001.xml").foregroundStyle(Studio.text); Spacer(); StatusTag(title: "1 indivisible clip package", color: Studio.muted) }
+            HStack(spacing: 10) {
+                Text("BASE.MXF").foregroundStyle(Studio.text)
+                Image(systemName: "plus").foregroundStyle(Studio.muted)
+                Text("BASEM01.XML").foregroundStyle(Studio.text)
+                Image(systemName: "plus").foregroundStyle(Studio.muted)
+                Text("BASER01.BIM").foregroundStyle(Studio.text)
+                Spacer()
+                StatusTag(title: "1 complete clip package", color: Studio.muted)
+            }
                 .font(Studio.mono).padding(15).background(Studio.surface.opacity(0.55)).clipShape(RoundedRectangle(cornerRadius: 5))
         }
     }

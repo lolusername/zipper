@@ -11,10 +11,11 @@ struct PreflightPanel: View {
     @State private var inventoryFilter = "All files"
     private var mediaCount: Int { report.files.filter { $0.kind == .media }.count }
     private var xmlCount: Int { report.files.filter { $0.kind == .xml }.count }
-    private var unexpected: [SourceFile] { report.files.filter { $0.kind != .media && $0.kind != .xml } }
+    private var bimCount: Int { report.files.filter { $0.kind == .bim }.count }
+    private var unexpected: [SourceFile] { report.files.filter { !$0.kind.isPackageMember } }
     private var unmatched: [SourceFile] {
         let matched = Set(report.packages.flatMap(\.files).map(\.relativePath))
-        return report.files.filter { ($0.kind == .media || $0.kind == .xml) && !matched.contains($0.relativePath) }
+        return report.files.filter { $0.kind.isPackageMember && !matched.contains($0.relativePath) }
     }
     private var displayedFiles: [SourceFile] {
         switch inventoryFilter {
@@ -37,15 +38,16 @@ struct PreflightPanel: View {
             }
             VStack(alignment: .leading, spacing: 14) {
                 HStack(alignment: .top, spacing: 20) {
-                    Metric(label: "SOURCE", value: Studio.bytes(report.totalBytes), detail: "\(mediaCount) media · \(xmlCount) XML")
+                    Metric(label: "SOURCE", value: Studio.bytes(report.totalBytes), detail: "\(mediaCount) media · \(xmlCount) XML · \(bimCount) BIM")
                     Rectangle().fill(Studio.line).frame(width: 1, height: 62)
                     Metric(label: "CLIP PACKAGES", value: "\(report.packages.count)", detail: "\(report.files.count) source entries")
                     Rectangle().fill(Studio.line).frame(width: 1, height: 62)
                     Metric(label: "PLANNED ARCHIVES", value: "\(report.archives.count)", detail: "Largest \(Studio.bytes(report.archives.map(\.predictedBytes).max() ?? 0))")
                 }
                 HStack(spacing: 16) {
-                    Text("MEDIA \(Studio.bytes(report.files.filter { $0.kind == .media }.reduce(0) { $0 + $1.size }))")
-                    Text("XML \(Studio.bytes(report.files.filter { $0.kind == .xml }.reduce(0) { $0 + $1.size }))")
+                    Text("MEDIA \(mediaCount) · \(Studio.bytes(report.files.filter { $0.kind == .media }.reduce(0) { $0 + $1.size }))")
+                    Text("XML \(xmlCount) · \(Studio.bytes(report.files.filter { $0.kind == .xml }.reduce(0) { $0 + $1.size }))")
+                    Text("BIM \(bimCount) · \(Studio.bytes(report.files.filter { $0.kind == .bim }.reduce(0) { $0 + $1.size }))")
                     Spacer()
                 }.font(.system(size: 9, design: .monospaced)).foregroundStyle(Studio.muted)
             }.padding(18).background(Studio.surface).clipShape(RoundedRectangle(cornerRadius: 6))
@@ -94,7 +96,7 @@ struct PreflightPanel: View {
             if report.issues.isEmpty {
                 StudioPanel(title: "PREFLIGHT INTEGRITY", accessory: "Inspection complete") {
                     LazyVGrid(columns: [GridItem(.flexible(), alignment: .leading), GridItem(.flexible(), alignment: .leading)], alignment: .leading, spacing: 12) {
-                        integrity("All media / XML pairs matched")
+                        integrity("Complete media / sidecar packages")
                         integrity("Source files readable")
                         integrity("Destination writable")
                         integrity("Filesystem supports planned sizes")
@@ -141,6 +143,7 @@ struct PreflightPanel: View {
                         Image(systemName: inventoryExpanded ? "chevron.down" : "chevron.right").font(.system(size: 9, weight: .semibold)).frame(width: 12)
                         Text("\(mediaCount) media"); Text("·").foregroundStyle(Studio.muted)
                         Text("\(xmlCount) XML"); Text("·").foregroundStyle(Studio.muted)
+                        Text("\(bimCount) BIM"); Text("·").foregroundStyle(Studio.muted)
                         Text("\(unmatched.count) unmatched").foregroundStyle(unmatched.isEmpty ? Studio.muted : Studio.red)
                         Text("·").foregroundStyle(Studio.muted)
                         Text("\(unexpected.count) unexpected / hidden").foregroundStyle(unexpected.isEmpty ? Studio.muted : Studio.amber)
@@ -161,7 +164,7 @@ struct PreflightPanel: View {
                     LazyVStack(spacing: 0) {
                         ForEach(displayedFiles) { file in
                             HStack(spacing: 10) {
-                                Image(systemName: file.kind == .media ? "film" : file.kind == .xml ? "doc.text" : "questionmark.folder").foregroundStyle(file.kind == .media || file.kind == .xml ? Studio.muted : Studio.amber).frame(width: 15)
+                                Image(systemName: file.kind.inventorySymbol).foregroundStyle(file.kind.isPackageMember ? Studio.muted : Studio.amber).frame(width: 15)
                                 Text(file.relativePath).font(Studio.mono).textSelection(.enabled).lineLimit(1).truncationMode(.middle)
                                 Spacer()
                                 Text(file.kind.rawValue.uppercased()).font(.system(size: 9, design: .monospaced)).foregroundStyle(Studio.muted).frame(width: 70, alignment: .trailing)
@@ -211,7 +214,7 @@ struct ArchivePlanRow: View {
                             }
                             ForEach(package.files) { file in
                                 HStack(spacing: 8) {
-                                    Text(file.kind == .media ? "MEDIA" : "XML").font(.system(size: 8, weight: .medium, design: .monospaced)).foregroundStyle(Studio.muted).frame(width: 37, alignment: .leading)
+                                    Text(file.kind.rawValue.uppercased()).font(.system(size: 8, weight: .medium, design: .monospaced)).foregroundStyle(Studio.muted).frame(width: 37, alignment: .leading)
                                     Text(file.relativePath).font(.system(size: 10, design: .monospaced)).foregroundStyle(Studio.muted).lineLimit(1).truncationMode(.middle).textSelection(.enabled)
                                     Spacer()
                                     if state == .verified { Image(systemName: "checkmark").font(.system(size: 9)).foregroundStyle(Studio.teal).help("Archive member SHA-256 matched the source") }
@@ -228,5 +231,17 @@ struct ArchivePlanRow: View {
                 }.padding(.leading, 35).background(Studio.canvas.opacity(0.45))
             }
         }.overlay(alignment: .bottom) { Rectangle().fill(Studio.line).frame(height: 1) }
+    }
+}
+
+private extension SourceKind {
+    var isPackageMember: Bool { self == .media || self == .xml || self == .bim }
+    var inventorySymbol: String {
+        switch self {
+        case .media: return "film"
+        case .xml: return "doc.text"
+        case .bim: return "doc"
+        default: return "questionmark.folder"
+        }
     }
 }

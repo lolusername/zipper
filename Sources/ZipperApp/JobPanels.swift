@@ -124,6 +124,10 @@ struct CompletionPanel: View {
     let verify: () -> Void
     let export: () -> Void
     let disabled: Bool
+    private var sourceSummary: String {
+        let files = job.preflight.files
+        return "\(files.filter { $0.kind == .media }.count) media · \(files.filter { $0.kind == .xml }.count) XML · \(files.filter { $0.kind == .bim }.count) BIM"
+    }
     var body: some View {
         VStack(alignment: .leading, spacing: 21) {
             HStack(alignment: .center, spacing: 16) {
@@ -136,7 +140,7 @@ struct CompletionPanel: View {
             }
             HStack(alignment: .top, spacing: 18) {
                 Metric(label: "ARCHIVES VERIFIED", value: "\(job.archives.count) / \(job.archives.count)", tint: Studio.teal)
-                Metric(label: "SOURCE FILES VERIFIED", value: "\(job.preflight.files.count) / \(job.preflight.files.count)", tint: Studio.teal)
+                Metric(label: "SOURCE FILES VERIFIED", value: "\(job.preflight.files.count) / \(job.preflight.files.count)", detail: sourceSummary, tint: Studio.teal)
                 Metric(label: "SOURCE ACCOUNTED FOR", value: Studio.bytes(job.preflight.totalBytes))
             }
             HStack(spacing: 18) {
