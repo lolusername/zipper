@@ -1,54 +1,106 @@
 # Zipper
 
-Native macOS media handoffs with independent ZIP64 archives and end-to-end SHA-256 verification. Built in Swift and SwiftUI for flat directories of camera media and matching XML/BIM sidecars.
+A native macOS app for preparing camera-media deliveries as independently extractable ZIP archives. Zipper keeps each media file and its sidecars together, preserves their bytes and filenames, and verifies the delivery with SHA-256.
 
-## Run
+**Swift + SwiftUI · ZIP64 · STORE · Local processing**
 
-Requires macOS 14 or later and Apple Silicon for the included local build. Open `build/Zipper.app`, or build from source with Xcode command-line tools:
+![Zipper’s native macOS workspace](docs/qa/security-devops-audit/native-launch.png)
+
+## What it does
+
+- Packages a flat folder of media and XML/BIM sidecars into independent ZIPs.
+- Supports a maximum archive size or an exact archive count; complete clip packages stay together.
+- Performs preflight without writing to either the source or destination.
+- Hashes every source file, independently reads back every archived member, hashes each ZIP, and rehashes the source before completing the handoff.
+- Preserves verified archives and recoverable state when a job stops.
+- Checks an existing delivery without requiring the original media or extracting the ZIPs.
+
+Zipper packages file contents. It does not validate picture/audio quality, reconstruct a complete camera card, or replace the original offload and backup workflow.
+
+## Build and run
+
+Requirements:
+
+- macOS 14 or later. The qualified build is Apple Silicon; other hardware and macOS versions require validation.
+- Xcode or Xcode Command Line Tools providing **Swift 6 or later**.
+- A writable local APFS destination for handoff creation.
 
 ```sh
+git clone https://github.com/lolusername/zipper.git
+cd zipper
 ./scripts/package.sh
 open build/Zipper.app
 ```
 
-The local app is ad-hoc signed with the hardened runtime. Redistribution requires your own Developer ID signing and Apple notarization. No Homebrew runtime, Python runtime, package server, or network service is required by the app. Public libarchive headers are vendored; runtime dependencies are the macOS system libarchive, zlib, CryptoKit, and SwiftUI.
+The repository contains source code, not a prebuilt application. Packaging creates `build/Zipper.app`; it does not install the app in `/Applications`.
 
-Quit Zipper before rebuilding. Packaging signs and verifies a separate bundle before atomically replacing the previous app; a failed build preserves the previous bundle. Concurrent packaging and replacement of a running app are blocked. Packaging failure regressions use disposable fixtures via `./scripts/test-package.sh`.
+Quit Zipper before rebuilding. The packaging script builds, signs, and verifies a separate bundle, then publishes it atomically. It blocks concurrent packaging and replacement of a running app. Failed builds preserve the previous application.
 
-## Supported volumes in v1.0.3
+The local build is ad-hoc signed with the hardened runtime. It is not a notarized distribution release. Redistribution requires appropriate Developer ID signing and notarization. The app uses macOS system libraries, including libarchive, zlib, CryptoKit, and SwiftUI; no Homebrew or Python runtime or network service is required.
 
-Creation and report export require a **writable local APFS destination**. Sources may be local APFS, or local FAT/FAT32, exFAT, or HFS+ volumes mounted read-only by macOS. File permissions alone do not satisfy that mount requirement. Existing deliveries on FAT/exFAT/HFS+ can be verified only while mounted read-only. Network and unknown filesystems are blocked.
+## Create a verified handoff
 
-The audit reproduced same-size, timestamp-preserving changes that escaped stability checks on writable FAT32/HFS+ volumes. These restrictions prevent the app from claiming integrity on those writable filesystems. Zipper does not mount, reformat, or alter any volume. A read-only original may instead be copied through an independently verified offload to APFS for packaging.
+1. **Create an empty delivery folder in Finder first**, outside the source folder, on a writable APFS volume. Zipper’s folder pickers select existing folders.
+2. Select **SOURCE — READ ONLY** and **DESTINATION — WRITABLE OUTPUT** separately.
+3. Choose a maximum ZIP size in decimal GB or an exact number of archives, and set the archive-name prefix.
+4. Click **Analyze / Preflight**. Inspect file counts, sidecar matches, capacity, warnings, and the planned contents of every archive. Preflight writes nothing.
+5. Resolve blocking issues. If an indivisible clip package exceeds the maximum, explicitly acknowledge its oversized archive before continuing.
+6. Click **Create Verified Handoff**. Wait for **VERIFIED HANDOFF READY**; finishing the write phase alone is not completion.
 
-## Operator workflow
+Source and destination must not overlap. Existing output names block a new job; Zipper does not silently overwrite a delivery. Unknown, hidden, nested, ambiguous, or unmatched source entries block packaging instead of being omitted.
 
-1. Choose **SOURCE — READ ONLY** and a separate **DESTINATION — WRITABLE OUTPUT** directory.
-2. Select a maximum size in decimal GB, or an exact number of archives. Set the output prefix.
-3. **Analyze / Preflight**. This performs no source or destination writes. Inspect media/XML/BIM counts and bytes, sidecar matching errors, volume capacity, and every file in each proposed archive.
-4. Resolve blocking issues outside this app. Oversized indivisible packages require explicit acknowledgment.
-5. **Create Verified Handoff**. Source hashing, archive writing, member verification, archive hashing, and final source rehashing are distinct phases. Only the completed verification state means the delivery is ready.
-6. Before handoff, use **Verify Existing Handoff**. Quick mode checks ZIP SHA-256 values; deep mode also reads and hashes every member. Both require complete reports, detect missing/unexpected ZIPs, write nothing, and work without the source card.
+## Supported clip packages
 
-Each clip package contains exactly one supported media file and one matching XML, plus an optional matching BIM sidecar. Exact-basename pairs such as `A001C001.mov` + `A001C001.xml` remain supported. For MXF clips, Zipper also recognizes the `M01.XML` / `R01.BIM` naming pattern:
+Exact-basename media/XML pairs are supported:
 
 ```text
-DISCLOSURE_DAY0115.MXF
-DISCLOSURE_DAY0115M01.XML
-DISCLOSURE_DAY0115R01.BIM
+A001C001.mov
+A001C001.xml
 ```
 
-These three files form one indivisible package. `DISCLOSURE_DAY0115M01.XML` maps to the media stem `DISCLOSURE_DAY0115`; the matching BIM is included, hashed, packaged, and verified alongside the MXF and XML. BIM is optional when absent and is never silently discarded when present. Original filenames remain unchanged inside the ZIP.
+For MXF clips, Sony-style sidecars are also supported:
 
-`BASER01.BIM` may accompany either `BASE.MXF` + `BASE.XML` or `BASE.MXF` + `BASEM01.XML`. Only the `M01` / `R01` suffixes are supported; suffixes and extensions may vary in ASCII case, while the shared media stem must match exactly, including case and Unicode representation. Bare `BASE.BIM`, other numbered suffixes, duplicate sidecars, and competing XML matches block creation.
+```text
+CLIP0001.MXF
+CLIP0001M01.XML
+CLIP0001R01.BIM
+```
 
-Hidden/system files, unknown files, nested directories, symlinks, ambiguous mappings, and unmatched media/XML/BIM also block creation. Nothing is silently omitted. The app has no delete, move, rename-original, erase, or source-cleanup actions. Source selection does not imply format-level validation of camera codecs, XML schemas, or BIM contents; all accepted bytes are preserved exactly.
+`CLIP0001` is the media stem. These files form one indivisible package. A matching BIM is included whenever present and receives the same hashing and verification as the media and XML; BIM may be absent. An absent BIM does not, by itself, prove whether a card copy is complete.
 
-A Sony `XDROOT/Clip` selection packages only the files inside `Clip`. Card-level metadata, proxy folders, take/clip-list references, and the surrounding directory tree are outside that selection. Preflight now displays this limitation for the Sony sidecar pattern. Retain a complete original card tree separately; these ZIPs do not reconstruct it. See [Sony structure and actual-folder research](docs/SONY-STRUCTURE-AUDIT.md).
+`BASER01.BIM` may accompany either `BASE.MXF` + `BASE.XML` or `BASE.MXF` + `BASEM01.XML`. Only the `M01` / `R01` suffixes are supported. Suffixes and extensions may vary in ASCII case; the shared stem must match exactly, including case and Unicode bytes. Bare `BASE.BIM`, other numbered suffixes, competing sidecars, and ambiguous ownership block preflight.
 
-Supported media extensions are centralized in `SupportedMedia.extensions`. Camera formats that require folder trees or multiple media components are outside this flat-directory workflow.
+**Selecting `XDROOT/Clip` packages only that flat folder.** Parent metadata, proxies, take/clip-list references, and other card folders are outside the handoff. Retain the complete original card tree separately. See the [Sony structure audit](docs/SONY-STRUCTURE-AUDIT.md).
 
-## Delivery
+Supported media extensions are centralized in [`SupportedMedia`](Sources/HandoffCore/ReadOnlySource.swift). Formats that require nested folder trees or multiple media components are outside this workflow. Filesystem permissions, extended attributes, resource forks, and original timestamps are not archive payloads.
+
+## Verify the delivery
+
+You do not need to open every clip or extract every ZIP to check byte integrity.
+
+1. Enable **Also verify every archive member**.
+2. Click **Verify Existing Handoff** and select the folder containing the ZIPs and all delivery reports.
+3. Require **Handoff verification passed** with **Deep verification** shown, and check the archive/member counts.
+
+Deep verification reads every archived member and compares its SHA-256 and size with the recorded source evidence. It also checks complete ZIP hashes, membership, required reports, and missing or unexpected archives. With the checkbox off, Zipper checks archive hashes and reports without reading individual member streams. Neither mode writes to the delivery or requires the source card.
+
+For an independent check of every complete ZIP, run this inside the delivery folder:
+
+```sh
+shasum -a 256 -c SHA256SUMS.txt
+```
+
+Every ZIP must report `OK`. To test one archive’s extraction/CRC integrity with the system ZIP reader:
+
+```sh
+unzip -t FOOTAGE_001.zip
+```
+
+After copying or downloading the delivery, verify the copy at its final location. Keep the reports with the ZIPs. Checksums establish agreement with the supplied evidence; they are not a digital signature. Retain a trusted copy of the manifest/checksums separately when authenticity matters.
+
+**Byte integrity and playback quality are separate checks.** Matching hashes cannot show that the original recording was free of decoding errors or had the intended picture and audio.
+
+## Delivery contents
 
 ```text
 FOOTAGE_001.zip
@@ -61,67 +113,77 @@ HANDOFF_LOG.txt
 .zipper-job.lock
 ```
 
-Each ZIP is independently extractable. Media, XML, and matching BIM files always remain together. Every included BIM receives the same source hashing, archived-member verification, final source check, and manifest evidence as media and XML. ZIP64 and STORE are unconditional; no split volumes or compression are used. Archive payloads retain original filenames and byte content. Filesystem extended attributes, resource forks, original permissions, and filesystem timestamps are not delivery payloads. Source extended attributes and timestamps are never explicitly changed; a filesystem may update access time as a consequence of reading.
+Each ZIP is independently usable. ZIP64 and STORE are unconditional: there are no split-volume archives, transcoding, or compression settings.
 
-Independent archive checks:
+A current archive is written as `.FOOTAGE_001.zip.partial`. Only an archive that passes structural checks, independent member verification, and whole-archive hashing receives its final `.zip` name. Overall completion additionally requires final source verification and report publication.
 
-```sh
-cd /path/to/delivery
-shasum -a 256 -c SHA256SUMS.txt
-unzip -t FOOTAGE_001.zip
-```
+The JSON manifest is the public completion record. Human reports and logs alone are not completion markers. Report publication reads back the intended bytes and rechecks file identities before committing completed JSON. A failure updating only the recovery state after public completion is displayed as a warning.
 
-SHA-256 values prove agreement with the supplied manifest. They are not a signed chain of custody; retain a trusted copy of the manifest/checksum evidence separately when authenticating a later delivery.
+## Volumes and source protection
 
-## Interruption and recovery
+| Location | Supported policy |
+| --- | --- |
+| Source on local APFS | Readable source; mid-job changes cause failure |
+| Source on local FAT/FAT32, exFAT, or HFS+ | Must be mounted read-only by macOS |
+| Creation or report-export destination | Writable local APFS |
+| Existing delivery on FAT/FAT32, exFAT, or HFS+ | Verification requires an OS read-only mount |
+| Network or unknown filesystems | Blocked |
 
-Use **Cancel Job** to stop at an I/O boundary. Verified ZIPs remain, incomplete data remains `.partial`, and the durable job state remains non-complete. App Quit requests the same cancellation and waits for the worker to stop. Abrupt process termination leaves the last durable phase for recovery.
+Changing permissions with `chmod` does not satisfy the read-only mount requirement. Zipper does not mount, reformat, or alter volumes. The [filesystem audit](docs/qa/safety-reaudit/README.md) explains why writable filesystems with insufficient timestamp precision are restricted.
 
-The last selected destination is remembered. On relaunch, an interrupted job there is offered for recovery; another destination can be selected manually. **Resume Verified Handoff** checks the original source and destination identities, rehashes the source, rehashes and deeply verifies every purportedly complete archive, and resumes remaining work. It never trusts a filename or boolean. A complete verified partial interrupted just before promotion can be recovered. Other incomplete partials and interrupted state writes are renamed to unique retained artifacts before rebuilding; they are never silently deleted.
+All production source access passes through a read-only abstraction. The app has no original-file deletion, movement, renaming, or erase controls. This is a code boundary, not an OS-enforced sandbox; use hardware write protection or an OS read-only mount when an independent protection boundary is required. Reading may cause filesystem-managed access-time updates.
 
-A disconnected or read-only destination can prevent recording the last failure. In that case the app reports the persistence failure, and the previous durable state remains non-complete. Reconnection does not imply trust. Changed directory identity, remapped mounts, changed source bytes, corrupted archived bytes, or ambiguous ownership stop recovery. Choose a new destination and perform a fresh job if exact identity cannot be restored. Verified ZIPs are never overwritten or deleted automatically.
+A handoff on the same physical device as the originals is not a separate-device backup. Different filesystem identities also do not establish physically independent drives.
 
-Delivery reports are published transactionally: provisional JSON is non-complete, all report files are flushed and read back for exact byte agreement, final source/output/report identity guards run, then completed JSON becomes the public commit marker. A partially published report set cannot pass the delivery checker. Text/log evidence explicitly requires the completed JSON and a passing delivery check. If only the recovery-state update fails after that public commit, the app keeps the completed outcome and displays a warning. Interrupted legacy jobs regenerate current-version reports on resume. Recovery validates the state read under its lock before accepting changed directory bindings or renaming pending files.
+## Cancellation and recovery
 
-Human-readable report and log contents must agree with the JSON evidence, including byte-exact names. Report/state files are bounded to 64 MiB; preflight rejects inventories whose estimated evidence would exceed that limit. Export Report protects all known original-source paths, including standalone verification sessions with no sidebar source. Export requires the original source location to remain identifiable; reconnect it if unavailable. Verification itself remains source-free.
+**Cancel Job** stops at an I/O boundary. Verified ZIPs remain, incomplete output stays marked `.partial`, and persisted state remains non-complete. Normal Quit requests cancellation and waits for the worker to stop.
 
-## Safety architecture
+Use **Resume Verified Handoff** on the original destination after interruption. Recovery revalidates the state under its lock, checks source/destination directory identities, rehashes the source, and rehashes and deeply verifies existing archives. Reconnected drives are not trusted merely because their names match.
 
-- `ReadOnlySource` owns private, read-only directory/file descriptors. Its public operations are scan, inspect, validate, stream, and hash. All production source access goes through this abstraction.
-- `Destination` confines writes to a separately selected, identity-checked directory. Leaf names, no-follow opens, exclusive creation, private regular files, and identity-bound exclusive promotions prevent accidental redirection and replacement.
-- Preflight accounts for exact ZIP64 overhead, manifests/state snapshots, and a safety reserve of at least 64 MiB or 5%. A partial is renamed in place, so no duplicate archive-sized temporary copy is required.
-- For this deterministic format, planned bytes are exactly `98 + sum(fileBytes + 148 + 2 * UTF8FilenameBytes)`. The writer checks this bound during every write and on completion.
-- The custom STORE writer never trusts its own successful return. An explicit structural validator checks local/central ZIP64 records and the footer; the independent macOS libarchive reader streams every actual archived member through CryptoKit SHA-256.
-- Completed archive SHA-256, size, identity, and exact membership are recorded before `.partial` is promoted. A final source rehash and output identity checks precede completion.
-- Memory use is bounded by streaming chunks and file/plan metadata, not media size. Source chunks are 4 MiB; archive verification/hash chunks are 1 MiB.
-- A destination advisory lock prevents concurrent cooperating jobs. Drives receive `fsync` and macOS `F_FULLFSYNC` where supported. Hardware still determines whether it honors flush requests.
+A verified partial can be recovered after its evidence is checked. Other interrupted partials and pending report/state files are retained under unique names before rebuilding. Verified ZIPs are never automatically deleted or overwritten. If the original identity cannot be restored, use a fresh destination and a new analysis.
 
-The source API is a capability boundary in code, supported by source immutability and filesystem guard tests. This local build is not an OS-enforced read-only security sandbox. Use hardware write protection or an OS-mounted read-only source when operational policy requires an independent protection boundary.
+Report export requires all known original-source locations to remain identifiable, so it cannot write into renamed or disconnected originals accidentally. The delivery verification itself remains source-free. State and report files are limited to 64 MiB; preflight blocks inventories whose estimated evidence exceeds that limit.
 
-## Validation and operational qualification
-
-Run the core suite:
+## Development and validation
 
 ```sh
+# Core tests; optional large-file and disk-image tests are skipped by default.
 swift test
-```
 
-Opt-in tests use only disposable test fixtures:
-
-```sh
-ZIPPER_RUN_LARGE_ZIP_TESTS=1 swift test --filter ZIPArchiveTests.testRealZIP64OverFourGiB
+# Complete opt-in suite; uses disposable fixtures and mounted disk images.
 ZIPPER_RUN_LARGE_ZIP_TESTS=1 ZIPPER_RUN_FILESYSTEM_TESTS=1 \
-ZIPPER_RUN_SOURCE_SAFETY_VOLUME_TESTS=1 ZIPPER_RUN_DESTINATION_SAFETY_VOLUME_TESTS=1 swift test
+ZIPPER_RUN_SOURCE_SAFETY_VOLUME_TESTS=1 \
+ZIPPER_RUN_DESTINATION_SAFETY_VOLUME_TESTS=1 swift test
+
+# Disposable packaging failure scenarios.
+./scripts/test-package.sh
 ```
 
-See the [v1.0.3 security and reliability audit](docs/qa/security-devops-audit/README.md) and [validation evidence](docs/VALIDATION.md) for executed checks and remaining qualification limits. Routine tests include byte-for-byte source snapshots, preflight zero writes, pairing/ancestry/alias guards, exact partitioning, corruption/truncation, cancellation, recovery, independent extraction, source changes, and delivery checks without source media.
+Recorded qualification on **September 7, 2026**:
 
-This release has not been qualified with an entire 200 GB–1 TB physical card, physical unplug/replug during each phase, real power loss, all USB/Thunderbolt enclosures, every macOS version. Identical device numbers trigger a warning; separate filesystems do not prove separate physical drives. Network filesystems are unsupported. Complete those deployment-specific checks before treating this as a field-qualified sole handoff workflow.
+| Version | Executed evidence |
+| --- | --- |
+| v1.0.3 | 125 core tests passed with no failures or skips, including a real ZIP over 4 GiB, process-crash recovery, filesystem images, source isolation, and report/recovery fault injection |
+| v1.0.3 | Packaged app launched and deeply verified 8 synthetic ZIPs / 281 members |
+| v1.0.2 | 72.84 GB of actual footage packaged and independently compared byte-for-byte with the originals; this transfer was not repeated for v1.0.3 |
 
-## Source references
+These are dated results, not a claim that every platform or hardware configuration is qualified. Physical unplug/replug, actual power loss, all USB/Thunderbolt enclosures, supported macOS versions, and full 200 GB–1 TB transfers remain deployment checks. Sparse 200 GB/1 TB planning tests are not complete transfers.
 
-- [Apple CryptoKit SHA256](https://developer.apple.com/documentation/cryptokit/sha256) — incremental hashing.
-- [PKWARE ZIP specification](https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT) — ZIP64 structures.
-- [libarchive public API](https://github.com/libarchive/libarchive/blob/master/libarchive/archive.h) — independent archive reading.
+- [Validation evidence](docs/VALIDATION.md)
+- [v1.0.3 security and reliability audit](docs/qa/security-devops-audit/README.md)
+- [Earlier safety audit and actual-footage qualification](docs/qa/safety-reaudit/README.md)
+- [Original requirements](docs/REQUIREMENTS.md)
 
-Original project requirements are retained in [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md).
+## Code layout
+
+| Path | Responsibility |
+| --- | --- |
+| [`Sources/HandoffCore`](Sources/HandoffCore) | Read-only source access, destination guards, grouping, planning, ZIP writing/reading, verification, and recovery |
+| [`Sources/ZipperApp`](Sources/ZipperApp) | Native SwiftUI workspace, operator controls, progress, and report export |
+| [`Sources/CArchive`](Sources/CArchive) | Vendored public headers for the macOS system libarchive |
+| [`Tests/HandoffCoreTests`](Tests/HandoffCoreTests) | Integrity, isolation, filesystem, crash, and recovery regressions |
+| [`scripts`](scripts) | Icon generation, atomic app packaging, and packaging tests |
+| [`docs`](docs) | Requirements, research, and recorded audit evidence |
+
+The STORE writer is checked by an explicit ZIP64 structural validator and the independent system libarchive reader. Hashing uses streaming CryptoKit SHA-256. Destination writes use identity-checked directory descriptors, no-follow opens, exclusive creation, and atomic promotion. Advisory locks coordinate cooperating Zipper jobs; final checks do not make a delivery immutable against subsequent edits by other software.
